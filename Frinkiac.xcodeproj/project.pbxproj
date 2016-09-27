@@ -10,6 +10,7 @@
 		0AA73B301D999B6400D0BCFF /* Frinkiac.h in Headers */ = {isa = PBXBuildFile; fileRef = 0AA73B2E1D999B6400D0BCFF /* Frinkiac.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0AA73B361D999BF500D0BCFF /* Frinkiac.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AA73B341D999BF500D0BCFF /* Frinkiac.swift */; };
 		0AA73B371D999BF500D0BCFF /* ServiceHost.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AA73B351D999BF500D0BCFF /* ServiceHost.swift */; };
+		0AB36CF71D9AEFFB0069D00E /* FrameSearchProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB36CF61D9AEFFB0069D00E /* FrameSearchProvider.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -17,6 +18,7 @@
 		0AA73B2E1D999B6400D0BCFF /* Frinkiac.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Frinkiac.h; sourceTree = "<group>"; };
 		0AA73B341D999BF500D0BCFF /* Frinkiac.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Frinkiac.swift; sourceTree = "<group>"; };
 		0AA73B351D999BF500D0BCFF /* ServiceHost.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServiceHost.swift; sourceTree = "<group>"; };
+		0AB36CF61D9AEFFB0069D00E /* FrameSearchProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FrameSearchProvider.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -51,6 +53,7 @@
 			children = (
 				0AA73B2E1D999B6400D0BCFF /* Frinkiac.h */,
 				0AA73B341D999BF500D0BCFF /* Frinkiac.swift */,
+				0AB36CF61D9AEFFB0069D00E /* FrameSearchProvider.swift */,
 				0AA73B351D999BF500D0BCFF /* ServiceHost.swift */,
 			);
 			path = Frinkiac;
@@ -137,6 +140,7 @@
 			files = (
 				0AA73B361D999BF500D0BCFF /* Frinkiac.swift in Sources */,
 				0AA73B371D999BF500D0BCFF /* ServiceHost.swift in Sources */,
+				0AB36CF71D9AEFFB0069D00E /* FrameSearchProvider.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -305,6 +309,7 @@
 				0AA73B321D999B6400D0BCFF /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
