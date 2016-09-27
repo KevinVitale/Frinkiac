@@ -11,6 +11,8 @@
 		0AA73B361D999BF500D0BCFF /* Frinkiac.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AA73B341D999BF500D0BCFF /* Frinkiac.swift */; };
 		0AA73B371D999BF500D0BCFF /* ServiceHost.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AA73B351D999BF500D0BCFF /* ServiceHost.swift */; };
 		0AB36CF71D9AEFFB0069D00E /* FrameSearchProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB36CF61D9AEFFB0069D00E /* FrameSearchProvider.swift */; };
+		0AB36D181D9B09CA0069D00E /* FrameImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB36D171D9B09CA0069D00E /* FrameImage.swift */; };
+		0AB36D1A1D9B0B170069D00E /* Aliases.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB36D191D9B0B170069D00E /* Aliases.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -19,6 +21,8 @@
 		0AA73B341D999BF500D0BCFF /* Frinkiac.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Frinkiac.swift; sourceTree = "<group>"; };
 		0AA73B351D999BF500D0BCFF /* ServiceHost.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServiceHost.swift; sourceTree = "<group>"; };
 		0AB36CF61D9AEFFB0069D00E /* FrameSearchProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FrameSearchProvider.swift; sourceTree = "<group>"; };
+		0AB36D171D9B09CA0069D00E /* FrameImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FrameImage.swift; sourceTree = "<group>"; };
+		0AB36D191D9B0B170069D00E /* Aliases.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Aliases.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -52,11 +56,37 @@
 			isa = PBXGroup;
 			children = (
 				0AA73B2E1D999B6400D0BCFF /* Frinkiac.h */,
-				0AA73B341D999BF500D0BCFF /* Frinkiac.swift */,
-				0AB36CF61D9AEFFB0069D00E /* FrameSearchProvider.swift */,
-				0AA73B351D999BF500D0BCFF /* ServiceHost.swift */,
+				0AB36D1B1D9B0B230069D00E /* Network */,
+				0AB36D1C1D9B0B2B0069D00E /* Utility */,
 			);
 			path = Frinkiac;
+			sourceTree = "<group>";
+		};
+		0AB36D1B1D9B0B230069D00E /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				0AA73B341D999BF500D0BCFF /* Frinkiac.swift */,
+				0AA73B351D999BF500D0BCFF /* ServiceHost.swift */,
+			);
+			name = Network;
+			sourceTree = "<group>";
+		};
+		0AB36D1C1D9B0B2B0069D00E /* Utility */ = {
+			isa = PBXGroup;
+			children = (
+				0AB36CF61D9AEFFB0069D00E /* FrameSearchProvider.swift */,
+				0AB36D1D1D9B0B300069D00E /* Misc */,
+			);
+			name = Utility;
+			sourceTree = "<group>";
+		};
+		0AB36D1D1D9B0B300069D00E /* Misc */ = {
+			isa = PBXGroup;
+			children = (
+				0AB36D191D9B0B170069D00E /* Aliases.swift */,
+				0AB36D171D9B09CA0069D00E /* FrameImage.swift */,
+			);
+			name = Misc;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -138,7 +168,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0AB36D1A1D9B0B170069D00E /* Aliases.swift in Sources */,
 				0AA73B361D999BF500D0BCFF /* Frinkiac.swift in Sources */,
+				0AB36D181D9B09CA0069D00E /* FrameImage.swift in Sources */,
 				0AA73B371D999BF500D0BCFF /* ServiceHost.swift in Sources */,
 				0AB36CF71D9AEFFB0069D00E /* FrameSearchProvider.swift in Sources */,
 			);
