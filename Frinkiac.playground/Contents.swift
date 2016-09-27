@@ -4,8 +4,9 @@ import Frinkiac
 
 PlaygroundPage.current.needsIndefiniteExecution = true
 
+typealias Callback<T> = ((() throws -> T?) -> ())
 
-// MARK: - Simpsons Yellow -
+// MARK: - Extension, Simpsons Yellow -
 //------------------------------------------------------------------------------
 extension UIColor {
     class var simpsonsYellow: UIColor {
@@ -16,16 +17,14 @@ extension UIColor {
 // MARK: - Extension, Download Image -
 //------------------------------------------------------------------------------
 extension Frame {
-    typealias ImageCallback = ((() throws -> UIImage?) -> ())
-
     /**
      Downloads the image located at `self.imageLink`.
 
      - parameter callback: A callback that can receive another function
-     which will return the image when executed.
+                           which will return the image when executed.
      */
-    fileprivate func downloadImage(_ callback: @escaping ImageCallback) {
-        DispatchQueue.global().async {
+    fileprivate func downloadImage(_ callback: @escaping Callback<UIImage>) {
+        DispatchQueue.global(qos: .userInitiated).async {
             callback {
                 let url = URL(string: self.imageLink)!
                 let data = try Data(contentsOf: url)
@@ -35,17 +34,18 @@ extension Frame {
     }
 }
 
-protocol ItemDelegate {
-    associatedtype Item
-    func item(_ item: Item, didUpdate image: UIImage)
+// MARK: - Frame Model Delegate -
+//------------------------------------------------------------------------------
+protocol FrameModelDelegate: class {
+    func frame(_ model: FrameModel, didUpdate image: UIImage)
 }
 
 // MARK: - Frame Model -
 //------------------------------------------------------------------------------
-class FrameModel: Equatable {
+final class FrameModel: Equatable {
     // MARK: - Private -
     //--------------------------------------------------------------------------
-    let frame: Frame
+    private let frameID: Int
     
     // MARK: - Public -
     //--------------------------------------------------------------------------
@@ -53,21 +53,24 @@ class FrameModel: Equatable {
 
     // MARK: - Initialization -
     //--------------------------------------------------------------------------
-    init<Delegate: ItemDelegate>(_ frame: Frame, delegate: Delegate) where Delegate.Item == FrameModel {
-        self.frame = frame
+    init(_ frame: Frame, delegate: FrameModelDelegate? = nil) {
+        frameID = frame.id
         //----------------------------------------------------------------------
         frame.downloadImage {
             if let image = try? $0() {
                 self.image = image
+
                 DispatchQueue.main.async {
-                    delegate.item(self, didUpdate: image!)
+                    delegate?.frame(self, didUpdate: image!)
                 }
             }
         }
     }
 
+    // MARK: - Equatable -
+    //--------------------------------------------------------------------------
     static func ==(lhs: FrameModel, rhs: FrameModel) -> Bool {
-        return lhs.frame.id == rhs.frame.id
+        return lhs.frameID == rhs.frameID
     }
 }
 
@@ -108,7 +111,7 @@ class FrameCell: UICollectionViewCell {
 
 // MARK: - Frame Collection View Controller -
 //------------------------------------------------------------------------------
-class FrameCollectionViewController: UIViewController, ItemDelegate {
+class FrameCollectionViewController: UIViewController, FrameModelDelegate {
     // MARK: - Aliases -
     //--------------------------------------------------------------------------
     typealias Item = FrameModel
@@ -176,14 +179,13 @@ class FrameCollectionViewController: UIViewController, ItemDelegate {
         return cell
     }
 
-    // MARK: - Item Delegate -
+    // MARK: - Frame Model Delegate -
     //--------------------------------------------------------------------------
-    func item(_ item: Item, didUpdate image: UIImage) {
-        if let index = items.index(where: { $0 == item }) {
+    func frame(_ model: FrameModel, didUpdate image: UIImage) {
+        if let index = items.index(where: { $0 == model }) {
             collectionView.reloadItems(at: [IndexPath(row: index, section: 0)])
         }
     }
-
 }
 
 // MARK: - Extension, Data Source -
@@ -215,7 +217,6 @@ extension FrameCollectionViewController: UICollectionViewDelegateFlowLayout {
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-
         let itemsPerRow = max(CGFloat(FrameCollectionViewController.itemsPerRow), 2.0)
         let viewWidth = collectionView.frame.width
             .subtracting(flowLayout.sectionInset.left)
@@ -228,46 +229,91 @@ extension FrameCollectionViewController: UICollectionViewDelegateFlowLayout {
     }
 }
 
+// MARK: - Frame Search Provider -
+//------------------------------------------------------------------------------
+final class FrameSearchProvider {
+    // MARK: - Private -
+    //--------------------------------------------------------------------------
+    /// - parameter callback: The callback provided during initialization.
+    private var callback: (([Frame]) -> ()) = { _ in }
+
+    /// - parameter searchTask: The task which performs the search.
+    private var searchTask: URLSessionTask? = nil
+
+    /// - parameter results: The frames returned by searching for `searchText`.
+    /// - note: Updating this value invokes `callback`, iff: `newValue` isn't `nil`.
+    private var results: [Frame]? = nil {
+        didSet {
+            if let results = results {
+                callback(results)
+            }
+        }
+    }
+
+    /// - parameter searchText: The search query.
+    /// - note: Before updating this value, any in-flight `searchTask` is cancelled,
+    ///         and `searchTask` is reassigneld with a new task. After this value is
+    ///         updated, `searchTask` is started.
+    private var searchText: String = "" {
+        willSet {
+            searchTask?.cancel()
+            searchTask = find(newValue) { [weak self] in
+                if let results = try? $0() {
+                    self?.results = results
+                }
+            }
+        }
+        didSet {
+            searchTask?.resume()
+        }
+    }
+
+    // MARK: - Initialization -
+    //--------------------------------------------------------------------------
+    init(_ callback: @escaping (([Frame]) -> ())) {
+        self.callback = callback
+    }
+    
+    // MARK: - Find -
+    //--------------------------------------------------------------------------
+    /**
+     Searches for those frames containg `text`.
+
+     - parameter text: The text being searched for.
+     - parameter callback: A callback that can receive another function
+                           which will return the frames when executed.
+     
+     - returns: A session task that, when started, performs a search
+                and executes `callback`.
+     */
+    private func find(_ text: String, callback: @escaping Callback<[Frame]>) -> URLSessionTask {
+        return Frinkiac.search(for: text) { result in
+            callback {
+                try? result().0
+            }
+        }
+    }
+
+    /**
+     Search for frames containing `text`.
+
+     - parameter text: The query to search for. 
+     */
+    func find(_ text: String) {
+        searchText = text
+    }
+}
+
 // MARK: - Collection View =
 //------------------------------------------------------------------------------
 let viewController = FrameCollectionViewController()
 PlaygroundPage.current.liveView = viewController
 
-// MARK: - Network =
-//------------------------------------------------------------------------------
-private func find(_ text: String, after time: DispatchTime = DispatchTime.now()) -> URLSessionTask {
-    return Frinkiac.search(for: text) {
-        guard let frames = try? $0().0 else { return }
-        let items = frames.map { FrameModel($0, delegate: viewController) }
-
-        // Update Items
-        //----------------------------------------------------------------------
-        DispatchQueue.main.asyncAfter(deadline: time) {
-            viewController.items = items
-        }
-    }
+let searchProvider = FrameSearchProvider {
+    let items = $0.map { FrameModel($0, delegate: viewController) }
+    viewController.items = items
 }
 
-// MARK: - Extension, Seconds
-//------------------------------------------------------------------------------
-extension Int {
-    fileprivate func seconds(from time: inout DispatchTime) -> DispatchTime {
-        time = time + DispatchTimeInterval.seconds(self)
-        return time
-    }
-}
+searchProvider.find("Mr. Sparkle")
+searchProvider.find("Apple Computers")
 
-var time: DispatchTime = .now()
-var task: URLSessionTask!
-
-task = find("fish bulb")
-task.resume()
-
-task = find("Mr. Sparkle", after: 3.seconds(from: &time))
-task.resume()
-
-task = find("Super Bowl", after: 3.seconds(from: &time))
-task.resume()
-
-task = find("Everybody knows that rock achieved", after: 3.seconds(from: &time))
-task.resume()
