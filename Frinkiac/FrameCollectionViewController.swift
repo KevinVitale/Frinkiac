@@ -48,16 +48,6 @@ public final class FrameCollectionViewController: UICollectionViewController, Fr
         flowLayout.minimumLineSpacing = spacing
     }
 
-    public override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-
-        // Layout Guide Insets
-        //----------------------------------------------------------------------
-        let layoutGuideInsets = UIEdgeInsets(top: topLayoutGuide.length, left: 0.0, bottom: bottomLayoutGuide.length, right: 0.0)
-        collectionView?.contentInset = layoutGuideInsets
-        collectionView?.scrollIndicatorInsets = layoutGuideInsets
-    }
-
     // MARK: - Reload -
     //--------------------------------------------------------------------------
     private func reload() {

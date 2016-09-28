@@ -16,6 +16,7 @@
 		0AB36CF71D9AEFFB0069D00E /* FrameSearchProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB36CF61D9AEFFB0069D00E /* FrameSearchProvider.swift */; };
 		0AB36D181D9B09CA0069D00E /* FrameImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB36D171D9B09CA0069D00E /* FrameImage.swift */; };
 		0AB36D1A1D9B0B170069D00E /* Aliases.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB36D191D9B0B170069D00E /* Aliases.swift */; };
+		0AD4FD7D1D9C2CC800A575CD /* FrameSearchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AD4FD7C1D9C2CC800A575CD /* FrameSearchCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -29,6 +30,7 @@
 		0AB36CF61D9AEFFB0069D00E /* FrameSearchProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FrameSearchProvider.swift; sourceTree = "<group>"; };
 		0AB36D171D9B09CA0069D00E /* FrameImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FrameImage.swift; sourceTree = "<group>"; };
 		0AB36D191D9B0B170069D00E /* Aliases.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Aliases.swift; sourceTree = "<group>"; };
+		0AD4FD7C1D9C2CC800A575CD /* FrameSearchCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FrameSearchCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -94,6 +96,7 @@
 				0AB36D191D9B0B170069D00E /* Aliases.swift */,
 				0AB36D171D9B09CA0069D00E /* FrameImage.swift */,
 				0A855BDD1D9B358A0040DE80 /* FrameImageCell.swift */,
+				0AD4FD7C1D9C2CC800A575CD /* FrameSearchCell.swift */,
 			);
 			name = Misc;
 			sourceTree = "<group>";
@@ -182,6 +185,7 @@
 				0AA73B361D999BF500D0BCFF /* Frinkiac.swift in Sources */,
 				0A3DF4801D9B400400903B09 /* FrameSearchController.swift in Sources */,
 				0A855BDC1D9B34F80040DE80 /* FrameCollectionViewController.swift in Sources */,
+				0AD4FD7D1D9C2CC800A575CD /* FrameSearchCell.swift in Sources */,
 				0AB36D181D9B09CA0069D00E /* FrameImage.swift in Sources */,
 				0AA73B371D999BF500D0BCFF /* ServiceHost.swift in Sources */,
 				0AB36CF71D9AEFFB0069D00E /* FrameSearchProvider.swift in Sources */,

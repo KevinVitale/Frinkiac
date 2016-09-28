@@ -3,42 +3,98 @@ import UIKit
 
 // MARK: - Frame Search Controller -
 //------------------------------------------------------------------------------
-public final class FrameSearchController: UIViewController {
+public final class FrameSearchController: UICollectionViewController {
     // MARK: - Private -
     //--------------------------------------------------------------------------
+    private lazy var frameController = FrameCollectionViewController()
     private var searchController: UISearchController! = nil
     private var searchBar: UISearchBar! {
         return searchController.searchBar
     }
 
-    
+    // MARK: - Search Provider -
+    //----------------------------------------------------------------------
+    private func initializeSearchProvider() {
+        searchProvider = FrameSearchProvider { [weak self] in
+            let images = $0.map { FrameImage($0, delegate: self?.frameController) }
+            self?.frameController.images = images
+        }
+    }
+
     // MARK: - Public -
     //--------------------------------------------------------------------------
-    public private(set) var searchProvider: FrameSearchProvider!
+    public private(set) var searchProvider: FrameSearchProvider! = nil
+
+    // MARK: - Initialization -
+    //--------------------------------------------------------------------------
+    public required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        initializeSearchProvider()
+    }
+    public required init() {
+        super.init(collectionViewLayout: UICollectionViewFlowLayout())
+        initializeSearchProvider()
+    }
     
     // MARK: - View Lifecycle -
     //--------------------------------------------------------------------------
     public override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .simpsonsYellow
+        definesPresentationContext = true
+        
+        // Collection View
+        //--------------------------------------------------------------------------
+        collectionView?.backgroundColor = .simpsonsYellow
+        collectionView?.alwaysBounceHorizontal = false
+
+        // Cell Types
+        //----------------------------------------------------------------------
+        collectionView?.register(FrameSearchCell.self, forSupplementaryViewOfKind: "UICollectionElementKindSectionHeader", withReuseIdentifier: FrameSearchCell.cellIdentifier)
 
         // Search Controller
         //----------------------------------------------------------------------
-        let frameController = FrameCollectionViewController()
         searchController = UISearchController(searchResultsController: frameController)
         searchController.searchResultsUpdater = self
         searchController.delegate = self
+    }
 
-        // Search Bar
-        //----------------------------------------------------------------------
-        view.addSubview(searchController.searchBar)
+    public override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
 
-        // Search Provider
+        // Layout Guide Insets
         //----------------------------------------------------------------------
-        searchProvider = FrameSearchProvider {
-            let images = $0.map { FrameImage($0, delegate: frameController) }
-            frameController.images = images
+        let layoutGuideInsets = UIEdgeInsets(top: topLayoutGuide.length, left: 0.0, bottom: bottomLayoutGuide.length, right: 0.0)
+        collectionView?.contentInset = layoutGuideInsets
+        collectionView?.scrollIndicatorInsets = layoutGuideInsets
+
+        frameController.collectionView?.contentInset = layoutGuideInsets
+    }
+
+    // MARK: - Dequeue Cell -
+    //--------------------------------------------------------------------------
+    fileprivate func dequeueSearchCell(ofKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        let cell = collectionView?.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: FrameSearchCell.cellIdentifier, for: indexPath) as! FrameSearchCell
+        if let searchBar = searchBar {
+            print(searchBar)
+            cell.addSubview(searchBar)
         }
+        return cell
+    }
+}
+
+// MARK: - Extension, Data Source -
+//------------------------------------------------------------------------------
+extension FrameSearchController {
+    public override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        return dequeueSearchCell(ofKind: kind, at: indexPath)
+    }
+}
+
+// MARK: - Extension, Collection Flow Layout Delegate -
+//--------------------------------------------------------------------------
+extension FrameSearchController: UICollectionViewDelegateFlowLayout {
+    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+        return CGSize(width: collectionView.frame.width, height: 44.0)
     }
 }
 
