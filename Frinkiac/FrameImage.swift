@@ -51,8 +51,7 @@ extension Frame {
     fileprivate func downloadImage(_ callback: @escaping Callback<ImageType>) {
         DispatchQueue.global(qos: .userInitiated).async {
             callback {
-                let url = URL(string: self.imageLink)!
-                let data = try Data(contentsOf: url)
+                let data = try Data(contentsOf: self.imageLink.url)
                 return ImageType(data: data)
             }
         }

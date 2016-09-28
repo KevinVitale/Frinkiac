@@ -16,17 +16,17 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     private var caption: Caption? {
         didSet {
             if let caption = caption {
-                set(meme: caption.frame, text: caption.caption)
+                set(frame: caption.frame, text: caption.caption)
             }
         }
     }
-    private func set(meme frame: Frame, text caption: String) {
-        let link = Frinkiac.memeLink(frame: frame, text: caption)
-        let image = NSImage(contentsOf: URL(string: link)!)
+    private func set(frame: Frame, text: String) {
+        let url = frame.memeLink(text).url
+        let image = NSImage(contentsOf: url)
         //----------------------------------------------------------------------
         DispatchQueue.main.async { [weak self] in
             self?.imageView.image = image
-            self?.textField.stringValue = caption
+            self?.textField.stringValue = text
         }
     }
 
@@ -55,6 +55,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             }.resume()
     }
     @IBAction func update(sender: AnyObject?) {
-        set(meme: caption!.frame, text: textField.stringValue)
+        set(frame: caption!.frame, text: textField.stringValue)
     }
 }
