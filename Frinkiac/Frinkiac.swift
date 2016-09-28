@@ -16,30 +16,27 @@ public struct Frinkiac: ServiceHost {
 
     /// - parameter shared: A shared instance.
     fileprivate static let shared = Frinkiac()
+    fileprivate static var baseLink: String {
+        return "\(shared.scheme)://\(shared.host)"
+    }
 }
 
-// MARK: - Extension, Links -
-//------------------------------------------------------------------------------
-extension Frinkiac {
-    /**
-     Generates an image link (URL string) for the given `frame`.
-     
-     - parameter frame: A frame from which the image link will be generated.
-     - returns: A link to an image for the given `frame`.
-     */
-    public static func imageLink(frame: Frame) -> String {
-        return "\(shared.scheme)://\(shared.host)/meme/\(frame.episode)/\(frame.timestamp).jpg"
-    }
+public enum FrinkiacLink {
+    case image(episode: String, timestamp: Int)
+    case meme(episode: String, timestamp: Int, text: String)
+    case gif(episode: String, start: Int, end: Int, text: String)
 
-    /**
-     Generates a meme link (URL string) for the given `frame`.
-     
-     - parameter frame: A frame from which the meme link will be generated.
-     - parameter caption: The phrase to be used when generating the meme.
-     - returns: A link to a meme for the `frame`, with the given `caption`.
-     */
-    public static func memeLink(frame: Frame, text caption: String) -> String {
-        return "\(imageLink(frame: frame))?lines=\(caption.URLEscapedString ?? "")"
+    public var url: URL {
+        var link = Frinkiac.baseLink
+        switch self {
+        case .image(let episode, let timestamp):
+            link.append("/meme/\(episode)/\(timestamp).jpg")
+        case .meme(let episode, let timestamp, let text):
+            link.append("/meme/\(episode)/\(timestamp).jpg?lines=\(text.URLEscapedString ?? "")")
+        case .gif(let episode, let start, let end, let text):
+            link.append("/gif/\(episode)/\(start)/\(end).gif?lines=\(text.URLEscapedString ?? "")")
+        }
+        return URL(string: link)!
     }
 }
 
@@ -137,8 +134,14 @@ public struct Frame {
 
     // MARK: - Inferred -
     //--------------------------------------------------------------------------
-    public var imageLink: String {
-        return Frinkiac.imageLink(frame: self)
+    public var imageLink: FrinkiacLink {
+        return .image(episode: episode, timestamp: timestamp)
+    }
+    public func memeLink(_ text: String) -> FrinkiacLink {
+        return .meme(episode: episode, timestamp: timestamp, text: text)
+    }
+    public func gifLink(_ text: String, duration: Int = 2000) -> FrinkiacLink {
+        return .gif(episode: episode, start: timestamp, end: timestamp + duration, text: text)
     }
 }
 
@@ -257,11 +260,11 @@ public struct Caption {
     public var caption: String {
         return subtitles.caption
     }
-    public var imageLink: String {
-        return Frinkiac.imageLink(frame: frame)
+    public var imageLink: FrinkiacLink {
+        return frame.imageLink
     }
-    public var memeLink: String {
-        return Frinkiac.memeLink(frame: frame, text: caption)
+    public var memeLink: FrinkiacLink {
+        return .meme(episode: frame.episode, timestamp: frame.timestamp, text: caption)
     }
 }
 
