@@ -115,7 +115,7 @@ extension FrameCollectionViewController: UICollectionViewDelegateFlowLayout {
 // MARK: - Extension, Simpsons Yellow -
 //------------------------------------------------------------------------------
 extension UIColor {
-    fileprivate class var simpsonsYellow: UIColor {
+    public class var simpsonsYellow: UIColor {
         return UIColor(red: 10, green: (217.0/255.0), blue: (15.0/255.0), alpha: 1.0)
     }
 }
