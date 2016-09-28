@@ -7,14 +7,11 @@ public final class FrameSearchController: UIViewController {
     // MARK: - Private -
     //--------------------------------------------------------------------------
     fileprivate var searchProvider: FrameSearchProvider!
+    private var searchController: UISearchController! = nil
     private var searchBar: UISearchBar! {
         return searchController.searchBar
     }
     
-    // MARK: - Public -
-    //--------------------------------------------------------------------------
-    var searchController: UISearchController! = nil
-
     // MARK: - View Lifecycle -
     //--------------------------------------------------------------------------
     public override func viewDidLoad() {
@@ -66,6 +63,7 @@ extension FrameSearchController: UISearchControllerDelegate {
 
     public func didDismissSearchController(_ searchController: UISearchController) {
         print(#function)
+        searchProvider.reset()
     }
 }
 #endif
