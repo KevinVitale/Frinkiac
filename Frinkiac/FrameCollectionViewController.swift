@@ -8,9 +8,7 @@ public final class FrameCollectionViewController: UICollectionViewController, Fr
     //--------------------------------------------------------------------------
     public var images: [FrameImage] = [] {
         didSet {
-            DispatchQueue.main.async { [weak self] in
-                self?.collectionView?.reloadData()
-            }
+            reload()
         }
     }
 
@@ -61,6 +59,14 @@ public final class FrameCollectionViewController: UICollectionViewController, Fr
         let layoutGuideInsets = UIEdgeInsets(top: topLayoutGuide.length, left: 0.0, bottom: bottomLayoutGuide.length, right: 0.0)
         collectionView?.contentInset = layoutGuideInsets
         collectionView?.scrollIndicatorInsets = layoutGuideInsets
+    }
+
+    // MARK: - Reload -
+    //--------------------------------------------------------------------------
+    private func reload() {
+        DispatchQueue.main.async { [weak self] in
+            self?.collectionView?.reloadData()
+        }
     }
 
     // MARK: - Dequeue Cell -
