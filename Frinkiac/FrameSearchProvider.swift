@@ -42,6 +42,10 @@ public final class FrameSearchProvider {
     public init(_ callback: @escaping (([Frame]) -> ())) {
         self.callback = callback
     }
+
+    public func reset() {
+        results = []
+    }
     
     // MARK: - Find -
     //--------------------------------------------------------------------------

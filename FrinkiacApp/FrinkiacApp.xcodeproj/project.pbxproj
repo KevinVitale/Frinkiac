@@ -7,13 +7,53 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0A3F791A1D9B6D0E00014C1C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0A3F79191D9B6D0E00014C1C /* Assets.xcassets */; };
+		0A3F79211D9B6D0E00014C1C /* MessagesExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 0A3F79201D9B6D0E00014C1C /* MessagesExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		0A3F79251D9B6D0E00014C1C /* Messages.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A3F79241D9B6D0E00014C1C /* Messages.framework */; };
+		0A3F79281D9B6D0E00014C1C /* MessagesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3F79271D9B6D0E00014C1C /* MessagesViewController.swift */; };
+		0A3F792B1D9B6D0E00014C1C /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0A3F79291D9B6D0E00014C1C /* MainInterface.storyboard */; };
+		0A3F792D1D9B6D0E00014C1C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0A3F792C1D9B6D0E00014C1C /* Assets.xcassets */; };
+		0A3F793F1D9B721C00014C1C /* Frinkiac.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A3F793E1D9B721C00014C1C /* Frinkiac.framework */; };
+		0A3F79401D9B726E00014C1C /* Frinkiac.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 0A3F793E1D9B721C00014C1C /* Frinkiac.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		0AB36D071D9AF8040069D00E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB36D061D9AF8040069D00E /* AppDelegate.swift */; };
 		0AB36D0C1D9AF8040069D00E /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0AB36D0A1D9AF8040069D00E /* MainMenu.xib */; };
 		0AB36D121D9AF9190069D00E /* Frinkiac.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AB36D111D9AF9190069D00E /* Frinkiac.framework */; };
 		0AB36D131D9AF9190069D00E /* Frinkiac.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0AB36D111D9AF9190069D00E /* Frinkiac.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		0A3F79221D9B6D0E00014C1C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0AB36CF91D9AF7D20069D00E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 0A3F791F1D9B6D0E00014C1C;
+			remoteInfo = MessagesExtension;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXCopyFilesBuildPhase section */
+		0A3F79341D9B6D0E00014C1C /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				0A3F79211D9B6D0E00014C1C /* MessagesExtension.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0A3F793C1D9B70D300014C1C /* Copy Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				0A3F79401D9B726E00014C1C /* Frinkiac.framework in Copy Frameworks */,
+			);
+			name = "Copy Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		0AB36D141D9AF91A0069D00E /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -28,6 +68,14 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		0A3F79171D9B6D0E00014C1C /* Frinkiac-iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Frinkiac-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		0A3F79191D9B6D0E00014C1C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		0A3F79201D9B6D0E00014C1C /* MessagesExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = MessagesExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		0A3F79241D9B6D0E00014C1C /* Messages.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Messages.framework; path = Library/Frameworks/Messages.framework; sourceTree = DEVELOPER_DIR; };
+		0A3F79271D9B6D0E00014C1C /* MessagesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesViewController.swift; sourceTree = "<group>"; };
+		0A3F792A1D9B6D0E00014C1C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
+		0A3F792C1D9B6D0E00014C1C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		0A3F793E1D9B721C00014C1C /* Frinkiac.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Frinkiac.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0AB36D031D9AF8040069D00E /* Frinkiac-macOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Frinkiac-macOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		0AB36D061D9AF8040069D00E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0AB36D0B1D9AF8040069D00E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
@@ -35,6 +83,15 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		0A3F791D1D9B6D0E00014C1C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0A3F793F1D9B721C00014C1C /* Frinkiac.framework in Frameworks */,
+				0A3F79251D9B6D0E00014C1C /* Messages.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		0AB36D001D9AF8040069D00E /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -46,10 +103,47 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0A3F79181D9B6D0E00014C1C /* Frinkiac-iOS */ = {
+			isa = PBXGroup;
+			children = (
+				0A3F79261D9B6D0E00014C1C /* MessagesExtension */,
+				0A3F79361D9B6D5E00014C1C /* Resources */,
+			);
+			path = "Frinkiac-iOS";
+			sourceTree = "<group>";
+		};
+		0A3F79261D9B6D0E00014C1C /* MessagesExtension */ = {
+			isa = PBXGroup;
+			children = (
+				0A3F79271D9B6D0E00014C1C /* MessagesViewController.swift */,
+				0A3F79371D9B6D6500014C1C /* Resources */,
+			);
+			name = MessagesExtension;
+			path = ../MessagesExtension;
+			sourceTree = "<group>";
+		};
+		0A3F79361D9B6D5E00014C1C /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				0A3F79191D9B6D0E00014C1C /* Assets.xcassets */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		0A3F79371D9B6D6500014C1C /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				0A3F79291D9B6D0E00014C1C /* MainInterface.storyboard */,
+				0A3F792C1D9B6D0E00014C1C /* Assets.xcassets */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
 		0AB36CF81D9AF7D20069D00E = {
 			isa = PBXGroup;
 			children = (
 				0AB36D051D9AF8040069D00E /* Frinkiac-macOS */,
+				0A3F79181D9B6D0E00014C1C /* Frinkiac-iOS */,
 				0AB36D151D9AFD320069D00E /* Frameworks */,
 				0AB36D041D9AF8040069D00E /* Products */,
 			);
@@ -59,6 +153,8 @@
 			isa = PBXGroup;
 			children = (
 				0AB36D031D9AF8040069D00E /* Frinkiac-macOS.app */,
+				0A3F79171D9B6D0E00014C1C /* Frinkiac-iOS.app */,
+				0A3F79201D9B6D0E00014C1C /* MessagesExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -75,7 +171,9 @@
 		0AB36D151D9AFD320069D00E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				0A3F793E1D9B721C00014C1C /* Frinkiac.framework */,
 				0AB36D111D9AF9190069D00E /* Frinkiac.framework */,
+				0A3F79241D9B6D0E00014C1C /* Messages.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -83,6 +181,41 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		0A3F79161D9B6D0E00014C1C /* Frinkiac-iOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0A3F79351D9B6D0E00014C1C /* Build configuration list for PBXNativeTarget "Frinkiac-iOS" */;
+			buildPhases = (
+				0A3F79151D9B6D0E00014C1C /* Resources */,
+				0A3F79341D9B6D0E00014C1C /* Embed App Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				0A3F79231D9B6D0E00014C1C /* PBXTargetDependency */,
+			);
+			name = "Frinkiac-iOS";
+			productName = "Frinkiac-iOS";
+			productReference = 0A3F79171D9B6D0E00014C1C /* Frinkiac-iOS.app */;
+			productType = "com.apple.product-type.application.messages";
+		};
+		0A3F791F1D9B6D0E00014C1C /* MessagesExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0A3F79331D9B6D0E00014C1C /* Build configuration list for PBXNativeTarget "MessagesExtension" */;
+			buildPhases = (
+				0A3F791C1D9B6D0E00014C1C /* Sources */,
+				0A3F791D1D9B6D0E00014C1C /* Frameworks */,
+				0A3F791E1D9B6D0E00014C1C /* Resources */,
+				0A3F793C1D9B70D300014C1C /* Copy Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = MessagesExtension;
+			productName = MessagesExtension;
+			productReference = 0A3F79201D9B6D0E00014C1C /* MessagesExtension.appex */;
+			productType = "com.apple.product-type.app-extension.messages";
+		};
 		0AB36D021D9AF8040069D00E /* Frinkiac-macOS */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 0AB36D101D9AF8040069D00E /* Build configuration list for PBXNativeTarget "Frinkiac-macOS" */;
@@ -110,6 +243,16 @@
 				LastSwiftUpdateCheck = 0800;
 				LastUpgradeCheck = 0800;
 				TargetAttributes = {
+					0A3F79161D9B6D0E00014C1C = {
+						CreatedOnToolsVersion = 8.0;
+						DevelopmentTeam = J3L2NJGMGJ;
+						ProvisioningStyle = Automatic;
+					};
+					0A3F791F1D9B6D0E00014C1C = {
+						CreatedOnToolsVersion = 8.0;
+						DevelopmentTeam = J3L2NJGMGJ;
+						ProvisioningStyle = Automatic;
+					};
 					0AB36D021D9AF8040069D00E = {
 						CreatedOnToolsVersion = 8.0;
 						ProvisioningStyle = Automatic;
@@ -130,11 +273,30 @@
 			projectRoot = "";
 			targets = (
 				0AB36D021D9AF8040069D00E /* Frinkiac-macOS */,
+				0A3F79161D9B6D0E00014C1C /* Frinkiac-iOS */,
+				0A3F791F1D9B6D0E00014C1C /* MessagesExtension */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		0A3F79151D9B6D0E00014C1C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0A3F791A1D9B6D0E00014C1C /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0A3F791E1D9B6D0E00014C1C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0A3F792D1D9B6D0E00014C1C /* Assets.xcassets in Resources */,
+				0A3F792B1D9B6D0E00014C1C /* MainInterface.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		0AB36D011D9AF8040069D00E /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -146,6 +308,14 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		0A3F791C1D9B6D0E00014C1C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0A3F79281D9B6D0E00014C1C /* MessagesViewController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		0AB36CFF1D9AF8040069D00E /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -156,7 +326,23 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		0A3F79231D9B6D0E00014C1C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 0A3F791F1D9B6D0E00014C1C /* MessagesExtension */;
+			targetProxy = 0A3F79221D9B6D0E00014C1C /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin PBXVariantGroup section */
+		0A3F79291D9B6D0E00014C1C /* MainInterface.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				0A3F792A1D9B6D0E00014C1C /* Base */,
+			);
+			name = MainInterface.storyboard;
+			sourceTree = "<group>";
+		};
 		0AB36D0A1D9AF8040069D00E /* MainMenu.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -168,6 +354,220 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		0A3F792F1D9B6D0E00014C1C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVES = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = J3L2NJGMGJ;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = "Frinkiac-iOS/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.kevinvitale.Frinkiac-iOS";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		0A3F79301D9B6D0E00014C1C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVES = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = J3L2NJGMGJ;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = "Frinkiac-iOS/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.kevinvitale.Frinkiac-iOS";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		0A3F79311D9B6D0E00014C1C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_APPICON_NAME = "iMessage App Icon";
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVES = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = J3L2NJGMGJ;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = MessagesExtension/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.kevinvitale.Frinkiac-iOS.MessagesExtension";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Debug;
+		};
+		0A3F79321D9B6D0E00014C1C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_APPICON_NAME = "iMessage App Icon";
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVES = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = J3L2NJGMGJ;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = MessagesExtension/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.kevinvitale.Frinkiac-iOS.MessagesExtension";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 3.0;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
 		0AB36CFD1D9AF7D20069D00E /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -285,6 +685,24 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		0A3F79331D9B6D0E00014C1C /* Build configuration list for PBXNativeTarget "MessagesExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0A3F79311D9B6D0E00014C1C /* Debug */,
+				0A3F79321D9B6D0E00014C1C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		0A3F79351D9B6D0E00014C1C /* Build configuration list for PBXNativeTarget "Frinkiac-iOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0A3F792F1D9B6D0E00014C1C /* Debug */,
+				0A3F79301D9B6D0E00014C1C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		0AB36CFC1D9AF7D20069D00E /* Build configuration list for PBXProject "FrinkiacApp" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -301,6 +719,7 @@
 				0AB36D0F1D9AF8040069D00E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
