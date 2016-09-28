@@ -13,7 +13,7 @@ class FrameImageCell: UICollectionViewCell {
     //--------------------------------------------------------------------------
     override func layoutSubviews() {
         super.layoutSubviews()
-        contentView.backgroundColor = UIColor(white: 0.25, alpha: 1.0)
+        contentView.backgroundColor = .simpsonsFleshy
         contentView.addSubview(imageView)
 
         // View
