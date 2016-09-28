@@ -6,11 +6,15 @@ import UIKit
 public final class FrameSearchController: UIViewController {
     // MARK: - Private -
     //--------------------------------------------------------------------------
-    fileprivate var searchProvider: FrameSearchProvider!
     private var searchController: UISearchController! = nil
     private var searchBar: UISearchBar! {
         return searchController.searchBar
     }
+
+    
+    // MARK: - Public -
+    //--------------------------------------------------------------------------
+    public private(set) var searchProvider: FrameSearchProvider!
     
     // MARK: - View Lifecycle -
     //--------------------------------------------------------------------------
