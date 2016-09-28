@@ -21,12 +21,13 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
     }
     private func set(frame: Frame, text: String) {
-        let url = frame.memeLink(text).url
-        let image = NSImage(contentsOf: url)
-        //----------------------------------------------------------------------
-        DispatchQueue.main.async { [weak self] in
-            self?.imageView.image = image
-            self?.textField.stringValue = text
+        frame.memeLink(text).download { [weak self] in
+            if let image = try? $0() {
+                DispatchQueue.main.async {
+                    self?.imageView.image = image
+                    self?.textField.stringValue = text
+                }
+            }
         }
     }
 

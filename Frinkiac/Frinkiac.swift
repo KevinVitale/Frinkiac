@@ -38,6 +38,21 @@ public enum FrinkiacLink {
         }
         return URL(string: link)!
     }
+
+    /**
+     Downloads the image located at `self.imageLink`.
+
+     - parameter callback: A callback that can receive another function
+                           which will return the image when executed.
+     */
+    public func download(callback: @escaping Callback<ImageType>) {
+        DispatchQueue.global(qos: .userInitiated).async {
+            callback {
+                let data = try Data(contentsOf: self.url)
+                return ImageType(data: data)
+            }
+        }
+    }
 }
 
 // MARK: - Extension, API Services -

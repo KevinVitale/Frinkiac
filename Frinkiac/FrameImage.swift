@@ -15,7 +15,7 @@ public final class FrameImage: Equatable {
     public init(_ frame: Frame, delegate: FrameImageDelegate? = nil) {
         frameID = frame.id
         //----------------------------------------------------------------------
-        frame.downloadImage {
+        frame.imageLink.download {
             if let image = try? $0() {
                 self.image = image
 
@@ -37,23 +37,4 @@ public final class FrameImage: Equatable {
 //------------------------------------------------------------------------------
 public protocol FrameImageDelegate: class {
     func frame(_ : FrameImage, didUpdate image: ImageType)
-}
-
-// MARK: - Extension, Download Image -
-//------------------------------------------------------------------------------
-extension Frame {
-    /**
-     Downloads the image located at `self.imageLink`.
-
-     - parameter callback: A callback that can receive another function
-                           which will return the image when executed.
-     */
-    fileprivate func downloadImage(_ callback: @escaping Callback<ImageType>) {
-        DispatchQueue.global(qos: .userInitiated).async {
-            callback {
-                let data = try Data(contentsOf: self.imageLink.url)
-                return ImageType(data: data)
-            }
-        }
-    }
 }

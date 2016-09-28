@@ -6,4 +6,4 @@
     public typealias ImageType = UIImage
 #endif
 //------------------------------------------------------------------------------
-typealias Callback<T> = ((() throws -> T?) -> ())
+public typealias Callback<T> = ((() throws -> T?) -> ())
