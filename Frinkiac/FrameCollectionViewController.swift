@@ -49,6 +49,11 @@ public final class FrameCollectionViewController: UICollectionViewController, Fr
         flowLayout.minimumLineSpacing = spacing
     }
 
+    public override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
+        reload()
+    }
+
     // MARK: - Reload -
     //--------------------------------------------------------------------------
     private func reload() {
@@ -101,7 +106,7 @@ extension FrameCollectionViewController {
 //------------------------------------------------------------------------------
 extension FrameCollectionViewController: UICollectionViewDelegateFlowLayout {
     private class var itemsPerRow: Int {
-        return 3
+        return 2
     }
 
     public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
