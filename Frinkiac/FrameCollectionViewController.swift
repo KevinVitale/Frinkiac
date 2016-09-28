@@ -21,11 +21,8 @@ public final class FrameCollectionViewController: UICollectionViewController, Fr
     // MARK: - Initialization -
     //--------------------------------------------------------------------------
     public required init?(coder aDecoder: NSCoder) { super.init(coder: aDecoder) }
-    public override init(collectionViewLayout layout: UICollectionViewLayout) {
-        super.init(collectionViewLayout: layout)
-    }
-    public convenience init() {
-        self.init(collectionViewLayout: UICollectionViewFlowLayout())
+    public required init() {
+        super.init(collectionViewLayout: UICollectionViewFlowLayout())
     }
 
     // MARK: - View Lifecycle -
