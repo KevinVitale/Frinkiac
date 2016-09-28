@@ -2,18 +2,15 @@
 // MARK: - Frame Image -
 //------------------------------------------------------------------------------
 public final class FrameImage: Equatable {
-    // MARK: - Private -
-    //--------------------------------------------------------------------------
-    private let frameID: Int
-    
     // MARK: - Public -
     //--------------------------------------------------------------------------
+    public let frame: Frame
     public private(set) var image: ImageType? = nil
 
     // MARK: - Initialization -
     //--------------------------------------------------------------------------
     public init(_ frame: Frame, delegate: FrameImageDelegate? = nil) {
-        frameID = frame.id
+        self.frame = frame
         //----------------------------------------------------------------------
         frame.imageLink.download {
             if let image = try? $0() {
@@ -29,7 +26,7 @@ public final class FrameImage: Equatable {
     // MARK: - Equatable -
     //--------------------------------------------------------------------------
     public static func ==(lhs: FrameImage, rhs: FrameImage) -> Bool {
-        return lhs.frameID == rhs.frameID
+        return lhs.frame.id == rhs.frame.id
     }
 }
 

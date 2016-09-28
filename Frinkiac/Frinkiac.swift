@@ -275,6 +275,9 @@ public struct Caption {
     public var caption: String {
         return subtitles.caption
     }
+    public var subtitle: String {
+        return subtitles.subtitle.capitalized
+    }
     public var imageLink: FrinkiacLink {
         return frame.imageLink
     }
@@ -286,10 +289,12 @@ public struct Caption {
 // MARK: - Extension, Ccaption -
 //------------------------------------------------------------------------------
 extension Sequence where Iterator.Element == Subtitle {
-    fileprivate var caption: String {
+    fileprivate var subtitle: String {
         return map { $0.content }
             .joined(separator: " ")
-            .lineSplitted
+    }
+    fileprivate var caption: String {
+        return subtitle.lineSplitted
     }
 }
 

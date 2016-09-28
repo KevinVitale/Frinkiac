@@ -6,7 +6,6 @@ import UIKit
 public final class FrameSearchController: UICollectionViewController {
     // MARK: - Private -
     //--------------------------------------------------------------------------
-    private lazy var frameController = FrameCollectionViewController()
     private var searchController: UISearchController! = nil
     private var searchBar: UISearchBar! {
         return searchController.searchBar
@@ -24,6 +23,7 @@ public final class FrameSearchController: UICollectionViewController {
     // MARK: - Public -
     //--------------------------------------------------------------------------
     public private(set) var searchProvider: FrameSearchProvider! = nil
+    public private(set) lazy var frameController = FrameCollectionViewController()
 
     // MARK: - Initialization -
     //--------------------------------------------------------------------------
@@ -41,7 +41,7 @@ public final class FrameSearchController: UICollectionViewController {
     public override func viewDidLoad() {
         super.viewDidLoad()
         definesPresentationContext = true
-        
+
         // Collection View
         //--------------------------------------------------------------------------
         collectionView?.backgroundColor = .simpsonsYellow

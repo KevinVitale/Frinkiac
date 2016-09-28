@@ -6,6 +6,7 @@ import UIKit
 public final class FrameCollectionViewController: UICollectionViewController, FrameImageDelegate {
     // MARK: - Public -
     //--------------------------------------------------------------------------
+    public weak var delegate: FrameCollectionDelegate? = nil
     public var images: [FrameImage] = [] {
         didSet {
             reload()
@@ -89,6 +90,11 @@ extension FrameCollectionViewController {
     public override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         return dequeue(frameCellAt: indexPath)
     }
+
+    public override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let frameImage = images[indexPath.row]
+        delegate?.frameCollection(self, didSelect: frameImage)
+    }
 }
 
 // MARK: - Extension, Flow Layout Delegate -
@@ -133,5 +139,12 @@ extension UIColor {
     public class var simpsonsFleshy: UIColor {
         return UIColor(red: (209.0/255.0), green: (178.0/255.0), blue: (112.0/255.0), alpha: 1.0)
     }
+}
+
+
+// MARK: - Frame Collection Delegate -
+//------------------------------------------------------------------------------
+public protocol FrameCollectionDelegate: class {
+    func frameCollection(_ : FrameCollectionViewController, didSelect frameImage: FrameImage)
 }
 #endif
