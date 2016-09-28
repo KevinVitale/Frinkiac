@@ -81,9 +81,9 @@
 			isa = PBXGroup;
 			children = (
 				0A855BDB1D9B34F80040DE80 /* FrameCollectionViewController.swift */,
+				0A3DF47F1D9B400400903B09 /* FrameSearchController.swift */,
 				0AB36CF61D9AEFFB0069D00E /* FrameSearchProvider.swift */,
 				0AB36D1D1D9B0B300069D00E /* Misc */,
-				0A3DF47F1D9B400400903B09 /* FrameSearchController.swift */,
 			);
 			name = Utility;
 			sourceTree = "<group>";
