@@ -3,7 +3,15 @@ import Messages
 import Frinkiac
 
 class MessagesViewController: MSMessagesAppViewController {
+    // MARK: - Search Controller -
+    //--------------------------------------------------------------------------
+    // TODO: Fix me; this is a smell (☠️)
+    //--------------------------------------------------------------------------
     fileprivate weak var searchController: FrameSearchController? = nil
+    fileprivate func setSearch(active: Bool) {
+        searchController?.searchController?.isActive = active
+    }
+    //--------------------------------------------------------------------------
 
     // MARK: - Message Lifecycle -
     //--------------------------------------------------------------------------
@@ -49,9 +57,7 @@ extension MessagesViewController: FrameCollectionDelegate {
                         DispatchQueue.main.async {
                             conversation.insert(message) { _ in
                                 self?.requestPresentationStyle(.compact)
-                                
-                                // TODO: Fix me; this is a smell (☠️)
-                                self?.searchController?.searchController?.isActive = false
+                                self?.setSearch(active: false)
                             }
                         }
                     }
