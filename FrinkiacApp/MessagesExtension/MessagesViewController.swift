@@ -4,13 +4,11 @@ import Frinkiac
 
 class MessagesViewController: MSMessagesAppViewController {
     override func willBecomeActive(with conversation: MSConversation) {
-        print(#function)
         super.willBecomeActive(with: conversation)
         presentSearchController(for: activeConversation, with: presentationStyle)
     }
 
     override func didTransition(to presentationStyle: MSMessagesAppPresentationStyle) {
-        print(#function)
         super.didTransition(to: presentationStyle)
         presentSearchController(for: activeConversation, with: presentationStyle)
     }
