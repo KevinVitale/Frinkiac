@@ -3,9 +3,13 @@ import Messages
 import Frinkiac
 
 class MessagesViewController: MSMessagesAppViewController {
+    fileprivate weak var searchController: FrameSearchController? = nil
+
+    // MARK: - Message Lifecycle -
+    //--------------------------------------------------------------------------
     override func willBecomeActive(with conversation: MSConversation) {
         super.willBecomeActive(with: conversation)
-        presentSearchController(for: activeConversation, with: presentationStyle)
+        presentSearchController(for: conversation, with: presentationStyle)
     }
 
     override func didTransition(to presentationStyle: MSMessagesAppPresentationStyle) {
@@ -17,10 +21,8 @@ class MessagesViewController: MSMessagesAppViewController {
 
 // MARK: - Extension, Frame Collection Delegate -
 //------------------------------------------------------------------------------
-extension MSMessagesAppViewController: FrameCollectionDelegate {
+extension MessagesViewController: FrameCollectionDelegate {
     public func frameCollection(_ frameCollection: FrameCollectionViewController, didSelect frameImage: FrameImage) {
-        requestPresentationStyle(.compact)
-
         // 1) Download: 'Caption'
         //----------------------------------------------------------------------
         Frinkiac.caption(with: frameImage.frame) { [weak self] in
@@ -46,7 +48,10 @@ extension MSMessagesAppViewController: FrameCollectionDelegate {
                         //------------------------------------------------------
                         DispatchQueue.main.async {
                             conversation.insert(message) { _ in
+                                self?.requestPresentationStyle(.compact)
                                 
+                                // TODO: Fix me; this is a smell (☠️)
+                                self?.searchController?.searchController?.isActive = false
                             }
                         }
                     }
@@ -71,7 +76,7 @@ extension MessagesViewController {
 
     private func embed(child controller: UIViewController) {
         addChildViewController(controller)
-        
+
         view.addSubview(controller.view)
 
         controller.view.frame = view.bounds
@@ -91,42 +96,28 @@ extension MessagesViewController {
         // Rebuild controller hierarchy
         //----------------------------------------------------------------------
         removeAllChildren()
-        embed(child: FrameSearchController.searchController(with: self))
+
+        // Create embedded controller
+        //----------------------------------------------------------------------
+        let searchController = FrameSearchController()
+        searchController.frameController.delegate = self
+        searchController.searchBar.delegate = self
+
+        // Install search controller
+        //----------------------------------------------------------------------
+        embed(child: searchController)
+        self.searchController = searchController
     }
 }
 
-
-// MARK: - Extension, Search Bar Delegate
+// MARK: - Extension, Search Bar Delegate -
 //------------------------------------------------------------------------------
-extension MessagesViewController: UISearchBarDelegate {
+extension MSMessagesAppViewController: UISearchBarDelegate {
     public func searchBarShouldBeginEditing(_ searchBar: UISearchBar) -> Bool {
-        var beginEditing = false
-        //----------------------------------------------------------------------
-        switch  presentationStyle {
-        case .compact:
+        if presentationStyle == .compact {
             requestPresentationStyle(.expanded)
-        default:
-            beginEditing = true
         }
         //----------------------------------------------------------------------
-        return beginEditing
-    }
-}
-
-// MARK: - Extension, Frame Search Controller
-//------------------------------------------------------------------------------
-extension FrameSearchController {
-    /**
-     A convienence class method for generating a search controller with a given
-     `FrameControllerDelegate` assigned to `frameController.delegate`, and a given
-     'UISearchBarDelegate' assigned to `searchBar.delegate`.
-     
-     - parameter delegate: An optional delegate instance.
-     - returns: A new instance of `FrameSearchController`.
-     */
-    fileprivate class func searchController(with delegate: (FrameCollectionDelegate & UISearchBarDelegate)?) -> FrameSearchController {
-        let searchController = FrameSearchController(frameControllerDelegate: delegate)
-        searchController.searchBar.delegate = delegate
-        return searchController
+        return presentationStyle == .compact ? false : true
     }
 }
