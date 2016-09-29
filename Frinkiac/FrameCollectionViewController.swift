@@ -105,12 +105,12 @@ extension FrameCollectionViewController {
 // MARK: - Extension, Flow Layout Delegate -
 //------------------------------------------------------------------------------
 extension FrameCollectionViewController: UICollectionViewDelegateFlowLayout {
-    public class var itemsPerRow: Int {
+    public var itemsPerRow: Int {
         return 3
     }
 
-    final public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let itemsPerRow = max(CGFloat(FrameCollectionViewController.itemsPerRow), 1.0)
+    public final func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let itemsPerRow = max(CGFloat(self.itemsPerRow), 1.0)
         let viewWidth = collectionView.frame.width
             .subtracting(flowLayout.sectionInset.left)
             .subtracting(flowLayout.sectionInset.right)
