@@ -3,7 +3,7 @@ import UIKit
 
 // MARK: - Frame Collection View Controller -
 //------------------------------------------------------------------------------
-public final class FrameCollectionViewController: UICollectionViewController, FrameImageDelegate {
+public class FrameCollectionViewController: UICollectionViewController, FrameImageDelegate {
     // MARK: - Public -
     //--------------------------------------------------------------------------
     public weak var delegate: FrameCollectionDelegate? = nil
@@ -56,7 +56,7 @@ public final class FrameCollectionViewController: UICollectionViewController, Fr
 
     // MARK: - Reload -
     //--------------------------------------------------------------------------
-    private func reload() {
+    public func reload() {
         DispatchQueue.main.async { [weak self] in
             self?.collectionView?.reloadData()
         }
@@ -64,7 +64,7 @@ public final class FrameCollectionViewController: UICollectionViewController, Fr
 
     // MARK: - Dequeue Cell -
     //--------------------------------------------------------------------------
-    fileprivate func dequeue(frameCellAt indexPath: IndexPath) -> UICollectionViewCell {
+    public func dequeue(frameCellAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView?.dequeueReusableCell(withReuseIdentifier: FrameImageCell.cellIdentifier, for: indexPath) as! FrameImageCell
 
         let image = images[indexPath.row].image
@@ -84,11 +84,11 @@ public final class FrameCollectionViewController: UICollectionViewController, Fr
 // MARK: - Extension, Data Source -
 //------------------------------------------------------------------------------
 extension FrameCollectionViewController {
-    public override func numberOfSections(in collectionView: UICollectionView) -> Int {
+    final public override func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
     }
 
-    public override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    final public override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return images.count
     }
 
@@ -105,11 +105,11 @@ extension FrameCollectionViewController {
 // MARK: - Extension, Flow Layout Delegate -
 //------------------------------------------------------------------------------
 extension FrameCollectionViewController: UICollectionViewDelegateFlowLayout {
-    private class var itemsPerRow: Int {
+    public class var itemsPerRow: Int {
         return 3
     }
 
-    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+    final public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let itemsPerRow = max(CGFloat(FrameCollectionViewController.itemsPerRow), 1.0)
         let viewWidth = collectionView.frame.width
             .subtracting(flowLayout.sectionInset.left)
