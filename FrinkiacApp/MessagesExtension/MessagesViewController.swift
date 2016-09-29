@@ -61,8 +61,8 @@ extension MessagesViewController: FrameCollectionDelegate {
                         
                         // 5) Insert: 'Message'
                         //------------------------------------------------------
-                        DispatchQueue.main.async {
-                            conversation.insert(message) { _ in
+                        conversation.insert(message) { _ in
+                            DispatchQueue.main.async {
                                 self?.requestPresentationStyle(.compact)
                                 self?.setSearch(active: false)
                             }
