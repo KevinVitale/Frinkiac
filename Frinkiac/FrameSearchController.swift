@@ -7,7 +7,6 @@ public final class FrameSearchController: UICollectionViewController {
     // MARK: - Private -
     //--------------------------------------------------------------------------
     fileprivate var searchProvider: FrameSearchProvider! = nil
-    private var searchController: UISearchController! = nil
 
     // MARK: - Search Provider -
     //--------------------------------------------------------------------------
@@ -28,6 +27,7 @@ public final class FrameSearchController: UICollectionViewController {
     // MARK: - Public -
     //--------------------------------------------------------------------------
     public private(set) lazy var frameController = FrameCollectionViewController()
+    public private(set) var searchController: UISearchController! = nil
     public var searchBar: UISearchBar! {
         return searchController.searchBar
     }
@@ -60,13 +60,6 @@ public final class FrameSearchController: UICollectionViewController {
         // Cell Types
         //----------------------------------------------------------------------
         collectionView?.register(FrameSearchCell.self, forSupplementaryViewOfKind: "UICollectionElementKindSectionHeader", withReuseIdentifier: FrameSearchCell.cellIdentifier)
-    }
-
-    public override func willMove(toParentViewController parent: UIViewController?) {
-        super.willMove(toParentViewController: parent)
-        if parent == nil {
-            searchController.isActive = false
-        }
     }
 
     // MARK: - Dequeue Cell -
