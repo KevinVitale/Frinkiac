@@ -45,10 +45,14 @@ public enum FrinkiacLink {
      - parameter callback: A callback that can receive another function
                            which will return the image when executed.
      */
-    public func download(callback: @escaping Callback<ImageType>) {
-        DispatchQueue.global(qos: .userInitiated).async {
+    public func download(callback: @escaping Callback<ImageType>) -> URLSessionTask {
+        return URLSession.shared.downloadTask(with: url) { url, response, error in
             callback {
-                let data = try Data(contentsOf: self.url)
+                guard error == nil else {
+                    throw error!
+                }
+
+                let data = try Data(contentsOf: url!)
                 return ImageType(data: data)
             }
         }

@@ -2,17 +2,27 @@
 // MARK: - Frame Image -
 //------------------------------------------------------------------------------
 public final class FrameImage: Equatable {
+    // MARK: - Private -
+    //--------------------------------------------------------------------------
+    private var downloadTask: URLSessionTask? = nil
+    
     // MARK: - Public -
     //--------------------------------------------------------------------------
     public let frame: Frame
     public private(set) var image: ImageType? = nil
+
+    // MARK: - Memory Cleanup -
+    //--------------------------------------------------------------------------
+    deinit {
+        downloadTask?.cancel()
+    }
 
     // MARK: - Initialization -
     //--------------------------------------------------------------------------
     public init(_ frame: Frame, delegate: FrameImageDelegate? = nil) {
         self.frame = frame
         //----------------------------------------------------------------------
-        frame.imageLink.download {
+        downloadTask = frame.imageLink.download {
             if let image = try? $0() {
                 self.image = image
 
@@ -21,6 +31,7 @@ public final class FrameImage: Equatable {
                 }
             }
         }
+        downloadTask?.resume()
     }
 
     // MARK: - Equatable -
