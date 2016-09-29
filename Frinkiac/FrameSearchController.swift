@@ -55,16 +55,6 @@ public final class FrameSearchController: UICollectionViewController {
         // Cell Types
         //----------------------------------------------------------------------
         collectionView?.register(FrameSearchCell.self, forSupplementaryViewOfKind: "UICollectionElementKindSectionHeader", withReuseIdentifier: FrameSearchCell.cellIdentifier)
-    public override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-
-        // Layout Guide Insets
-        //----------------------------------------------------------------------
-        let layoutGuideInsets = UIEdgeInsets(top: topLayoutGuide.length, left: 0.0, bottom: bottomLayoutGuide.length, right: 0.0)
-        collectionView?.contentInset = layoutGuideInsets
-        collectionView?.scrollIndicatorInsets = layoutGuideInsets
-
-        frameController.collectionView?.contentInset = layoutGuideInsets
     }
 
     // MARK: - Dequeue Cell -
@@ -99,25 +89,6 @@ extension FrameSearchController: UISearchResultsUpdating {
         if let text = searchController.searchBar.text, !text.isEmpty {
             searchProvider.find(text)
         }
-    }
-}
-
-extension FrameSearchController: UISearchControllerDelegate {
-    public func willPresentSearchController(_ searchController: UISearchController) {
-        print(#function)
-    }
-
-    public func didPresentSearchController(_ searchController: UISearchController) {
-        print(#function)
-    }
-
-    public func willDismissSearchController(_ searchController: UISearchController) {
-        print(#function)
-    }
-
-    public func didDismissSearchController(_ searchController: UISearchController) {
-        print(#function)
-        searchProvider.reset()
     }
 }
 #endif
