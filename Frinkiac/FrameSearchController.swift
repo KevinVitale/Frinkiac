@@ -34,17 +34,17 @@ public final class FrameSearchController: UICollectionViewController {
 
     // MARK: - Initialization -
     //--------------------------------------------------------------------------
+    private func initialize() {
+        initializeSearchProvider()
+        initializeSearchController()
+    }
     public required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        initializeSearchProvider()
-        initializeSearchController()
-        frameController.delegate = self
+        initialize()
     }
-    public required init(frameControllerDelegate: FrameCollectionDelegate? = nil) {
+    public required init() {
         super.init(collectionViewLayout: UICollectionViewFlowLayout())
-        initializeSearchProvider()
-        initializeSearchController()
-        frameController.delegate = frameControllerDelegate ?? self
+        initialize()
     }
 
     // MARK: - View Lifecycle -
@@ -101,11 +101,6 @@ extension FrameSearchController: UISearchResultsUpdating {
         if let text = searchController.searchBar.text, !text.isEmpty {
             searchProvider.find(text)
         }
-    }
-}
-
-extension FrameSearchController: FrameCollectionDelegate {
-    public func frameCollection(_ frameCollection: FrameCollectionViewController, didSelect frameImage: FrameImage) {
     }
 }
 #endif
