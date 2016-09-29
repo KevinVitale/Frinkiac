@@ -46,7 +46,7 @@ public enum FrinkiacLink {
                            which will return the image when executed.
      */
     public func download(callback: @escaping Callback<ImageType>) -> URLSessionTask {
-        return URLSession.shared.downloadTask(with: url) { url, response, error in
+        return ImageDownloader.download(image: url) { url, response, error in
             callback {
                 guard error == nil else {
                     throw error!
@@ -56,6 +56,32 @@ public enum FrinkiacLink {
                 return ImageType(data: data)
             }
         }
+    }
+}
+
+// MARK: - Image Downloader -
+//------------------------------------------------------------------------------
+private struct ImageDownloader {
+    // MARK: - Singleton -
+    //--------------------------------------------------------------------------
+    private static let shared = ImageDownloader(qos: .background)
+    
+    // MARK: - Private -
+    //--------------------------------------------------------------------------
+    private let session: URLSession
+
+    // MARK: - Initialization -
+    //--------------------------------------------------------------------------
+    private init(qos: DispatchQoS) {
+        var delegateQueue = OperationQueue()
+        delegateQueue.underlyingQueue = DispatchQueue(label: "\(ImageDownloader.self)", qos: qos, attributes: .concurrent, autoreleaseFrequency: .workItem, target: nil)
+        session = URLSession(configuration: .default, delegate: nil, delegateQueue: delegateQueue)
+    }
+
+    // MARK: - Download Task -
+    //--------------------------------------------------------------------------
+    fileprivate static func download(image url: URL, completionHandler: @escaping (URL?, URLResponse?, Error?) -> Swift.Void) -> URLSessionTask {
+        return shared.session.downloadTask(with: url, completionHandler: completionHandler)
     }
 }
 
