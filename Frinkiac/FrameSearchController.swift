@@ -57,6 +57,13 @@ public final class FrameSearchController: UICollectionViewController {
         collectionView?.register(FrameSearchCell.self, forSupplementaryViewOfKind: "UICollectionElementKindSectionHeader", withReuseIdentifier: FrameSearchCell.cellIdentifier)
     }
 
+    public override func willMove(toParentViewController parent: UIViewController?) {
+        super.willMove(toParentViewController: parent)
+        if parent == nil {
+            searchController.isActive = false
+        }
+    }
+
     // MARK: - Dequeue Cell -
     //--------------------------------------------------------------------------
     fileprivate func dequeueSearchCell(ofKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
