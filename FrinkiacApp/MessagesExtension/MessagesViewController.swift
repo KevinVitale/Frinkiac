@@ -109,7 +109,6 @@ extension MessagesViewController: UISearchBarDelegate {
             beginEditing = true
         }
         //----------------------------------------------------------------------
-        print("\t", #function, beginEditing)
         return beginEditing
     }
 }
