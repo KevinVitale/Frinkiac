@@ -76,7 +76,7 @@ public final class FrameCollectionViewController: UICollectionViewController, Fr
     //--------------------------------------------------------------------------
     public func frame(_ frame: FrameImage, didUpdate image: UIImage) {
         if let index = images.index(where: { $0 == frame }) {
-            collectionView?.reloadItems(at: [IndexPath(row: index, section: 0)])
+            reload()
         }
     }
 }
