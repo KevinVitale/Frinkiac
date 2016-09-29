@@ -28,7 +28,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                     self?.textField.stringValue = text
                 }
             }
-        }
+        }.resume()
     }
 
     // MARK: - Initialization -
