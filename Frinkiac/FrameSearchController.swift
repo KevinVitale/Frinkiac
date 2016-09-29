@@ -7,7 +7,8 @@ public final class FrameSearchController: UICollectionViewController {
     // MARK: - Private -
     //--------------------------------------------------------------------------
     private lazy var frameController = FrameCollectionViewController()
-    
+    private var searchController: UISearchController! = nil
+
     // MARK: - Search Provider -
     //--------------------------------------------------------------------------
     private func initializeSearchProvider() {
@@ -26,7 +27,6 @@ public final class FrameSearchController: UICollectionViewController {
 
     // MARK: - Public -
     //--------------------------------------------------------------------------
-    public private(set) var searchController: UISearchController! = nil
     public private(set) var searchProvider: FrameSearchProvider! = nil
     public var searchBar: UISearchBar! {
         return searchController.searchBar
