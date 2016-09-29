@@ -74,10 +74,7 @@ public final class FrameSearchController: UICollectionViewController {
     //--------------------------------------------------------------------------
     fileprivate func dequeueSearchCell(ofKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         let cell = collectionView?.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: FrameSearchCell.cellIdentifier, for: indexPath) as! FrameSearchCell
-        if let searchBar = searchBar {
-            print(searchBar)
-            cell.addSubview(searchBar)
-        }
+        cell.searchBar = searchBar
         return cell
     }
 }
@@ -94,7 +91,7 @@ extension FrameSearchController {
 //--------------------------------------------------------------------------
 extension FrameSearchController: UICollectionViewDelegateFlowLayout {
     public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        return CGSize(width: collectionView.frame.width, height: 44.0)
+        return CGSize(width: collectionView.frame.width, height: searchBar.frame.height)
     }
 }
 
