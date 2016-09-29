@@ -20,6 +20,13 @@ class MessagesViewController: MSMessagesAppViewController {
         presentSearchController(for: conversation, with: presentationStyle)
     }
 
+    override func willTransition(to presentationStyle: MSMessagesAppPresentationStyle) {
+        super.willTransition(to: presentationStyle)
+        if presentationStyle == .compact {
+            setSearch(active: false)
+        }
+    }
+    
     override func didTransition(to presentationStyle: MSMessagesAppPresentationStyle) {
         super.didTransition(to: presentationStyle)
         presentSearchController(for: activeConversation, with: presentationStyle)
