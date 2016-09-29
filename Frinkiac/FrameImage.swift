@@ -4,34 +4,66 @@
 public final class FrameImage: Equatable {
     // MARK: - Private -
     //--------------------------------------------------------------------------
-    private var downloadTask: URLSessionTask? = nil
+    private weak var delegate: FrameImageDelegate? = nil
+    private var frameDownloadTask: URLSessionTask? = nil
+    private var captionDownloadTask: URLSessionTask? = nil
+    private var memeCaptionDownloadTask: URLSessionTask? = nil
     
     // MARK: - Public -
     //--------------------------------------------------------------------------
     public let frame: Frame
-    public private(set) var image: ImageType? = nil
+    public private(set) var image: ImageType? = nil {
+        didSet {
+            if let image = image {
+                DispatchQueue.main.async {
+                    self.delegate?.frame(self, didUpdate: image)
+                }
+            }
+        }
+    }
+    public private(set) var caption: Caption? = nil
+    public private(set) var meme: ImageType? = nil
 
     // MARK: - Memory Cleanup -
     //--------------------------------------------------------------------------
     deinit {
-        downloadTask?.cancel()
+        frameDownloadTask?.cancel()
+        captionDownloadTask?.cancel()
+        memeCaptionDownloadTask?.cancel()
     }
 
     // MARK: - Initialization -
     //--------------------------------------------------------------------------
     public init(_ frame: Frame, delegate: FrameImageDelegate? = nil) {
         self.frame = frame
-        //----------------------------------------------------------------------
-        downloadTask = frame.imageLink.download {
-            if let image = try? $0() {
-                self.image = image
+        self.delegate = delegate
 
-                DispatchQueue.main.async {
-                    delegate?.frame(self, didUpdate: image!)
-                }
+        // Download frame image
+        //----------------------------------------------------------------------
+        frameDownloadTask = frame.imageLink.download { [weak self] in
+            if let image = try? $0()
+             , let this = self {
+                this.image = image
             }
         }
-        downloadTask?.resume()
+        frameDownloadTask?.resume()
+
+        // Download caption image
+        //----------------------------------------------------------------------
+        captionDownloadTask = Frinkiac.caption(with: frame) { [weak self] in
+            if let caption = try? $0().0 {
+                self?.memeCaptionDownloadTask = caption.memeLink.download {
+                    if let image = try? $0()
+                     , let this = self {
+                        this.meme = image
+                    }
+                }
+
+                //--------------------------------------------------------------
+                self?.memeCaptionDownloadTask?.resume()
+            }
+        }
+        captionDownloadTask?.resume()
     }
 
     // MARK: - Equatable -
