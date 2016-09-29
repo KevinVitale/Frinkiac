@@ -3,7 +3,7 @@ import UIKit
 
 // MARK: - Frame Search Controller -
 //------------------------------------------------------------------------------
-public final class FrameSearchController: UICollectionViewController {
+public final class FrameSearchController: FrameCollectionViewController {
     // MARK: - Private -
     //--------------------------------------------------------------------------
     fileprivate var searchProvider: FrameSearchProvider! = nil
@@ -43,7 +43,7 @@ public final class FrameSearchController: UICollectionViewController {
         initialize()
     }
     public required init() {
-        super.init(collectionViewLayout: UICollectionViewFlowLayout())
+        super.init()
         initialize()
     }
 
@@ -62,6 +62,12 @@ public final class FrameSearchController: UICollectionViewController {
         collectionView?.register(FrameSearchCell.self, forSupplementaryViewOfKind: "UICollectionElementKindSectionHeader", withReuseIdentifier: FrameSearchCell.cellIdentifier)
     }
 
+    // MARK: - Collection Flow Layout Delegate -
+    //--------------------------------------------------------------------------
+    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+        return CGSize(width: collectionView.frame.width, height: searchBar.frame.height)
+    }
+
     // MARK: - Dequeue Cell -
     //--------------------------------------------------------------------------
     fileprivate func dequeueSearchCell(ofKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
@@ -76,14 +82,6 @@ public final class FrameSearchController: UICollectionViewController {
 extension FrameSearchController {
     public override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         return dequeueSearchCell(ofKind: kind, at: indexPath)
-    }
-}
-
-// MARK: - Extension, Collection Flow Layout Delegate -
-//--------------------------------------------------------------------------
-extension FrameSearchController: UICollectionViewDelegateFlowLayout {
-    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        return CGSize(width: collectionView.frame.width, height: searchBar.frame.height)
     }
 }
 
