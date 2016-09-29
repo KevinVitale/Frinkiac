@@ -84,11 +84,11 @@ public class FrameCollectionViewController: UICollectionViewController, FrameIma
 // MARK: - Extension, Data Source -
 //------------------------------------------------------------------------------
 extension FrameCollectionViewController {
-    final public override func numberOfSections(in collectionView: UICollectionView) -> Int {
+    public final override func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
     }
 
-    final public override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    public final override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return images.count
     }
 
