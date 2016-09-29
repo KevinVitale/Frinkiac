@@ -113,7 +113,7 @@ extension MessagesViewController {
         // Create embedded controller
         //----------------------------------------------------------------------
         let searchController = FrameSearchController()
-        searchController.frameController.delegate = self
+        searchController.delegate = self
         searchController.searchBar.delegate = self
 
         // Install search controller

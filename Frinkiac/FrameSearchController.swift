@@ -37,6 +37,7 @@ public final class FrameSearchController: FrameCollectionViewController {
     private func initialize() {
         initializeSearchProvider()
         initializeSearchController()
+        frameController.delegate = self
     }
     public required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -92,6 +93,15 @@ extension FrameSearchController: UISearchResultsUpdating {
         if let text = searchController.searchBar.text, !text.isEmpty {
             searchProvider.find(text)
         }
+    }
+}
+
+// MARK: - Extension, Frame Collection Delegate
+//------------------------------------------------------------------------------
+extension FrameSearchController: FrameCollectionDelegate {
+    public func frameCollection(_: FrameCollectionViewController, didSelect frameImage: FrameImage) {
+        images = [frameImage]
+        searchController.isActive = false
     }
 }
 #endif
