@@ -4,8 +4,12 @@ import UIKit
 // MARK: - Frame Search Controller -
 //------------------------------------------------------------------------------
 public final class FrameSearchController: UICollectionViewController {
+    // MARK: - Private -
+    //--------------------------------------------------------------------------
+    private lazy var frameController = FrameCollectionViewController()
+    
     // MARK: - Search Provider -
-    //----------------------------------------------------------------------
+    //--------------------------------------------------------------------------
     private func initializeSearchProvider() {
         searchProvider = FrameSearchProvider { [weak self] in
             let images = $0.map { FrameImage($0, delegate: self?.frameController) }
@@ -14,7 +18,7 @@ public final class FrameSearchController: UICollectionViewController {
     }
 
     // MARK: - Search Controller -
-    //----------------------------------------------------------------------
+    //--------------------------------------------------------------------------
     private func initializeSearchController() {
         searchController = UISearchController(searchResultsController: frameController)
         searchController.searchResultsUpdater = self
@@ -22,7 +26,6 @@ public final class FrameSearchController: UICollectionViewController {
 
     // MARK: - Public -
     //--------------------------------------------------------------------------
-    public private(set) lazy var frameController = FrameCollectionViewController()
     public private(set) var searchController: UISearchController! = nil
     public private(set) var searchProvider: FrameSearchProvider! = nil
     public var searchBar: UISearchBar! {
@@ -35,11 +38,13 @@ public final class FrameSearchController: UICollectionViewController {
         super.init(coder: aDecoder)
         initializeSearchProvider()
         initializeSearchController()
+        frameController.delegate = self
     }
-    public required init() {
+    public required init(frameControllerDelegate: FrameCollectionDelegate? = nil) {
         super.init(collectionViewLayout: UICollectionViewFlowLayout())
         initializeSearchProvider()
         initializeSearchController()
+        frameController.delegate = frameControllerDelegate ?? self
     }
 
     // MARK: - View Lifecycle -
@@ -96,6 +101,11 @@ extension FrameSearchController: UISearchResultsUpdating {
         if let text = searchController.searchBar.text, !text.isEmpty {
             searchProvider.find(text)
         }
+    }
+}
+
+extension FrameSearchController: FrameCollectionDelegate {
+    public func frameCollection(_ frameCollection: FrameCollectionViewController, didSelect frameImage: FrameImage) {
     }
 }
 #endif

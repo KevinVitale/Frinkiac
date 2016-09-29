@@ -126,8 +126,7 @@ extension FrameSearchController {
      - returns: A new instance of `FrameSearchController`.
      */
     fileprivate class func searchController(with delegate: (FrameCollectionDelegate & UISearchBarDelegate)?) -> FrameSearchController {
-        let searchController = FrameSearchController()
-        searchController.frameController.delegate = delegate
+        let searchController = FrameSearchController(frameControllerDelegate: delegate)
         searchController.searchBar.delegate = delegate
         return searchController
     }
