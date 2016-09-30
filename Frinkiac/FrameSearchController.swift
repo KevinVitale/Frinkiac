@@ -76,6 +76,19 @@ public final class FrameSearchController: FrameCollectionViewController {
 
     // MARK: - Dequeue Cell -
     //--------------------------------------------------------------------------
+    public override func dequeue(frameCellAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView?.dequeueReusableCell(withReuseIdentifier: FrameImageCell.cellIdentifier, for: indexPath) as! FrameImageCell
+
+        let frame = images[indexPath.row]
+        cell.imageView.image = frame.meme ?? frame.image
+
+        return cell
+    }
+
+    public override func frame(_: FrameImage, didUpdateMeme meme: ImageType) {
+        reload()
+    }
+
     fileprivate func dequeueSearchCell(ofKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         let cell = collectionView?.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: FrameSearchCell.cellIdentifier, for: indexPath) as! FrameSearchCell
         cell.searchBar = searchBar
@@ -86,6 +99,10 @@ public final class FrameSearchController: FrameCollectionViewController {
 // MARK: - Extension, Data Source -
 //------------------------------------------------------------------------------
 extension FrameSearchController {
+    public override var itemsPerRow: Int {
+        return 1
+    }
+    
     public override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         return dequeueSearchCell(ofKind: kind, at: indexPath)
     }
@@ -105,6 +122,7 @@ extension FrameSearchController: UISearchResultsUpdating {
 //------------------------------------------------------------------------------
 extension FrameSearchController: FrameCollectionDelegate {
     public func frameCollection(_: FrameCollectionViewController, didSelect frameImage: FrameImage) {
+        frameImage.delegate = self
         images = [frameImage]
         searchController.isActive = false
     }

@@ -4,13 +4,13 @@
 public final class FrameImage: Equatable {
     // MARK: - Private -
     //--------------------------------------------------------------------------
-    private weak var delegate: FrameImageDelegate? = nil
     private var frameDownloadTask: URLSessionTask? = nil
     private var captionDownloadTask: URLSessionTask? = nil
     private var memeCaptionDownloadTask: URLSessionTask? = nil
     
     // MARK: - Public -
     //--------------------------------------------------------------------------
+    public weak var delegate: FrameImageDelegate? = nil
     public let frame: Frame
     public private(set) var image: ImageType? = nil {
         didSet {
