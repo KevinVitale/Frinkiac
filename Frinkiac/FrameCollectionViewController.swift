@@ -115,10 +115,7 @@ extension FrameCollectionViewController: UICollectionViewDelegateFlowLayout {
 
     public final func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let itemsPerRow = CGFloat(self.itemsPerRow)
-        let viewWidth = collectionView.frame.width
-            .subtracting(flowLayout.sectionInset.left)
-            .subtracting(flowLayout.sectionInset.right)
-            .subtracting(flowLayout.minimumInteritemSpacing * (max(1.0, itemsPerRow.subtracting(1.0))))
+        let viewWidth = collectionView.width(for: self.itemsPerRow)
 
         switch (itemsPerRow, images[indexPath.row].image) {
         // With a single item, scale the image proportionally
@@ -140,5 +137,19 @@ extension FrameCollectionViewController: UICollectionViewDelegateFlowLayout {
 //------------------------------------------------------------------------------
 public protocol FrameCollectionDelegate: class {
     func frameCollection(_ : FrameCollectionViewController, didSelect frameImage: FrameImage)
+}
+
+// MARK: - Extension, Width For Item Count
+//------------------------------------------------------------------------------
+extension UICollectionView {
+    public final func width(for itemCount: Int) -> CGFloat {
+        guard let flowLayout = collectionViewLayout as? UICollectionViewFlowLayout else {
+            fatalError()
+        }
+        return frame.width
+            .subtracting(flowLayout.sectionInset.left)
+            .subtracting(flowLayout.sectionInset.right)
+            .subtracting(flowLayout.minimumInteritemSpacing * (max(1.0, CGFloat(itemCount).subtracting(1.0))))
+    }
 }
 #endif
