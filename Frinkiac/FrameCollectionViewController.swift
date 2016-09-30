@@ -104,9 +104,7 @@ public class FrameCollectionViewController: UICollectionViewController, FrameIma
     // MARK: - Frame Image Delegate -
     //--------------------------------------------------------------------------
     public func frame(_ frame: FrameImage, didUpdateImage image: UIImage) {
-        if let _ = images.index(where: { $0 == frame }) {
-            reload()
-        }
+        reload()
     }
 
     public func frame(_ frame: FrameImage, didUpdateMeme meme: UIImage) {
