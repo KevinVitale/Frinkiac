@@ -48,7 +48,6 @@ public final class FrameImage: Equatable {
     // MARK: - Memory Cleanup -
     //--------------------------------------------------------------------------
     deinit {
-        print(#function)
         frameDownloadTask?.cancel()
         captionDownloadTask?.cancel()
         memeCaptionDownloadTask?.cancel()
