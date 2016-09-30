@@ -15,18 +15,23 @@ public final class FrameImage: Equatable {
     public private(set) var image: ImageType? = nil {
         didSet {
             if let image = image {
-                DispatchQueue.main.async {
-                    self.delegate?.frame(self, didUpdate: image)
-                }
+                delegate?.frame(self, didUpdateImage: image)
             }
         }
     }
     public private(set) var caption: Caption? = nil
-    public private(set) var meme: ImageType? = nil
+    public private(set) var meme: ImageType? = nil {
+        didSet {
+            if let meme = meme {
+                delegate?.frame(self, didUpdateMeme: meme)
+            }
+        }
+    }
 
     // MARK: - Memory Cleanup -
     //--------------------------------------------------------------------------
     deinit {
+        print(#function)
         frameDownloadTask?.cancel()
         captionDownloadTask?.cancel()
         memeCaptionDownloadTask?.cancel()
@@ -41,9 +46,8 @@ public final class FrameImage: Equatable {
         // Download frame image
         //----------------------------------------------------------------------
         frameDownloadTask = frame.imageLink.download { [weak self] in
-            if let image = try? $0()
-             , let this = self {
-                this.image = image
+            if let image = try? $0() {
+                self?.image = image
             }
         }
         frameDownloadTask?.resume()
@@ -53,9 +57,8 @@ public final class FrameImage: Equatable {
         captionDownloadTask = Frinkiac.caption(with: frame) { [weak self] in
             if let caption = try? $0().0 {
                 self?.memeCaptionDownloadTask = caption.memeLink.download {
-                    if let image = try? $0()
-                     , let this = self {
-                        this.meme = image
+                    if let image = try? $0() {
+                        self?.meme = image
                     }
                 }
 
@@ -76,5 +79,6 @@ public final class FrameImage: Equatable {
 // MARK: - Frame Image Delegate -
 //------------------------------------------------------------------------------
 public protocol FrameImageDelegate: class {
-    func frame(_ : FrameImage, didUpdate image: ImageType)
+    func frame(_ : FrameImage, didUpdateImage image: ImageType)
+    func frame(_ : FrameImage, didUpdateMeme meme: ImageType)
 }
