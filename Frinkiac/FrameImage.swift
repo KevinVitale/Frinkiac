@@ -10,8 +10,24 @@ public final class FrameImage: Equatable {
     
     // MARK: - Public -
     //--------------------------------------------------------------------------
+    /**
+     A frame image's `delegate` can be informed when downloads are completed.
+     
+     - note: Can be reassigned after initialization to redirect the methods
+             invocations to new objects.
+     */
     public weak var delegate: FrameImageDelegate? = nil
+
+    /**
+     The underlying `frame` model returned by the Frinkiac APIs.
+     */
     public let frame: Frame
+
+    /**
+     The frame's image.
+     
+     - note: Does not contain a meme caption.
+     */
     public private(set) var image: ImageType? = nil {
         didSet {
             if let image = image {
@@ -19,6 +35,7 @@ public final class FrameImage: Equatable {
             }
         }
     }
+
     public private(set) var caption: Caption? = nil
     public private(set) var meme: ImageType? = nil {
         didSet {
