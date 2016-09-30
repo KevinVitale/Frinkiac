@@ -87,9 +87,27 @@ public class FrameSearchController: FrameCollectionViewController {
     }
 
     public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
-        if footerCollection?.hasImages ?? false {
-            let itemCount = (footerCollection?.images ?? []).count
-            return CGSize(width: collectionView.maxWidth(for: itemCount), height: 100)
+        if let footerCollection = footerCollection, footerCollection.hasImages {
+            // TODO: Fix this! It's a smell (☠️)
+            // It's causing the auto-layout log spewage
+            //------------------------------------------------------------------
+            let iDontKnowWhyThisBuffer: CGFloat = {
+                let buffer: CGFloat = 20.0
+                let isWidthSmaller = collectionView.frame.width < collectionView.frame.height
+                return buffer * (isWidthSmaller ? -1.0 : 1.0)
+            }()
+            //------------------------------------------------------------------
+            // I hate view controller rotation
+            //------------------------------------------------------------------
+            let footerImageHeight = footerCollection.imageSize(for: footerCollection.images.first, in: footerCollection.collectionView!).height
+            let remainingHeight = max(footerImageHeight, collectionView.frame.height
+                .subtracting(searchBar.frame.height)
+                .subtracting(imageSize(for: images.first, in: collectionView).height)
+            //------------------------------------------------------------------
+            ).adding(iDontKnowWhyThisBuffer)
+            //------------------------------------------------------------------
+            let itemCount = (footerCollection.images ?? []).count
+            return CGSize(width: collectionView.maxWidth(for: itemCount), height: remainingHeight)
         }
         return .zero
     }
@@ -110,7 +128,6 @@ public class FrameSearchController: FrameCollectionViewController {
     public override func frame(_: FrameImage, didUpdateMeme meme: ImageType) {
         reload()
     }
-
     fileprivate func dequeueSearchCell(ofKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         let cell = collectionView?.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: FrameSearchCell.cellIdentifier, for: indexPath) as! FrameSearchCell
         cell.searchBar = searchBar
