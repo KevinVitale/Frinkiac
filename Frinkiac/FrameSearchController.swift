@@ -39,6 +39,9 @@ public final class FrameSearchController: FrameCollectionViewController {
     private func initialize() {
         initializeSearchProvider()
         initializeSearchController()
+
+        // Bind *selection* from 'frameCollection' to 'self'
+        //----------------------------------------------------------------------
         frameController.delegate = self
     }
     public required init?(coder aDecoder: NSCoder) {
