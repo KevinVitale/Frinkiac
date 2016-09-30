@@ -3,7 +3,7 @@ import UIKit
 
 // MARK: - Frame Search Controller -
 //------------------------------------------------------------------------------
-public class FrameSearchController: FrameCollectionViewController {
+public final class FrameSearchController: FrameMemeCollection {
     // MARK: - Private -
     //--------------------------------------------------------------------------
     fileprivate var searchProvider: FrameSearchProvider! = nil
@@ -33,7 +33,7 @@ public class FrameSearchController: FrameCollectionViewController {
     }
 
     fileprivate func initializeResultsController() {
-        footerCollection = FrameCollectionViewController()
+        footerCollection = FrameMemeCollection()
         footerCollection?.delegate = self
         footerCollection?.flowLayout.scrollDirection = .horizontal
         footerCollection?.collectionView?.showsHorizontalScrollIndicator = false
@@ -114,20 +114,6 @@ public class FrameSearchController: FrameCollectionViewController {
 
     // MARK: - Dequeue Cell -
     //--------------------------------------------------------------------------
-    public override func dequeue(frameCellAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView?.dequeueReusableCell(withReuseIdentifier: FrameImageCell.cellIdentifier, for: indexPath) as! FrameImageCell
-
-        // Sets the image depending on the state of `meme`
-        //----------------------------------------------------------------------
-        let frame = images[indexPath.row]
-        cell.imageView.image = frame.meme ?? frame.image
-
-        return cell
-    }
-
-    public override func frame(_: FrameImage, didUpdateMeme meme: ImageType) {
-        reload()
-    }
     fileprivate func dequeueSearchCell(ofKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         let cell = collectionView?.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: FrameSearchCell.cellIdentifier, for: indexPath) as! FrameSearchCell
         cell.searchBar = searchBar
