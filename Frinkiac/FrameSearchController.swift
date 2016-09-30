@@ -19,14 +19,16 @@ public final class FrameSearchController: FrameCollectionViewController {
 
     // MARK: - Search Controller -
     //--------------------------------------------------------------------------
-    private func initializeSearchController() {
-        searchController = UISearchController(searchResultsController: frameController)
+    fileprivate func initializeSearchController() {
+        searchController = UISearchController(searchResultsController: FrameCollectionViewController())
         searchController.searchResultsUpdater = self
     }
 
     // MARK: - Public -
     //--------------------------------------------------------------------------
-    public private(set) lazy var frameController = FrameCollectionViewController()
+    public var frameController: FrameCollectionViewController {
+        return searchController.searchResultsController as! FrameCollectionViewController
+    }
     public private(set) var searchController: UISearchController! = nil
     public var searchBar: UISearchBar! {
         return searchController.searchBar
