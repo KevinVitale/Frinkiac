@@ -69,6 +69,7 @@ public class FrameCollectionViewController: UICollectionViewController, FrameIma
 
         let image = images[indexPath.row].image
         cell.imageView.image = image
+
         return cell
     }
 
@@ -113,17 +114,27 @@ extension FrameCollectionViewController: UICollectionViewDelegateFlowLayout {
     }
 
     public final func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let itemsPerRow = max(CGFloat(self.itemsPerRow), 1.0)
+        let itemsPerRow = CGFloat(self.itemsPerRow)
         let viewWidth = collectionView.frame.width
             .subtracting(flowLayout.sectionInset.left)
             .subtracting(flowLayout.sectionInset.right)
-            .subtracting(flowLayout.minimumInteritemSpacing * (itemsPerRow.subtracting(1.0)))
+            .subtracting(flowLayout.minimumInteritemSpacing * (max(1.0, itemsPerRow.subtracting(1.0))))
 
-        let itemWidth = (viewWidth / itemsPerRow)
+        switch (itemsPerRow, images[indexPath.row].image) {
+        // With a single item, scale the image proportionally
+        case (1.0, let image?):
+            let imageHeight = image.size.height * (viewWidth / image.size.width)
+            return CGSize(width: viewWidth, height: imageHeight)
 
-        return CGSize(width: itemWidth, height: itemWidth)
+        // The default case create equally squared cells, with each row having
+        // `itemsPerRow` cells.
+        default:
+            let itemWidth = (viewWidth / itemsPerRow)
+            
+            return CGSize(width: itemWidth, height: itemWidth)
+        }
     }
-}
+    }
 
 // MARK: - Frame Collection Delegate -
 //------------------------------------------------------------------------------

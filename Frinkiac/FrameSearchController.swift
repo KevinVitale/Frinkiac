@@ -79,6 +79,8 @@ public final class FrameSearchController: FrameCollectionViewController {
     public override func dequeue(frameCellAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView?.dequeueReusableCell(withReuseIdentifier: FrameImageCell.cellIdentifier, for: indexPath) as! FrameImageCell
 
+        // Sets the image depending on the state of `meme`
+        //----------------------------------------------------------------------
         let frame = images[indexPath.row]
         cell.imageView.image = frame.meme ?? frame.image
 
