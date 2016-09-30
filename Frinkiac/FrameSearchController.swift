@@ -3,18 +3,26 @@ import UIKit
 
 // MARK: - Frame Search Controller -
 //------------------------------------------------------------------------------
-public final class FrameSearchController: FrameCollectionViewController {
+public class FrameSearchController: FrameCollectionViewController {
     // MARK: - Private -
     //--------------------------------------------------------------------------
     fileprivate var searchProvider: FrameSearchProvider! = nil
+    fileprivate var footerCollection: FrameCollectionViewController? = nil
+    private var searchResultsCollection: FrameCollectionViewController? {
+        return searchController.searchResultsController as? FrameCollectionViewController
+    }
 
     // MARK: - Search Provider -
     //--------------------------------------------------------------------------
-    private func initializeSearchProvider() {
+    private func initializeSearchProvider(_ resultsController: FrameCollectionViewController?) {
         searchProvider = FrameSearchProvider { [weak self] in
-            let images = $0.map { FrameImage($0, delegate: self?.frameController) }
-            self?.frameController.images = images
+            let images = $0.map { FrameImage($0, delegate: resultsController) }
+            resultsController?.images = images
         }
+
+        // Binds *selection*
+        //----------------------------------------------------------------------
+        resultsController?.delegate = self
     }
 
     // MARK: - Search Controller -
@@ -24,11 +32,16 @@ public final class FrameSearchController: FrameCollectionViewController {
         searchController.searchResultsUpdater = self
     }
 
+    fileprivate func initializeResultsController() {
+        footerCollection = FrameCollectionViewController()
+        footerCollection?.delegate = self
+        footerCollection?.flowLayout.scrollDirection = .horizontal
+        footerCollection?.collectionView?.showsHorizontalScrollIndicator = false
+        footerCollection?.preferredFrameImageRatio = .`default`
+    }
+
     // MARK: - Public -
     //--------------------------------------------------------------------------
-    public var frameController: FrameCollectionViewController {
-        return searchController.searchResultsController as! FrameCollectionViewController
-    }
     public private(set) var searchController: UISearchController! = nil
     public var searchBar: UISearchBar! {
         return searchController.searchBar
@@ -37,12 +50,10 @@ public final class FrameSearchController: FrameCollectionViewController {
     // MARK: - Initialization -
     //--------------------------------------------------------------------------
     private func initialize() {
-        initializeSearchProvider()
+        initializeResultsController()
         initializeSearchController()
-
-        // Bind *selection* from 'frameCollection' to 'self'
-        //----------------------------------------------------------------------
-        frameController.delegate = self
+        initializeSearchProvider(searchResultsCollection)
+        preferredFrameImageRatio = .`default`
     }
     public required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -65,13 +76,22 @@ public final class FrameSearchController: FrameCollectionViewController {
 
         // Cell Types
         //----------------------------------------------------------------------
-        collectionView?.register(FrameSearchCell.self, forSupplementaryViewOfKind: "UICollectionElementKindSectionHeader", withReuseIdentifier: FrameSearchCell.cellIdentifier)
+        collectionView?.register(FrameSearchCell.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: FrameSearchCell.cellIdentifier)
+        collectionView?.register(FrameResultsCell.self, forSupplementaryViewOfKind: UICollectionElementKindSectionFooter, withReuseIdentifier: FrameResultsCell.cellIdentifier)
     }
 
     // MARK: - Collection Flow Layout Delegate -
     //--------------------------------------------------------------------------
     public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
         return CGSize(width: collectionView.frame.width, height: searchBar.frame.height)
+    }
+
+    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
+        if footerCollection?.hasImages ?? false {
+            let itemCount = (footerCollection?.images ?? []).count
+            return CGSize(width: collectionView.maxWidth(for: itemCount), height: 100)
+        }
+        return .zero
     }
 
     // MARK: - Dequeue Cell -
@@ -96,6 +116,12 @@ public final class FrameSearchController: FrameCollectionViewController {
         cell.searchBar = searchBar
         return cell
     }
+
+    fileprivate func dequeueResultsCell(ofKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        let cell = collectionView?.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: FrameResultsCell.cellIdentifier, for: indexPath) as! FrameResultsCell
+        cell.collectionView = footerCollection?.collectionView
+        return cell
+    }
 }
 
 // MARK: - Extension, Data Source -
@@ -106,7 +132,12 @@ extension FrameSearchController {
     }
     
     public override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        return dequeueSearchCell(ofKind: kind, at: indexPath)
+        switch kind {
+        case UICollectionElementKindSectionFooter:
+            return dequeueResultsCell(ofKind: kind, at: indexPath)
+        default:
+            return dequeueSearchCell(ofKind: kind, at: indexPath)
+        }
     }
 }
 
@@ -123,9 +154,18 @@ extension FrameSearchController: UISearchResultsUpdating {
 // MARK: - Extension, Frame Collection Delegate
 //------------------------------------------------------------------------------
 extension FrameSearchController: FrameCollectionDelegate {
-    public func frameCollection(_: FrameCollectionViewController, didSelect frameImage: FrameImage) {
+    public func frameCollection(_ frameController: FrameCollectionViewController, didSelect frameImage: FrameImage) {
+        if frameController != footerCollection {
+            footerCollection?.images = frameController.images
+        }
+
+        // Update the frame image delegate
+        //----------------------------------------------------------------------
         frameImage.delegate = self
         images = [frameImage]
+
+        // Disable search
+        //----------------------------------------------------------------------
         searchController.isActive = false
     }
 }

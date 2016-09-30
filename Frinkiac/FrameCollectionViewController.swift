@@ -4,6 +4,11 @@ import UIKit
 // MARK: - Frame Collection View Controller -
 //------------------------------------------------------------------------------
 public class FrameCollectionViewController: UICollectionViewController, FrameImageDelegate {
+    public enum FrameImageRatio {
+        case square
+        case `default`
+    }
+
     // MARK: - Public -
     //--------------------------------------------------------------------------
     public weak var delegate: FrameCollectionDelegate? = nil
@@ -12,6 +17,10 @@ public class FrameCollectionViewController: UICollectionViewController, FrameIma
             reload()
         }
     }
+    public final var hasImages: Bool {
+        return !images.isEmpty
+    }
+    public var preferredFrameImageRatio: FrameImageRatio = .square
 
     // MARK: - Computed -
     //--------------------------------------------------------------------------
@@ -60,6 +69,25 @@ public class FrameCollectionViewController: UICollectionViewController, FrameIma
         DispatchQueue.main.async { [weak self] in
             self?.collectionView?.reloadData()
         }
+    }
+
+    // MARK: - Item Size -
+    //--------------------------------------------------------------------------
+    public final func imageSize(for frameImage: FrameImage?, `in` collectionView: UICollectionView) -> CGSize {
+        let maxWidth = collectionView.maxWidth(for: itemsPerRow)
+
+        guard let frameImage = frameImage
+            , let image = frameImage.image
+            , preferredFrameImageRatio == .`default` else {
+                let itemWidth = (maxWidth / CGFloat(itemsPerRow))
+                return CGSize(width: itemWidth, height: itemWidth)
+        }
+
+        let imageRatio = maxWidth / image.size.width / max(1.0, CGFloat(itemsPerRow))
+        let imageWidth = image.size.width * imageRatio
+        let imageHeight = image.size.height * imageRatio
+
+        return CGSize(width: imageWidth, height: imageHeight)
     }
 
     // MARK: - Dequeue Cell -
@@ -113,25 +141,10 @@ extension FrameCollectionViewController: UICollectionViewDelegateFlowLayout {
         return 3
     }
 
-    public final func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let itemsPerRow = CGFloat(self.itemsPerRow)
-        let viewWidth = collectionView.width(for: self.itemsPerRow)
-
-        switch (itemsPerRow, images[indexPath.row].image) {
-        // With a single item, scale the image proportionally
-        case (1.0, let image?):
-            let imageHeight = image.size.height * (viewWidth / image.size.width)
-            return CGSize(width: viewWidth, height: imageHeight)
-
-        // The default case create equally squared cells, with each row having
-        // `itemsPerRow` cells.
-        default:
-            let itemWidth = (viewWidth / itemsPerRow)
-            
-            return CGSize(width: itemWidth, height: itemWidth)
-        }
+    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return imageSize(for: images[indexPath.row], in: collectionView)
     }
-    }
+}
 
 // MARK: - Frame Collection Delegate -
 //------------------------------------------------------------------------------
@@ -139,17 +152,21 @@ public protocol FrameCollectionDelegate: class {
     func frameCollection(_ : FrameCollectionViewController, didSelect frameImage: FrameImage)
 }
 
-// MARK: - Extension, Width For Item Count
+// MARK: - Extension, Collection View
 //------------------------------------------------------------------------------
 extension UICollectionView {
-    public final func width(for itemCount: Int) -> CGFloat {
+    public final func maxWidth(for itemCount: Int) -> CGFloat {
         guard let flowLayout = collectionViewLayout as? UICollectionViewFlowLayout else {
-            fatalError()
+            fatalError("Layout must be an instance of \(UICollectionViewFlowLayout.self)")
         }
         return frame.width
             .subtracting(flowLayout.sectionInset.left)
             .subtracting(flowLayout.sectionInset.right)
             .subtracting(flowLayout.minimumInteritemSpacing * (max(1.0, CGFloat(itemCount).subtracting(1.0))))
+    }
+
+    public final func numberOfItems(in section: Int = 0) -> Int {
+        return dataSource?.collectionView(self, numberOfItemsInSection: section) ?? 0
     }
 }
 #endif
