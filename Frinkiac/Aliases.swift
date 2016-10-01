@@ -4,9 +4,6 @@
 #else
     import UIKit
     public typealias ImageType = UIImage
-#endif
-//------------------------------------------------------------------------------
-public typealias Callback<T> = ((() throws -> T?) -> ())
 
 // MARK: - Extension, Simpsons Yellow -
 //------------------------------------------------------------------------------
@@ -31,3 +28,7 @@ extension UIColor {
         return UIColor(red: (209.0/255.0), green: (178.0/255.0), blue: (112.0/255.0), alpha: 1.0)
     }
 }
+#endif
+
+//------------------------------------------------------------------------------
+public typealias Callback<T> = ((() throws -> T?) -> ())
