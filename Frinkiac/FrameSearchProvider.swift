@@ -76,8 +76,6 @@ public final class FrameSearchProvider<S: ServiceHost> {
      - parameter text: The query to search for. 
      */
     public func find(_ text: String) {
-        DispatchQueue.global(qos: .userInitiated).async { [weak self] in
-            self?.searchText = text
-        }
+        searchText = text
     }
 }
