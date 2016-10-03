@@ -18,7 +18,7 @@ public protocol ServiceHost {
 //------------------------------------------------------------------------------
 extension ServiceHost {
     /// - parameter baseURLString: The computed URL, as a `String`.
-    private var baseURLString: String {
+    var baseURLString: String {
         var string = "\(scheme)://\(host)"
         if let path = path {
             string += "/\(path)"
