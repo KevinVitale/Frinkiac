@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		0A3DF4801D9B400400903B09 /* FrameSearchController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3DF47F1D9B400400903B09 /* FrameSearchController.swift */; };
+		0A3E2E271DA2CC800089BA8C /* ImageLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3E2E261DA2CC800089BA8C /* ImageLink.swift */; };
+		0A3E2E291DA2CCA20089BA8C /* ImageDownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3E2E281DA2CCA20089BA8C /* ImageDownloader.swift */; };
 		0A855BDC1D9B34F80040DE80 /* FrameCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A855BDB1D9B34F80040DE80 /* FrameCollectionViewController.swift */; };
 		0A855BDE1D9B358A0040DE80 /* FrameImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A855BDD1D9B358A0040DE80 /* FrameImageCell.swift */; };
 		0AA73B301D999B6400D0BCFF /* Frinkiac.h in Headers */ = {isa = PBXBuildFile; fileRef = 0AA73B2E1D999B6400D0BCFF /* Frinkiac.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -22,6 +24,8 @@
 
 /* Begin PBXFileReference section */
 		0A3DF47F1D9B400400903B09 /* FrameSearchController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FrameSearchController.swift; sourceTree = "<group>"; };
+		0A3E2E261DA2CC800089BA8C /* ImageLink.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageLink.swift; sourceTree = "<group>"; };
+		0A3E2E281DA2CCA20089BA8C /* ImageDownloader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageDownloader.swift; sourceTree = "<group>"; };
 		0A855BDB1D9B34F80040DE80 /* FrameCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FrameCollectionViewController.swift; sourceTree = "<group>"; };
 		0A855BDD1D9B358A0040DE80 /* FrameImageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FrameImageCell.swift; sourceTree = "<group>"; };
 		0AA73B2B1D999B6400D0BCFF /* Frinkiac.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Frinkiac.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -49,6 +53,8 @@
 		0A6074051DA2A70A00DF9A27 /* Misc */ = {
 			isa = PBXGroup;
 			children = (
+				0A3E2E281DA2CCA20089BA8C /* ImageDownloader.swift */,
+				0A3E2E261DA2CC800089BA8C /* ImageLink.swift */,
 				0AA73B351D999BF500D0BCFF /* ServiceHost.swift */,
 			);
 			name = Misc;
@@ -193,6 +199,7 @@
 			files = (
 				0A855BDE1D9B358A0040DE80 /* FrameImageCell.swift in Sources */,
 				0AB36D1A1D9B0B170069D00E /* Aliases.swift in Sources */,
+				0A3E2E271DA2CC800089BA8C /* ImageLink.swift in Sources */,
 				0AA73B361D999BF500D0BCFF /* Frinkiac.swift in Sources */,
 				0A3DF4801D9B400400903B09 /* FrameSearchController.swift in Sources */,
 				0AAFD9AC1D9EC5FD00BAC67E /* FrameResultsCell.swift in Sources */,
@@ -200,6 +207,7 @@
 				0AD4FD7D1D9C2CC800A575CD /* FrameSearchCell.swift in Sources */,
 				0AB36D181D9B09CA0069D00E /* FrameImage.swift in Sources */,
 				0AA73B371D999BF500D0BCFF /* ServiceHost.swift in Sources */,
+				0A3E2E291DA2CCA20089BA8C /* ImageDownloader.swift in Sources */,
 				0AB36CF71D9AEFFB0069D00E /* FrameSearchProvider.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

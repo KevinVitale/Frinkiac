@@ -15,73 +15,9 @@ public struct Frinkiac: ServiceHost {
     }
 
     /// - parameter shared: A shared instance.
-    fileprivate static let shared = Frinkiac()
-    fileprivate static var baseLink: String {
+    static let shared = Frinkiac()
+    static var baseLink: String {
         return "\(shared.scheme)://\(shared.host)"
-    }
-}
-
-public enum FrinkiacLink {
-    case image(episode: String, timestamp: Int)
-    case meme(episode: String, timestamp: Int, text: String)
-    case gif(episode: String, start: Int, end: Int, text: String)
-
-    public var url: URL {
-        var link = Frinkiac.baseLink
-        switch self {
-        case .image(let episode, let timestamp):
-            link.append("/meme/\(episode)/\(timestamp).jpg")
-        case .meme(let episode, let timestamp, let text):
-            link.append("/meme/\(episode)/\(timestamp).jpg?lines=\(text.URLEscapedString ?? "")")
-        case .gif(let episode, let start, let end, let text):
-            link.append("/gif/\(episode)/\(start)/\(end).gif?lines=\(text.URLEscapedString ?? "")")
-        }
-        return URL(string: link)!
-    }
-
-    /**
-     Downloads the image located at `self.imageLink`.
-
-     - parameter callback: A callback that can receive another function
-                           which will return the image when executed.
-     */
-    public func download(callback: @escaping Callback<ImageType>) -> URLSessionTask {
-        return ImageDownloader.download(image: url) { url, response, error in
-            callback {
-                guard error == nil else {
-                    throw error!
-                }
-
-                let data = try Data(contentsOf: url!)
-                return ImageType(data: data)
-            }
-        }
-    }
-}
-
-// MARK: - Image Downloader -
-//------------------------------------------------------------------------------
-private struct ImageDownloader {
-    // MARK: - Singleton -
-    //--------------------------------------------------------------------------
-    private static let shared = ImageDownloader(qos: .background)
-    
-    // MARK: - Private -
-    //--------------------------------------------------------------------------
-    private let session: URLSession
-
-    // MARK: - Initialization -
-    //--------------------------------------------------------------------------
-    private init(qos: DispatchQoS) {
-        let delegateQueue = OperationQueue()
-        delegateQueue.underlyingQueue = DispatchQueue(label: "\(ImageDownloader.self)", qos: qos, attributes: .concurrent, autoreleaseFrequency: .workItem, target: nil)
-        session = URLSession(configuration: .default, delegate: nil, delegateQueue: delegateQueue)
-    }
-
-    // MARK: - Download Task -
-    //--------------------------------------------------------------------------
-    fileprivate static func download(image url: URL, completionHandler: @escaping (URL?, URLResponse?, Error?) -> Swift.Void) -> URLSessionTask {
-        return shared.session.downloadTask(with: url, completionHandler: completionHandler)
     }
 }
 
@@ -179,13 +115,13 @@ public struct Frame {
 
     // MARK: - Inferred -
     //--------------------------------------------------------------------------
-    public var imageLink: FrinkiacLink {
+    public var imageLink: ImageLink {
         return .image(episode: episode, timestamp: timestamp)
     }
-    public func memeLink(_ text: String) -> FrinkiacLink {
+    public func memeLink(_ text: String) -> ImageLink {
         return .meme(episode: episode, timestamp: timestamp, text: text)
     }
-    public func gifLink(_ text: String, duration: Int = 2000) -> FrinkiacLink {
+    public func gifLink(_ text: String, duration: Int = 2000) -> ImageLink {
         return .gif(episode: episode, start: timestamp, end: timestamp + duration, text: text)
     }
 }
@@ -308,10 +244,10 @@ public struct Caption {
     public var subtitle: String {
         return subtitles.subtitle.capitalized
     }
-    public var imageLink: FrinkiacLink {
+    public var imageLink: ImageLink {
         return frame.imageLink
     }
-    public var memeLink: FrinkiacLink {
+    public var memeLink: ImageLink {
         return .meme(episode: frame.episode, timestamp: frame.timestamp, text: caption)
     }
 }
