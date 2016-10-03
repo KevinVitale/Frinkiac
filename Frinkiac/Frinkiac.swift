@@ -73,7 +73,7 @@ private struct ImageDownloader {
     // MARK: - Initialization -
     //--------------------------------------------------------------------------
     private init(qos: DispatchQoS) {
-        var delegateQueue = OperationQueue()
+        let delegateQueue = OperationQueue()
         delegateQueue.underlyingQueue = DispatchQueue(label: "\(ImageDownloader.self)", qos: qos, attributes: .concurrent, autoreleaseFrequency: .workItem, target: nil)
         session = URLSession(configuration: .default, delegate: nil, delegateQueue: delegateQueue)
     }
