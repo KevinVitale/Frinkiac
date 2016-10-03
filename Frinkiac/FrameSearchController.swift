@@ -15,7 +15,7 @@ public final class FrameSearchController: FrameMemeCollection {
     // MARK: - Search Provider -
     //--------------------------------------------------------------------------
     private func initializeSearchProvider(_ resultsController: FrameCollectionViewController?) {
-        searchProvider = FrameSearchProvider { [weak self] in
+        searchProvider = FrameSearchProvider {
             let images = $0.map { FrameImage($0, delegate: resultsController) }
             resultsController?.images = images
         }
