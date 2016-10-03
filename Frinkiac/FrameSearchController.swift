@@ -3,10 +3,10 @@ import UIKit
 
 // MARK: - Frame Search Controller -
 //------------------------------------------------------------------------------
-public final class FrameSearchController: FrameMemeCollection {
+public final class FrameSearchController<S: ServiceHost>: FrameMemeCollection, UISearchResultsUpdating {
     // MARK: - Private -
     //--------------------------------------------------------------------------
-    fileprivate var searchProvider: FrameSearchProvider! = nil
+    fileprivate var searchProvider: FrameSearchProvider<S>! = nil
     fileprivate var footerCollection: FrameCollectionViewController? = nil
     private var searchResultsCollection: FrameCollectionViewController? {
         return searchController.searchResultsController as? FrameCollectionViewController
@@ -15,9 +15,8 @@ public final class FrameSearchController: FrameMemeCollection {
     // MARK: - Search Provider -
     //--------------------------------------------------------------------------
     private func initializeSearchProvider(_ resultsController: FrameCollectionViewController?) {
-        searchProvider = FrameSearchProvider {
-            let images = $0.map { FrameImage($0, delegate: resultsController) }
-            resultsController?.images = images
+        searchProvider = FrameSearchProvider(delegate: resultsController) {
+            resultsController?.images = $0
         }
 
         // Binds *selection*
@@ -80,6 +79,29 @@ public final class FrameSearchController: FrameMemeCollection {
         collectionView?.register(FrameResultsCell.self, forSupplementaryViewOfKind: UICollectionElementKindSectionFooter, withReuseIdentifier: FrameResultsCell.cellIdentifier)
     }
 
+    // MARK: - Extension, Data Source -
+    //------------------------------------------------------------------------------
+    public override var itemsPerRow: Int {
+        return 1
+    }
+    
+    public override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        switch kind {
+        case UICollectionElementKindSectionFooter:
+            return dequeueResultsCell(ofKind: kind, at: indexPath)
+        default:
+            return dequeueSearchCell(ofKind: kind, at: indexPath)
+        }
+    }
+    
+    // MARK: - Extension, Search Results Updating -
+    //------------------------------------------------------------------------------
+    public func updateSearchResults(for searchController: UISearchController) {
+        if let text = searchController.searchBar.text, !text.isEmpty {
+            searchProvider.find(text)
+        }
+    }
+
     // MARK: - Collection Flow Layout Delegate -
     //--------------------------------------------------------------------------
     public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
@@ -124,33 +146,6 @@ public final class FrameSearchController: FrameMemeCollection {
         let cell = collectionView?.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: FrameResultsCell.cellIdentifier, for: indexPath) as! FrameResultsCell
         cell.collectionView = footerCollection?.collectionView
         return cell
-    }
-}
-
-// MARK: - Extension, Data Source -
-//------------------------------------------------------------------------------
-extension FrameSearchController {
-    public override var itemsPerRow: Int {
-        return 1
-    }
-    
-    public override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        switch kind {
-        case UICollectionElementKindSectionFooter:
-            return dequeueResultsCell(ofKind: kind, at: indexPath)
-        default:
-            return dequeueSearchCell(ofKind: kind, at: indexPath)
-        }
-    }
-}
-
-// MARK: - Extension, Search Results Updating -
-//------------------------------------------------------------------------------
-extension FrameSearchController: UISearchResultsUpdating {
-    public func updateSearchResults(for searchController: UISearchController) {
-        if let text = searchController.searchBar.text, !text.isEmpty {
-            searchProvider.find(text)
-        }
     }
 }
 

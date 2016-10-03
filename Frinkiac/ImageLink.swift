@@ -1,21 +1,19 @@
 // MARK: - Image Link -
 //------------------------------------------------------------------------------
 public enum ImageLink {
-    case image(episode: String, timestamp: Int)
-    case meme(episode: String, timestamp: Int, text: String)
-    case gif(episode: String, start: Int, end: Int, text: String)
+    case image(scheme: String, host: String, episode: String, timestamp: Int)
+    case meme(scheme: String, host: String, episode: String, timestamp: Int, text: String)
+    case gif(scheme: String, host: String, episode: String, start: Int, end: Int, text: String)
 
     public var url: URL {
-        var link = Frinkiac.baseLink
         switch self {
-        case .image(let episode, let timestamp):
-            link.append("/meme/\(episode)/\(timestamp).jpg")
-        case .meme(let episode, let timestamp, let text):
-            link.append("/meme/\(episode)/\(timestamp).jpg?lines=\(text.URLEscapedString ?? "")")
-        case .gif(let episode, let start, let end, let text):
-            link.append("/gif/\(episode)/\(start)/\(end).gif?lines=\(text.URLEscapedString ?? "")")
+        case .image(let scheme, let host, let episode, let timestamp):
+            return URL(string: "\(scheme)://\(host)/meme/\(episode)/\(timestamp).jpg")!
+        case .meme(let scheme, let host, let episode, let timestamp, let text):
+            return URL(string: "\(scheme)://\(host)/meme/\(episode)/\(timestamp).jpg?lines=\(text.URLEscapedString ?? "")")!
+        case .gif(let scheme, let host, let episode, let start, let end, let text):
+            return URL(string: "\(scheme)://\(host)/gif/\(episode)/\(start)/\(end).gif?lines=\(text.URLEscapedString ?? "")")!
         }
-        return URL(string: link)!
     }
 
     /**
