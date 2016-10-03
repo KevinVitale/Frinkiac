@@ -106,7 +106,7 @@ public final class FrameSearchController: FrameMemeCollection {
             //------------------------------------------------------------------
             ).adding(iDontKnowWhyThisBuffer)
             //------------------------------------------------------------------
-            let itemCount = (footerCollection.images ?? []).count
+            let itemCount = footerCollection.images.count
             return CGSize(width: collectionView.maxWidth(for: itemCount), height: remainingHeight)
         }
         return .zero
