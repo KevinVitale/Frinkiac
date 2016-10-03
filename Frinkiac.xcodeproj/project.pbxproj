@@ -46,6 +46,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0A6074051DA2A70A00DF9A27 /* Misc */ = {
+			isa = PBXGroup;
+			children = (
+				0AA73B351D999BF500D0BCFF /* ServiceHost.swift */,
+			);
+			name = Misc;
+			sourceTree = "<group>";
+		};
 		0AA73B1F1D999A2800D0BCFF = {
 			isa = PBXGroup;
 			children = (
@@ -76,7 +84,7 @@
 			isa = PBXGroup;
 			children = (
 				0AA73B341D999BF500D0BCFF /* Frinkiac.swift */,
-				0AA73B351D999BF500D0BCFF /* ServiceHost.swift */,
+				0A6074051DA2A70A00DF9A27 /* Misc */,
 			);
 			name = Network;
 			sourceTree = "<group>";
