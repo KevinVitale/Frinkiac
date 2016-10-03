@@ -1,13 +1,13 @@
-// MARK: - Frinkiac -
+// mark: - Morbotron -
 //------------------------------------------------------------------------------
-public struct Frinkiac: ServiceHost {
+public struct Morbotron: ServiceHost {
     /// - parameter scheme: `https`.
     public var scheme: String {
         return "https"
     }
     /// - parameter host: `frinkiac.com`.
     public var host: String {
-        return "frinkiac.com"
+        return "morbotron.com"
     }
     /// - parameter path: `api`.
     public var path: String? {
@@ -15,5 +15,5 @@ public struct Frinkiac: ServiceHost {
     }
 
     /// - parameter shared: A shared instance.
-    public static let shared = Frinkiac()
+    public static let shared = Morbotron()
 }

@@ -12,13 +12,15 @@ public protocol ServiceHost {
     /// - parameter path: An optional default path.
     /// - note: **Example:** `v2`.
     var path: String? { get }
+
+    static var shared: Self { get }
 }
 
 // MARK: - Extension, URL Request -
 //------------------------------------------------------------------------------
 extension ServiceHost {
     /// - parameter baseURLString: The computed URL, as a `String`.
-    var baseURLString: String {
+    private var baseURLString: String {
         var string = "\(scheme)://\(host)"
         if let path = path {
             string += "/\(path)"
@@ -73,6 +75,76 @@ extension ServiceHost {
                     throw error!
                 }
                 return (try data?.parseJSON(), response!)
+            }
+        }
+    }
+}
+
+// MARK: - Extension, API Services -
+//------------------------------------------------------------------------------
+extension ServiceHost {
+    private static var imageService: (scheme: String, host: String) {
+        return (scheme: shared.scheme, host: shared.host)
+    }
+    /**
+     A wrapper around the singleton's `request` instance function.
+     
+     - parameter session: The `URLSession` which generates the data task.
+     - parameter endpoint: The path endpoint (aka, API route).
+     - parameter parameters: An optional set of query parameters.
+     - parameter callback: The returning logic invoked when the request is made.
+     - returns: A `URLSessionDataTask` which, when started, performs the request.
+     */
+    private static func request(session: URLSession = URLSession.shared, endpoint: String, parameters: [String:Any]? = nil, callback: @escaping (() throws -> (Any, URLResponse)) -> ()) -> URLSessionDataTask {
+        return shared.request(session: session, endpoint: endpoint, parameters: parameters, callback: callback)
+    }
+
+    /**
+     Searches for frames containing `quote`.
+     
+     - parameter quote: The text to be searched for.
+     - parameter callback: The returning logic invoked when the request is made.
+     - returns: A `URLSessionTask` which, when started, performs the request.
+     */
+    public static func search(for quote: String, callback: @escaping (() throws -> ([Frame], URLResponse)) -> ()) -> URLSessionTask {
+        return request(endpoint: "search", parameters: ["q":quote]) { next in
+            callback {
+                let result = try next()
+                let quotes = (result.0 as? [Any])?.map { Frame(imageService: imageService, json: $0) } ?? []
+                return (quotes, result.1)
+            }
+        }
+    }
+
+    /**
+     Fetches the associated `Caption` for `frame`.
+     
+     - parameter frame: The frame being requested.
+     - parameter callback: The returning logic invoked when the request is made.
+     - returns: A `URLSessionTask` which, when started, performs the request.
+     */
+    public static func caption(with frame: Frame, callback: @escaping (() throws -> (Caption, URLResponse)) -> ()) -> URLSessionTask {
+        return request(endpoint: "caption", parameters: ["e":frame.episode,"t":frame.timestamp]) { next in
+            callback {
+                let result = try next()
+                let caption = Caption(imageService: imageService, json: result.0)
+                return (caption, result.1)
+            }
+        }
+    }
+
+    /**
+     Generates a random caption.
+     
+     - parameter callback: The returning logic invoked when the request is made.
+     - returns: A `URLSessionTask` which, when started, performs the request.
+     */
+    public static func random(callback: @escaping (() throws -> (Caption, URLResponse)) -> ()) -> URLSessionTask {
+        return request(endpoint: "random") { next in
+            callback {
+                let result = try next()
+                let caption = Caption(imageService: imageService, json: result.0)
+                return (caption, result.1)
             }
         }
     }

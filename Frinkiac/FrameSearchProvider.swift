@@ -1,17 +1,18 @@
 // MARK: - Frame Search Provider -
 //------------------------------------------------------------------------------
-public final class FrameSearchProvider {
+public final class FrameSearchProvider<S: ServiceHost> {
     // MARK: - Private -
     //--------------------------------------------------------------------------
     /// - parameter callback: The callback provided during initialization.
-    private var callback: (([Frame]) -> ()) = { _ in }
+    private var callback: (([FrameImage]) -> ()) = { _ in }
 
     /// - parameter searchTask: The task which performs the search.
     private var searchTask: URLSessionTask? = nil
+    private var delegate: FrameImageDelegate? = nil
 
     /// - parameter results: The frames returned by searching for `searchText`.
     /// - note: Updating this value invokes `callback`, iff: `newValue` isn't `nil`.
-    private var results: [Frame]? = nil {
+    private var results: [FrameImage]? = nil {
         didSet {
             if let results = results {
                 callback(results)
@@ -39,7 +40,8 @@ public final class FrameSearchProvider {
 
     // MARK: - Initialization -
     //--------------------------------------------------------------------------
-    public init(_ callback: @escaping (([Frame]) -> ())) {
+    public init(delegate: FrameImageDelegate? = nil, callback: @escaping (([FrameImage]) -> ())) {
+        self.delegate = delegate
         self.callback = callback
     }
 
@@ -59,10 +61,11 @@ public final class FrameSearchProvider {
      - returns: A session task that, when started, performs a search
                 and executes `callback`.
      */
-    private func find(_ text: String, callback: @escaping ((() throws -> [Frame]?) -> ())) -> URLSessionTask {
-        return Frinkiac.search(for: text) { result in
+    private func find(_ text: String, callback: @escaping ((() throws -> [FrameImage]?) -> ())) -> URLSessionTask {
+        return S.search(for: text) { [weak self] result in
             callback {
-                try? result().0
+                try? result().0.map { FrameImage($0, serviceHost: S.shared, delegate: self?.delegate)
+                }
             }
         }
     }

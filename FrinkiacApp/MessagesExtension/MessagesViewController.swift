@@ -3,11 +3,14 @@ import Messages
 import Frinkiac
 
 class MessagesViewController: MSMessagesAppViewController {
+    /// - parameter MemeGenerator: Pick your poison.
+    fileprivate typealias MemeGenerator = Frinkiac
+    
     // MARK: - Search Controller -
     //--------------------------------------------------------------------------
     // TODO: Fix me; this is a smell (☠️)
     //--------------------------------------------------------------------------
-    fileprivate weak var searchController: FrameSearchController? = nil
+    fileprivate weak var searchController: FrameSearchController<MemeGenerator>? = nil
     fileprivate func setSearch(active: Bool) {
         searchController?.searchController?.isActive = active
     }
@@ -40,7 +43,7 @@ extension MessagesViewController: FrameCollectionDelegate {
     public func frameCollection(_ frameCollection: FrameCollectionViewController, didSelect frameImage: FrameImage) {
         // 1) Download: 'Caption'
         //----------------------------------------------------------------------
-        Frinkiac.caption(with: frameImage.frame) { [weak self] in
+        MemeGenerator.caption(with: frameImage.frame) { [weak self] in
             if let caption = try? $0().0
              , let conversation = self?.activeConversation {
                 // 2) Download: 'Image'
@@ -112,7 +115,7 @@ extension MessagesViewController {
 
         // Create embedded controller
         //----------------------------------------------------------------------
-        let searchController = FrameSearchController()
+        let searchController = FrameSearchController<MemeGenerator>()
         searchController.delegate = self
         searchController.searchBar.delegate = self
 

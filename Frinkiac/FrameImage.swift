@@ -55,7 +55,7 @@ public final class FrameImage: Equatable {
 
     // MARK: - Initialization -
     //--------------------------------------------------------------------------
-    public init(_ frame: Frame, delegate: FrameImageDelegate? = nil) {
+    public init<S: ServiceHost>(_ frame: Frame, serviceHost: S, delegate: FrameImageDelegate? = nil) {
         self.frame = frame
         self.delegate = delegate
 
@@ -70,7 +70,7 @@ public final class FrameImage: Equatable {
 
         // Download caption image
         //----------------------------------------------------------------------
-        captionDownloadTask = Frinkiac.caption(with: frame) { [weak self] in
+        captionDownloadTask = S.caption(with: frame) { [weak self] in
             if let caption = try? $0().0 {
                 self?.memeCaptionDownloadTask = caption.memeLink.download {
                     if let image = try? $0() {
