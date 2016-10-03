@@ -64,8 +64,7 @@ public final class FrameSearchProvider<S: ServiceHost> {
     private func find(_ text: String, callback: @escaping ((() throws -> [FrameImage]?) -> ())) -> URLSessionTask {
         return S.search(for: text) { [weak self] result in
             callback {
-                try? result().0.map { FrameImage($0, serviceHost: S.shared, delegate: self?.delegate)
-                }
+                try? result().0.map { FrameImage($0, serviceHost: S.shared, delegate: self?.delegate) }
             }
         }
     }
