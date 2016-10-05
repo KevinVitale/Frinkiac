@@ -31,7 +31,7 @@ public final class FrameSearchController<S: ServiceHost>: FrameMemeCollection, U
         searchController.searchResultsUpdater = self
     }
 
-    fileprivate func initializeResultsController() {
+    fileprivate func initializeFooterCollection() {
         footerCollection = FrameMemeCollection()
         footerCollection?.delegate = self
         footerCollection?.flowLayout.scrollDirection = .horizontal
@@ -49,7 +49,7 @@ public final class FrameSearchController<S: ServiceHost>: FrameMemeCollection, U
     // MARK: - Initialization -
     //--------------------------------------------------------------------------
     private func initialize() {
-        initializeResultsController()
+        initializeFooterCollection()
         initializeSearchController()
         initializeSearchProvider(searchResultsCollection)
         preferredFrameImageRatio = .`default`
