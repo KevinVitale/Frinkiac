@@ -13,15 +13,28 @@ class FrameImageCell: UICollectionViewCell {
     //--------------------------------------------------------------------------
     override func layoutSubviews() {
         super.layoutSubviews()
+
+        // Content View
+        //----------------------------------------------------------------------
         contentView.backgroundColor = .simpsonsFleshy
         contentView.addSubview(imageView)
-
-        // View
+        contentView.clipsToBounds = true
+        contentView.layer.cornerRadius = 4.0
+        contentView.layer.borderWidth = 2.0
+        contentView.layer.borderColor = UIColor.white.cgColor
+        
+        // Shadow
         //----------------------------------------------------------------------
-        clipsToBounds = true
-        layer.cornerRadius = 4.0
-        layer.borderWidth = 2.0
-        layer.borderColor = UIColor.white.cgColor
+        let radius: CGFloat = 4.0
+        let pathRect = bounds.insetBy(dx: -radius, dy: -radius)
+        let path = UIBezierPath(roundedRect: pathRect
+            , byRoundingCorners: .allCorners
+            , cornerRadii: CGSize(width: radius, height: radius)
+        )
+        layer.shadowPath = path.cgPath
+        layer.shadowRadius = radius.multiplied(by: 2.0)
+        layer.shadowOpacity = 0.333
+        layer.shadowOffset = .zero
 
         // Image View
         //----------------------------------------------------------------------

@@ -113,8 +113,8 @@ extension FrameCollectionViewController {
 
         // Collection Layout
         //----------------------------------------------------------------------
-        let inset: CGFloat = 4.0
-        let spacing: CGFloat = 4.0
+        let inset: CGFloat = 24.0
+        let spacing: CGFloat = 24.0
         flowLayout.sectionInset = UIEdgeInsets(top: inset, left: inset, bottom: inset, right: inset)
         flowLayout.minimumInteritemSpacing = spacing
         flowLayout.minimumLineSpacing = spacing
@@ -162,7 +162,7 @@ extension FrameCollectionViewController {
 //------------------------------------------------------------------------------
 extension FrameCollectionViewController: UICollectionViewDelegateFlowLayout {
     public var itemsPerRow: Int {
-        return 3
+        return 2
     }
 
     public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
