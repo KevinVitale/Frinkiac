@@ -26,8 +26,8 @@ public final class FrameSearchController<S: ServiceHost>: FrameMemeCollection, U
 
     // MARK: - Search Controller -
     //--------------------------------------------------------------------------
-    fileprivate func initializeSearchController() {
-        searchController = UISearchController(searchResultsController: FrameCollectionViewController())
+    fileprivate func initializeSearchController(_ controller: FrameCollectionViewController = FrameCollectionViewController()) {
+        searchController = UISearchController(searchResultsController: controller)
         searchController.searchResultsUpdater = self
     }
 
