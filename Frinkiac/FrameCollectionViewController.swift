@@ -3,6 +3,7 @@ import UIKit
 
 // MARK: - Frame Collection View Controller -
 //------------------------------------------------------------------------------
+/// Displays a collection of frames and their images.
 public class FrameCollectionViewController: UICollectionViewController, FrameImageDelegate {
     public enum FrameImageRatio {
         case square
@@ -11,19 +12,36 @@ public class FrameCollectionViewController: UICollectionViewController, FrameIma
 
     // MARK: - Public -
     //--------------------------------------------------------------------------
+    /// - parameter delegate: This identifies which object is responsible for
+    ///             handling frame selection.
     public weak var delegate: FrameCollectionDelegate? = nil
+
+    /// - parameter images: The collection of frame images the controller is
+    ///             responsible for displaying. When this value changes, it
+    ///             triggers a `reload()` on the collection view.
     public var images: [FrameImage] = [] {
         didSet {
             reload()
         }
     }
-    public final var hasImages: Bool {
-        return !images.isEmpty
-    }
+
+    /// - parameter preferredFrameImageRatio: This will determine the ratio of
+    ///             frame images in the collection. `square` displays every cell
+    ///             with equal width and height (however, meme text may appear
+    ///             clipped). `default` will display the cell correctly scaled
+    ///             down, preserving the original width and height of the source
+    ///             image.
     public var preferredFrameImageRatio: FrameImageRatio = .square
 
     // MARK: - Computed -
     //--------------------------------------------------------------------------
+    /// - parameter hasImages: A convenience accessor for `!images.isEmpty`.
+    public final var hasImages: Bool {
+        return !images.isEmpty
+    }
+
+    /// - parameter flowLayout: A convenience accessor for the collection view's
+    ///             layout object.
     var flowLayout: UICollectionViewFlowLayout {
         return collectionView?.collectionViewLayout as! UICollectionViewFlowLayout
     }
@@ -35,8 +53,52 @@ public class FrameCollectionViewController: UICollectionViewController, FrameIma
         super.init(collectionViewLayout: UICollectionViewFlowLayout())
     }
 
-    // MARK: - View Lifecycle -
+    // MARK: - Reload -
     //--------------------------------------------------------------------------
+    public func reload() {
+        DispatchQueue.main.async { [weak self] in
+            self?.collectionView?.reloadData()
+        }
+    }
+
+    // MARK: - Frame Image Delegate -
+    //--------------------------------------------------------------------------
+    public func frame(_ frame: FrameImage, didUpdateImage image: UIImage) {
+        reload()
+    }
+
+    public func frame(_ frame: FrameImage, didUpdateMeme meme: UIImage) {
+        // Override me
+    }
+}
+
+// MARK: - Extension, Helpers -
+//------------------------------------------------------------------------------
+extension FrameCollectionViewController {
+    // MARK: - Item Size -
+    //--------------------------------------------------------------------------
+    public final func imageSize(for frameImage: FrameImage?, `in` collectionView: UICollectionView) -> CGSize {
+        let maxWidth = collectionView.maxWidth(for: itemsPerRow)
+
+        guard let frameImage = frameImage
+            , let image = frameImage.image
+            , preferredFrameImageRatio == .`default` else {
+                let itemWidth = (maxWidth / CGFloat(itemsPerRow))
+                return CGSize(width: itemWidth, height: itemWidth)
+        }
+
+        let imageRatio = maxWidth / image.size.width / max(1.0, CGFloat(itemsPerRow))
+        let imageWidth = image.size.width * imageRatio
+        let imageHeight = image.size.height * imageRatio
+
+        return CGSize(width: imageWidth, height: imageHeight)
+    }
+
+}
+
+// MARK: - Extension, View Lifecycle -
+//------------------------------------------------------------------------------
+extension FrameCollectionViewController {
     public override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -62,53 +124,6 @@ public class FrameCollectionViewController: UICollectionViewController, FrameIma
         super.viewWillTransition(to: size, with: coordinator)
         reload()
     }
-
-    // MARK: - Reload -
-    //--------------------------------------------------------------------------
-    public func reload() {
-        DispatchQueue.main.async { [weak self] in
-            self?.collectionView?.reloadData()
-        }
-    }
-
-    // MARK: - Item Size -
-    //--------------------------------------------------------------------------
-    public final func imageSize(for frameImage: FrameImage?, `in` collectionView: UICollectionView) -> CGSize {
-        let maxWidth = collectionView.maxWidth(for: itemsPerRow)
-
-        guard let frameImage = frameImage
-            , let image = frameImage.image
-            , preferredFrameImageRatio == .`default` else {
-                let itemWidth = (maxWidth / CGFloat(itemsPerRow))
-                return CGSize(width: itemWidth, height: itemWidth)
-        }
-
-        let imageRatio = maxWidth / image.size.width / max(1.0, CGFloat(itemsPerRow))
-        let imageWidth = image.size.width * imageRatio
-        let imageHeight = image.size.height * imageRatio
-
-        return CGSize(width: imageWidth, height: imageHeight)
-    }
-
-    // MARK: - Dequeue Cell -
-    //--------------------------------------------------------------------------
-    public func dequeue(frameCellAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView?.dequeueReusableCell(withReuseIdentifier: FrameImageCell.cellIdentifier, for: indexPath) as! FrameImageCell
-
-        let image = images[indexPath.row].image
-        cell.imageView.image = image
-
-        return cell
-    }
-
-    // MARK: - Frame Image Delegate -
-    //--------------------------------------------------------------------------
-    public func frame(_ frame: FrameImage, didUpdateImage image: UIImage) {
-        reload()
-    }
-
-    public func frame(_ frame: FrameImage, didUpdateMeme meme: UIImage) {
-    }
 }
 
 // MARK: - Extension, Data Source -
@@ -129,6 +144,17 @@ extension FrameCollectionViewController {
     public override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let frameImage = images[indexPath.row]
         delegate?.frameCollection(self, didSelect: frameImage)
+    }
+
+    // MARK: - Dequeue Cell -
+    //--------------------------------------------------------------------------
+    public func dequeue(frameCellAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView?.dequeueReusableCell(withReuseIdentifier: FrameImageCell.cellIdentifier, for: indexPath) as! FrameImageCell
+
+        let image = images[indexPath.row].image
+        cell.imageView.image = image
+
+        return cell
     }
 }
 
