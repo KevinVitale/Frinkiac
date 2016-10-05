@@ -11,6 +11,7 @@
 		0A3E2E271DA2CC800089BA8C /* ImageLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3E2E261DA2CC800089BA8C /* ImageLink.swift */; };
 		0A3E2E291DA2CCA20089BA8C /* ImageDownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3E2E281DA2CCA20089BA8C /* ImageDownloader.swift */; };
 		0A3E2E2B1DA2DE900089BA8C /* JSONResponses.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3E2E2A1DA2DE900089BA8C /* JSONResponses.swift */; };
+		0A4FFA851DA5A4D800F69712 /* FrameMemeCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A4FFA841DA5A4D800F69712 /* FrameMemeCollection.swift */; };
 		0A6AB8B41DA2EAB6003EF875 /* Morbotron.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A6AB8B31DA2EAB6003EF875 /* Morbotron.swift */; };
 		0A855BDC1D9B34F80040DE80 /* FrameCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A855BDB1D9B34F80040DE80 /* FrameCollectionViewController.swift */; };
 		0A855BDE1D9B358A0040DE80 /* FrameImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A855BDD1D9B358A0040DE80 /* FrameImageCell.swift */; };
@@ -29,6 +30,7 @@
 		0A3E2E261DA2CC800089BA8C /* ImageLink.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageLink.swift; sourceTree = "<group>"; };
 		0A3E2E281DA2CCA20089BA8C /* ImageDownloader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageDownloader.swift; sourceTree = "<group>"; };
 		0A3E2E2A1DA2DE900089BA8C /* JSONResponses.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONResponses.swift; sourceTree = "<group>"; };
+		0A4FFA841DA5A4D800F69712 /* FrameMemeCollection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FrameMemeCollection.swift; sourceTree = "<group>"; };
 		0A6AB8B31DA2EAB6003EF875 /* Morbotron.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Morbotron.swift; sourceTree = "<group>"; };
 		0A855BDB1D9B34F80040DE80 /* FrameCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FrameCollectionViewController.swift; sourceTree = "<group>"; };
 		0A855BDD1D9B358A0040DE80 /* FrameImageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FrameImageCell.swift; sourceTree = "<group>"; };
@@ -114,6 +116,7 @@
 			isa = PBXGroup;
 			children = (
 				0A855BDB1D9B34F80040DE80 /* FrameCollectionViewController.swift */,
+				0A4FFA841DA5A4D800F69712 /* FrameMemeCollection.swift */,
 				0A3DF47F1D9B400400903B09 /* FrameSearchController.swift */,
 				0AB36D1D1D9B0B300069D00E /* Misc */,
 			);
@@ -225,6 +228,7 @@
 				0A3E2E291DA2CCA20089BA8C /* ImageDownloader.swift in Sources */,
 				0A3E2E2B1DA2DE900089BA8C /* JSONResponses.swift in Sources */,
 				0AB36CF71D9AEFFB0069D00E /* FrameSearchProvider.swift in Sources */,
+				0A4FFA851DA5A4D800F69712 /* FrameMemeCollection.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
