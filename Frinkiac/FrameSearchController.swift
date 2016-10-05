@@ -93,7 +93,7 @@ public final class FrameSearchController<S: ServiceHost>: FrameMemeCollection, U
             return dequeueSearchCell(ofKind: kind, at: indexPath)
         }
     }
-    
+
     // MARK: - Extension, Search Results Updating -
     //------------------------------------------------------------------------------
     public func updateSearchResults(for searchController: UISearchController) {
@@ -109,29 +109,28 @@ public final class FrameSearchController<S: ServiceHost>: FrameMemeCollection, U
     }
 
     public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
-        if let footerCollection = footerCollection, footerCollection.hasImages {
-            // TODO: Fix this! It's a smell (☠️)
-            // It's causing the auto-layout log spewage
-            //------------------------------------------------------------------
-            let iDontKnowWhyThisBuffer: CGFloat = {
-                let buffer: CGFloat = 20.0
-                let isWidthSmaller = collectionView.frame.width < collectionView.frame.height
-                return buffer * (isWidthSmaller ? -1.0 : 1.0)
-            }()
-            //------------------------------------------------------------------
-            // I hate view controller rotation
-            //------------------------------------------------------------------
-            let footerImageHeight = footerCollection.imageSize(for: footerCollection.images.first, in: footerCollection.collectionView!).height
-            let remainingHeight = max(footerImageHeight, collectionView.frame.height
-                .subtracting(searchBar.frame.height)
-                .subtracting(imageSize(for: images.first, in: collectionView).height)
-            //------------------------------------------------------------------
-            ).adding(iDontKnowWhyThisBuffer)
-            //------------------------------------------------------------------
-            let itemCount = footerCollection.images.count
-            return CGSize(width: collectionView.maxWidth(for: itemCount), height: remainingHeight)
+        // Return `.zero` if we don't have any images
+        guard let footerCollection = footerCollection, footerCollection.hasImages else {
+            return .zero
         }
-        return .zero
+
+        let selectedImageSize = imageSize(for: images.first, in: collectionView)
+        var height = searchBar.frame.height
+            .adding(selectedImageSize.height)
+            .adding(flowLayout.sectionInset.top)
+            .adding(flowLayout.sectionInset.bottom)
+
+        height = max(
+            collectionView.frame.height.subtracting(height),
+            footerCollection.imageSize(for: footerCollection.images.first,
+                                       in: footerCollection.collectionView!)
+                .height
+                .adding(footerCollection.flowLayout.sectionInset.top)
+                .adding(footerCollection.flowLayout.sectionInset.bottom)
+        )
+
+        let size = CGSize(width: collectionView.frame.width, height: height)
+        return size
     }
 
     // MARK: - Dequeue Cell -
