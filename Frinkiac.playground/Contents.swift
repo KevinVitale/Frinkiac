@@ -4,5 +4,5 @@ import Frinkiac
 
 PlaygroundPage.current.needsIndefiniteExecution = true
 
-let viewController = FrameSearchController<Morbotron>()
+let viewController = FrameSearchController<Frinkiac>()
 PlaygroundPage.current.liveView = viewController
