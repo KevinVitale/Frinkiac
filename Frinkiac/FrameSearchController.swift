@@ -3,7 +3,7 @@ import UIKit
 
 // MARK: - Frame Search Controller -
 //------------------------------------------------------------------------------
-public final class FrameSearchController<S: ServiceHost>: FrameMemeCollection, UISearchResultsUpdating {
+public final class FrameSearchController<S: ServiceHost>: FrameMemeCollection, UISearchResultsUpdating, UISearchControllerDelegate {
     // MARK: - Private -
     //--------------------------------------------------------------------------
     fileprivate var searchProvider: FrameSearchProvider<S>! = nil
@@ -29,6 +29,7 @@ public final class FrameSearchController<S: ServiceHost>: FrameMemeCollection, U
     fileprivate func initializeSearchController(_ controller: FrameCollectionViewController = FrameCollectionViewController()) {
         searchController = UISearchController(searchResultsController: controller)
         searchController.searchResultsUpdater = self
+        searchController.delegate = self
         controller.collectionView?.keyboardDismissMode = .onDrag
     }
 
@@ -43,6 +44,7 @@ public final class FrameSearchController<S: ServiceHost>: FrameMemeCollection, U
     // MARK: - Public -
     //--------------------------------------------------------------------------
     public private(set) var searchController: UISearchController! = nil
+    public var searchDelegate: FrameSearchControllerDelegate? = nil
     public var searchBar: UISearchBar! {
         return searchController.searchBar
     }
@@ -78,6 +80,13 @@ public final class FrameSearchController<S: ServiceHost>: FrameMemeCollection, U
         //----------------------------------------------------------------------
         collectionView?.register(FrameSearchCell.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: FrameSearchCell.cellIdentifier)
         collectionView?.register(FrameResultsCell.self, forSupplementaryViewOfKind: UICollectionElementKindSectionFooter, withReuseIdentifier: FrameResultsCell.cellIdentifier)
+    }
+
+    public override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        if let shouldActivate = searchDelegate?.frameSearchShouldActivate(self), shouldActivate == true {
+            searchController.isActive = true
+        }
     }
 
     // MARK: - Extension, Data Source -
@@ -147,6 +156,12 @@ public final class FrameSearchController<S: ServiceHost>: FrameMemeCollection, U
         cell.collectionView = footerCollection?.collectionView
         return cell
     }
+
+    // MARK: - Search Controller Delegate -
+    //--------------------------------------------------------------------------
+    public final func didPresentSearchController(_ searchController: UISearchController) {
+        searchBar.becomeFirstResponder()
+    }
 }
 
 // MARK: - Extension, Frame Collection Delegate
@@ -169,6 +184,12 @@ extension FrameSearchController: FrameCollectionDelegate {
     }
 }
 
+public protocol FrameSearchControllerDelegate {
+    func frameSearchShouldActivate<S: ServiceHost>(_ frameSearchController: FrameSearchController<S>) -> Bool
+}
+
+// MARK: - Frame Footer Collection -
+//------------------------------------------------------------------------------
 fileprivate final class FrameFooterCollection: FrameMemeCollection {
     public override func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return imageSize(for: images[indexPath.row], in: collectionView, itemWidthMultiplier: 1.5)

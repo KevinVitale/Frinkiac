@@ -2,7 +2,7 @@ import UIKit
 import Messages
 import Frinkiac
 
-class MessagesViewController: MSMessagesAppViewController {
+class MessagesViewController: MSMessagesAppViewController, FrameSearchControllerDelegate {
     /// - parameter MemeGenerator: Pick your poison.
     fileprivate typealias MemeGenerator = Frinkiac
     
@@ -13,6 +13,9 @@ class MessagesViewController: MSMessagesAppViewController {
     fileprivate weak var searchController: FrameSearchController<MemeGenerator>? = nil
     fileprivate func setSearch(active: Bool) {
         searchController?.searchController?.isActive = active
+    }
+    func frameSearchShouldActivate<S : ServiceHost>(_ frameSearchController: FrameSearchController<S>) -> Bool {
+        return presentationStyle == .expanded
     }
     //--------------------------------------------------------------------------
 
@@ -117,6 +120,7 @@ extension MessagesViewController {
         //----------------------------------------------------------------------
         let searchController = FrameSearchController<MemeGenerator>()
         searchController.delegate = self
+        searchController.searchDelegate = self
         searchController.searchBar.delegate = self
 
         // Install search controller
