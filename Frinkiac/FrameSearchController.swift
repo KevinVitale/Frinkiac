@@ -161,6 +161,7 @@ extension FrameSearchController: FrameCollectionDelegate {
         //----------------------------------------------------------------------
         frameImage.delegate = self
         images = [frameImage]
+        footerCollection?.scroll(to: frameImage)
 
         // Disable search
         //----------------------------------------------------------------------

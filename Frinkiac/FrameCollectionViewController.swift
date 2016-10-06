@@ -172,6 +172,15 @@ extension FrameCollectionViewController {
 
         return cell
     }
+
+    // MARK: - Scroll to Frame Image -
+    //--------------------------------------------------------------------------
+    public final func scroll(to frameImage: FrameImage?, at position: UICollectionViewScrollPosition = .centeredHorizontally, animated: Bool = true) {
+        if let frameImage = frameImage, let row = images.index(of: frameImage) {
+            let indexPath = IndexPath(row: row, section: 0)
+            collectionView?.scrollToItem(at: indexPath, at: position, animated: animated)
+        }
+    }
 }
 
 // MARK: - Extension, Flow Layout Delegate -
