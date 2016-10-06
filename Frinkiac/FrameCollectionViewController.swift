@@ -77,17 +77,33 @@ public class FrameCollectionViewController: UICollectionViewController, FrameIma
 extension FrameCollectionViewController {
     // MARK: - Item Size -
     //--------------------------------------------------------------------------
-    public final func imageSize(for frameImage: FrameImage?, `in` collectionView: UICollectionView) -> CGSize {
+    public final func imageSize(for frameImage: FrameImage?, `in` collectionView: UICollectionView, itemWidthMultiplier: CGFloat = 1.0) -> CGSize {
+        // HACK: Reset multiplier if we're in landscape
+        //----------------------------------------------------------------------
+        // WARNING: This is a smell (☠️)
+        //----------------------------------------------------------------------
+        let screenSize = UIScreen.main.bounds.size
+        var itemWidthMultiplier = itemWidthMultiplier
+        if screenSize.height.isLessThanOrEqualTo(screenSize.width) {
+            itemWidthMultiplier = 1.0
+        }
+
+        // Calculate
+        //----------------------------------------------------------------------
         let maxWidth = collectionView.maxWidth(for: itemsPerRow)
 
+        // Forces a square image when fails
+        //----------------------------------------------------------------------
         guard let frameImage = frameImage
             , let image = frameImage.image
             , preferredFrameImageRatio == .`default` else {
-                let itemWidth = (maxWidth / CGFloat(itemsPerRow))
+                let itemWidth = (maxWidth / CGFloat(itemsPerRow)) / itemWidthMultiplier
                 return CGSize(width: itemWidth, height: itemWidth)
         }
 
-        let imageRatio = maxWidth / image.size.width / max(1.0, CGFloat(itemsPerRow))
+        // Use original image ratio
+        //----------------------------------------------------------------------
+        let imageRatio = maxWidth / image.size.width / max(1.0, (CGFloat(itemsPerRow) / itemWidthMultiplier))
         let imageWidth = image.size.width * imageRatio
         let imageHeight = image.size.height * imageRatio
 
