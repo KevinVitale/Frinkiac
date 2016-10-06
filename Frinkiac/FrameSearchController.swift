@@ -29,6 +29,7 @@ public final class FrameSearchController<S: ServiceHost>: FrameMemeCollection, U
     fileprivate func initializeSearchController(_ controller: FrameCollectionViewController = FrameCollectionViewController()) {
         searchController = UISearchController(searchResultsController: controller)
         searchController.searchResultsUpdater = self
+        controller.collectionView?.keyboardDismissMode = .onDrag
     }
 
     fileprivate func initializeFooterCollection() {
