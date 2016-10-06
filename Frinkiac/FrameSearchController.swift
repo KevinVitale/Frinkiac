@@ -32,7 +32,7 @@ public final class FrameSearchController<S: ServiceHost>: FrameMemeCollection, U
     }
 
     fileprivate func initializeFooterCollection() {
-        footerCollection = FrameMemeCollection()
+        footerCollection = FrameFooterCollection()
         footerCollection?.delegate = self
         footerCollection?.flowLayout.scrollDirection = .horizontal
         footerCollection?.collectionView?.showsHorizontalScrollIndicator = false
@@ -164,6 +164,12 @@ extension FrameSearchController: FrameCollectionDelegate {
         // Disable search
         //----------------------------------------------------------------------
         searchController.isActive = false
+    }
+}
+
+fileprivate final class FrameFooterCollection: FrameMemeCollection {
+    public override func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return imageSize(for: images[indexPath.row], in: collectionView, itemWidthMultiplier: 1.5)
     }
 }
 #endif
