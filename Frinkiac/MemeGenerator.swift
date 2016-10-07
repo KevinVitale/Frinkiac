@@ -16,6 +16,8 @@ public protocol MemeGenerator {
     static var shared: Self { get }
 }
 
+// MARK: - Extension, Defaults -
+//------------------------------------------------------------------------------
 extension MemeGenerator {
     public var scheme: String {
         return "https"
