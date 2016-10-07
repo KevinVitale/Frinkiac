@@ -3,18 +3,18 @@ import Messages
 import Frinkiac
 
 class MessagesViewController: MSMessagesAppViewController, FrameSearchControllerDelegate {
-    /// - parameter MemeGenerator: Pick your poison.
-    fileprivate typealias MemeGenerator = Frinkiac
+    /// - parameter MemeService: Pick your poison.
+    fileprivate typealias MemeService = Frinkiac
     
     // MARK: - Search Controller -
     //--------------------------------------------------------------------------
     // TODO: Fix me; this is a smell (☠️)
     //--------------------------------------------------------------------------
-    fileprivate weak var searchController: FrameSearchController<MemeGenerator>? = nil
+    fileprivate weak var searchController: FrameSearchController<MemeService>? = nil
     fileprivate func setSearch(active: Bool) {
         searchController?.searchController?.isActive = active
     }
-    func frameSearchShouldActivate<S : ServiceHost>(_ frameSearchController: FrameSearchController<S>) -> Bool {
+    func frameSearchShouldActivate<S : MemeGenerator>(_ frameSearchController: FrameSearchController<S>) -> Bool {
         return presentationStyle == .expanded
     }
     //--------------------------------------------------------------------------
@@ -46,7 +46,7 @@ extension MessagesViewController: FrameCollectionDelegate {
     public func frameCollection(_ frameCollection: FrameCollectionViewController, didSelect frameImage: FrameImage) {
         // 1) Download: 'Caption'
         //----------------------------------------------------------------------
-        MemeGenerator.caption(with: frameImage.frame) { [weak self] in
+        MemeService.caption(with: frameImage.frame) { [weak self] in
             if let caption = try? $0().0
              , let conversation = self?.activeConversation {
                 // 2) Download: 'Image'
@@ -118,7 +118,7 @@ extension MessagesViewController {
 
         // Create embedded controller
         //----------------------------------------------------------------------
-        let searchController = FrameSearchController<MemeGenerator>()
+        let searchController = FrameSearchController<MemeService>()
         searchController.delegate = self
         searchController.searchDelegate = self
         searchController.searchBar.delegate = self
