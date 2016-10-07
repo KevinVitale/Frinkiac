@@ -1,6 +1,6 @@
 // mark: - Morbotron -
 //------------------------------------------------------------------------------
-public struct Morbotron: ServiceHost {
+public struct Morbotron: MemeGenerator {
     /// - parameter scheme: `https`.
     public var scheme: String {
         return "https"

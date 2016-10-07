@@ -55,7 +55,7 @@ public final class FrameImage: Equatable {
 
     // MARK: - Initialization -
     //--------------------------------------------------------------------------
-    public init<S: ServiceHost>(_ frame: Frame, serviceHost: S, delegate: FrameImageDelegate? = nil) {
+    public init<S: MemeGenerator>(_ frame: Frame, serviceHost: S, delegate: FrameImageDelegate? = nil) {
         self.frame = frame
         self.delegate = delegate
 

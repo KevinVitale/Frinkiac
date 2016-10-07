@@ -1,6 +1,6 @@
-// MARK: - Service Host -
+// MARK: - Meme Generator -
 //------------------------------------------------------------------------------
-public protocol ServiceHost {
+public protocol MemeGenerator {
     /// - parameter scheme: The service's scheme.
     /// - note: Any valid URL scheme is fine.
     var scheme: String { get }
@@ -18,7 +18,7 @@ public protocol ServiceHost {
 
 // MARK: - Extension, URL Request -
 //------------------------------------------------------------------------------
-extension ServiceHost {
+extension MemeGenerator {
     /// - parameter baseURLString: The computed URL, as a `String`.
     private var baseURLString: String {
         var string = "\(scheme)://\(host)"
@@ -82,7 +82,7 @@ extension ServiceHost {
 
 // MARK: - Extension, API Services -
 //------------------------------------------------------------------------------
-extension ServiceHost {
+extension MemeGenerator {
     private static var imageService: (scheme: String, host: String) {
         return (scheme: shared.scheme, host: shared.host)
     }

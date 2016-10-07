@@ -1,6 +1,6 @@
 // MARK: - Frinkiac -
 //------------------------------------------------------------------------------
-public struct Frinkiac: ServiceHost {
+public struct Frinkiac: MemeGenerator {
     /// - parameter scheme: `https`.
     public var scheme: String {
         return "https"

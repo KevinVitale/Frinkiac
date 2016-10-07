@@ -1,6 +1,6 @@
 // MARK: - Frame Search Provider -
 //------------------------------------------------------------------------------
-public final class FrameSearchProvider<S: ServiceHost> {
+public final class FrameSearchProvider<S: MemeGenerator> {
     // MARK: - Private -
     //--------------------------------------------------------------------------
     /// - parameter callback: The callback provided during initialization.

@@ -3,7 +3,7 @@ import UIKit
 
 // MARK: - Frame Search Controller -
 //------------------------------------------------------------------------------
-public final class FrameSearchController<S: ServiceHost>: FrameMemeCollection, UISearchResultsUpdating, UISearchControllerDelegate {
+public final class FrameSearchController<S: MemeGenerator>: FrameMemeCollection, UISearchResultsUpdating, UISearchControllerDelegate {
     // MARK: - Private -
     //--------------------------------------------------------------------------
     fileprivate var searchProvider: FrameSearchProvider<S>! = nil
@@ -185,7 +185,7 @@ extension FrameSearchController: FrameCollectionDelegate {
 }
 
 public protocol FrameSearchControllerDelegate {
-    func frameSearchShouldActivate<S: ServiceHost>(_ frameSearchController: FrameSearchController<S>) -> Bool
+    func frameSearchShouldActivate<S: MemeGenerator>(_ frameSearchController: FrameSearchController<S>) -> Bool
 }
 
 // MARK: - Frame Footer Collection -
