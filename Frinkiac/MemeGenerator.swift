@@ -16,6 +16,16 @@ public protocol MemeGenerator {
     static var shared: Self { get }
 }
 
+extension MemeGenerator {
+    public var scheme: String {
+        return "https"
+    }
+    
+    public var path: String? {
+        return "api"
+    }
+}
+
 // MARK: - Extension, URL Request -
 //------------------------------------------------------------------------------
 extension MemeGenerator {
