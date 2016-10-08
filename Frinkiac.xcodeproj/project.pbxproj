@@ -23,6 +23,7 @@
 		0AB36D181D9B09CA0069D00E /* FrameImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB36D171D9B09CA0069D00E /* FrameImage.swift */; };
 		0AB36D1A1D9B0B170069D00E /* Aliases.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB36D191D9B0B170069D00E /* Aliases.swift */; };
 		0AD4FD7D1D9C2CC800A575CD /* FrameSearchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AD4FD7C1D9C2CC800A575CD /* FrameSearchCell.swift */; };
+		0ADEECE31DA84E1B00C33E1F /* ServiceProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ADEECE21DA84E1B00C33E1F /* ServiceProvider.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -43,6 +44,7 @@
 		0AB36D171D9B09CA0069D00E /* FrameImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FrameImage.swift; sourceTree = "<group>"; };
 		0AB36D191D9B0B170069D00E /* Aliases.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Aliases.swift; sourceTree = "<group>"; };
 		0AD4FD7C1D9C2CC800A575CD /* FrameSearchCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FrameSearchCell.swift; sourceTree = "<group>"; };
+		0ADEECE21DA84E1B00C33E1F /* ServiceProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServiceProvider.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -70,6 +72,7 @@
 				0A3E2E281DA2CCA20089BA8C /* ImageDownloader.swift */,
 				0A3E2E261DA2CC800089BA8C /* ImageLink.swift */,
 				0A3E2E2A1DA2DE900089BA8C /* JSONResponses.swift */,
+				0ADEECE21DA84E1B00C33E1F /* ServiceProvider.swift */,
 			);
 			name = Misc;
 			sourceTree = "<group>";
@@ -226,6 +229,7 @@
 				0AB36D181D9B09CA0069D00E /* FrameImage.swift in Sources */,
 				0AA73B371D999BF500D0BCFF /* MemeGenerator.swift in Sources */,
 				0A3E2E291DA2CCA20089BA8C /* ImageDownloader.swift in Sources */,
+				0ADEECE31DA84E1B00C33E1F /* ServiceProvider.swift in Sources */,
 				0A3E2E2B1DA2DE900089BA8C /* JSONResponses.swift in Sources */,
 				0AB36CF71D9AEFFB0069D00E /* FrameSearchProvider.swift in Sources */,
 				0A4FFA851DA5A4D800F69712 /* FrameMemeCollection.swift in Sources */,

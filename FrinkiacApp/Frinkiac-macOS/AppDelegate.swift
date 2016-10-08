@@ -12,7 +12,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     // MARK: - Private -
     //--------------------------------------------------------------------------
-    private var searchProvider: FrameSearchProvider!
+    private var searchProvider: FrameSearchProvider<Frinkiac>!
     private var caption: Caption? {
         didSet {
             if let caption = caption {
@@ -37,8 +37,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         super.awakeFromNib()
         //----------------------------------------------------------------------
         searchProvider = FrameSearchProvider { [weak self] in
-            if let frame = $0.first {
-                Frinkiac.caption(with: frame) {
+            if let frameImage = $0.first {
+                Frinkiac.caption(with: frameImage.frame) {
                     self?.caption = try? $0().0
                 }.resume()
             }
