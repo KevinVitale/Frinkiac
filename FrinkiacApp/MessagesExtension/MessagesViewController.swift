@@ -12,9 +12,9 @@ class MessagesViewController: MSMessagesAppViewController, FrameSearchController
     //--------------------------------------------------------------------------
     fileprivate weak var searchController: FrameSearchController<MemeService>? = nil
     fileprivate func setSearch(active: Bool) {
-        searchController?.searchController?.isActive = active
+        searchController?.isActive = active
     }
-    func frameSearchShouldActivate<S : MemeGenerator>(_ frameSearchController: FrameSearchController<S>) -> Bool {
+    func searchShouldActivate(_ searchController: UISearchController) -> Bool {
         return presentationStyle == .expanded
     }
     //--------------------------------------------------------------------------
@@ -42,41 +42,36 @@ class MessagesViewController: MSMessagesAppViewController, FrameSearchController
 
 // MARK: - Extension, Frame Collection Delegate -
 //------------------------------------------------------------------------------
-extension MessagesViewController: FrameCollectionDelegate {
-    public func frameCollection(_ frameCollection: FrameCollectionViewController, didSelect frameImage: FrameImage) {
+extension MessagesViewController {
+    fileprivate func frameCollection(_ frameCollection: FrameCollectionViewController<MemeService>? = nil, didSelect frameImage: FrameImage<MemeService>) {
         // 1) Download: 'Caption'
         //----------------------------------------------------------------------
-        MemeService.caption(with: frameImage.frame) { [weak self] in
-            if let caption = try? $0().0
-             , let conversation = self?.activeConversation {
-                // 2) Download: 'Image'
-                //--------------------------------------------------------------
-                caption.memeLink.download {
-                    if let image = try? $0() {
-                        // 3) Create: 'Template Layout'
-                        //------------------------------------------------------
-                        let layout = MSMessageTemplateLayout()
-                        layout.image = image
-                        layout.caption = caption.subtitle
-                        
-                        // 4) Create: 'Message'
-                        //------------------------------------------------------
-                        let message = MSMessage(session: conversation.selectedMessage?.session ?? MSSession())
-                        message.url = caption.memeLink.url
-                        message.layout = layout
-                        
-                        // 5) Insert: 'Message'
-                        //------------------------------------------------------
-                        conversation.insert(message) { _ in
-                            DispatchQueue.main.async {
-                                self?.requestPresentationStyle(.compact)
-                                self?.setSearch(active: false)
-                            }
-                        }
-                    }
-                }.resume()
+        if let image = frameImage.image
+            , let url = frameImage.response?.url
+            , let text = frameImage.memeText?.text
+            , let conversation = activeConversation {
+            
+            // 3) Create: 'Template Layout'
+            //------------------------------------------------------
+            let layout = MSMessageTemplateLayout()
+            layout.image = image
+            layout.caption = text
+            
+            // 4) Create: 'Message'
+            //------------------------------------------------------
+            let message = MSMessage(session: conversation.selectedMessage?.session ?? MSSession())
+            message.url = url
+            message.layout = layout
+            
+            // 5) Insert: 'Message'
+            //------------------------------------------------------
+            conversation.insert(message) { [weak self] _ in
+                DispatchQueue.main.async {
+                    self?.requestPresentationStyle(.compact)
+                    self?.setSearch(active: false)
+                }
             }
-        }.resume()
+        }
     }
 }
 
@@ -118,8 +113,10 @@ extension MessagesViewController {
 
         // Create embedded controller
         //----------------------------------------------------------------------
-        let searchController = FrameSearchController<MemeService>()
-        searchController.delegate = self
+        let searchController = FrameSearchController<MemeService>() { [weak self] in
+            self?.frameCollection($0.0, didSelect: $0.1)
+        }
+        // FIXME: Check out 'transitionDelegate'?
         searchController.searchDelegate = self
         searchController.searchBar.delegate = self
 

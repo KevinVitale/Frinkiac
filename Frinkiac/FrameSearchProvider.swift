@@ -1,18 +1,27 @@
 // MARK: - Frame Search Provider -
 //------------------------------------------------------------------------------
-public final class FrameSearchProvider<S: MemeGenerator> {
+public final class FrameSearchProvider<M: MemeGenerator> {
     // MARK: - Private -
     //--------------------------------------------------------------------------
     /// - parameter callback: The callback provided during initialization.
-    private var callback: (([FrameImage]) -> ()) = { _ in }
+    private var callback: ([FrameImage<M>]) -> () = { _ in }
 
     /// - parameter searchTask: The task which performs the search.
     private var searchTask: URLSessionTask? = nil
-    private var delegate: FrameImageDelegate? = nil
+
+    /// - parameter randomTask: The task which fetches a random caption.
+    private var randomTask: URLSessionTask? = nil {
+        willSet {
+            randomTask?.cancel()
+        }
+        didSet {
+            randomTask?.resume()
+        }
+    }
 
     /// - parameter results: The frames returned by searching for `searchText`.
     /// - note: Updating this value invokes `callback`, iff: `newValue` isn't `nil`.
-    private var results: [FrameImage]? = nil {
+    private var results: [FrameImage<M>]? = nil {
         didSet {
             if let results = results {
                 callback(results)
@@ -28,8 +37,13 @@ public final class FrameSearchProvider<S: MemeGenerator> {
         willSet {
             searchTask?.cancel()
             searchTask = find(newValue) { [weak self] in
-                if let results = try? $0() {
-                    self?.results = results
+                if let frames = try? $0().0 {
+                    self?.results = frames.flatMap { frame -> FrameImage<M>? in
+                        guard let memeGenerator = self?.memeGenerator else {
+                            return nil
+                        }
+                        return FrameImage(memeGenerator, frame: frame)
+                    }
                 }
             }
         }
@@ -38,13 +52,27 @@ public final class FrameSearchProvider<S: MemeGenerator> {
         }
     }
 
+    // MARK: - Deinit -
+    //--------------------------------------------------------------------------
+    deinit {
+        randomTask?.cancel()
+    }
+
+    // MARK: - Public -
+    //--------------------------------------------------------------------------
+    /// - parameter memeGenerator: The meme generator service provider.
+    public let memeGenerator: M
+    
+
     // MARK: - Initialization -
     //--------------------------------------------------------------------------
-    public init(delegate: FrameImageDelegate? = nil, callback: @escaping (([FrameImage]) -> ())) {
-        self.delegate = delegate
+    public init(_ memeGenerator: M = M(), callback: @escaping ([FrameImage<M>]) -> ()) {
+        self.memeGenerator = memeGenerator
         self.callback = callback
     }
 
+    // MARK: - Reset -
+    //--------------------------------------------------------------------------
     public func reset() {
         results = []
     }
@@ -61,12 +89,8 @@ public final class FrameSearchProvider<S: MemeGenerator> {
      - returns: A session task that, when started, performs a search
                 and executes `callback`.
      */
-    private func find(_ text: String, callback: @escaping ((() throws -> [FrameImage]?) -> ())) -> URLSessionTask {
-        return S.search(for: text) { [weak self] result in
-            callback {
-                try? result().0.map { FrameImage($0, serviceHost: S.shared, delegate: self?.delegate) }
-            }
-        }
+    private func find(_ text: String, callback: @escaping Callback<([Frame], URLResponse?)>) -> URLSessionTask {
+        return memeGenerator.search(for: text, callback: callback)
     }
 
     /**
@@ -76,5 +100,27 @@ public final class FrameSearchProvider<S: MemeGenerator> {
      */
     public func find(_ text: String) {
         searchText = text
+    }
+
+    // MARK: - Random -
+    //--------------------------------------------------------------------------
+    /**
+     Search for a random caption.
+     
+     - parameter callback: The callback receiving the result when executed.
+     */
+    public func random(callback: @escaping Callback<(frame: FrameImage<M>?, caption: Caption, response: URLResponse?)>) {
+        randomTask = memeGenerator.random { [weak self] closure in
+            do {
+                let result = try closure()
+                //--------------------------------------------------------------
+                let caption = result.0
+                let memeGenerator = self?.memeGenerator ?? M()
+                //--------------------------------------------------------------
+                callback { (FrameImage(memeGenerator, frame: caption.frame), caption, result.1) }
+            } catch let error {
+                callback { throw error }
+            }
+        }
     }
 }

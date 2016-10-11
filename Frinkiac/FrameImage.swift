@@ -1,100 +1,83 @@
 //------------------------------------------------------------------------------
 // MARK: - Frame Image -
 //------------------------------------------------------------------------------
-public final class FrameImage: Equatable {
+public final class FrameImage<M: MemeGenerator>: Equatable {
     // MARK: - Private -
     //--------------------------------------------------------------------------
-    private var frameDownloadTask: URLSessionTask? = nil
-    private var captionDownloadTask: URLSessionTask? = nil
-    private var memeCaptionDownloadTask: URLSessionTask? = nil
-    
+    private var imageTask: URLSessionTask? = nil {
+        willSet {
+            imageTask?.cancel()
+        }
+        didSet {
+            imageTask?.resume()
+        }
+    }
+    private let memeGenerator: M
+
     // MARK: - Public -
     //--------------------------------------------------------------------------
-    /**
-     A frame image's `delegate` can be informed when downloads are completed.
-     
-     - note: Can be reassigned after initialization to redirect the methods
-             invocations to new objects.
-     */
-    public weak var delegate: FrameImageDelegate? = nil
-
-    /**
-     The underlying `frame` model returned by the Frinkiac APIs.
-     */
     public let frame: Frame
-
-    /**
-     The frame's image.
-     
-     - note: Does not contain a meme caption.
-     */
-    public private(set) var image: ImageType? = nil {
-        didSet {
-            if let image = image {
-                delegate?.frame(self, didUpdateImage: image)
-            }
-        }
-    }
-
     public private(set) var caption: Caption? = nil
-    public private(set) var meme: ImageType? = nil {
-        didSet {
-            if let meme = meme {
-                delegate?.frame(self, didUpdateMeme: meme)
-            }
-        }
-    }
+    public private(set) var image: ImageType? = nil
+    public private(set) var response: URLResponse? = nil
+    public private(set) var memeText: ImageProvider.MemeText? = nil
 
-    // MARK: - Memory Cleanup -
+    // MARK: - Deinit -
     //--------------------------------------------------------------------------
     deinit {
-        frameDownloadTask?.cancel()
-        captionDownloadTask?.cancel()
-        memeCaptionDownloadTask?.cancel()
+        imageTask?.cancel()
     }
-
+    
     // MARK: - Initialization -
     //--------------------------------------------------------------------------
-    public init<S: MemeGenerator>(_ frame: Frame, serviceHost: S, delegate: FrameImageDelegate? = nil) {
+    public required init(_ memeGenerator: M = M(), frame: Frame) {
+        self.memeGenerator = memeGenerator
         self.frame = frame
-        self.delegate = delegate
+    }
 
-        // Download frame image
-        //----------------------------------------------------------------------
-        frameDownloadTask = frame.imageLink.download { [weak self] in
-            if let image = try? $0() {
-                self?.image = image
-            }
-        }
-        frameDownloadTask?.resume()
-
-        // Download caption image
-        //----------------------------------------------------------------------
-        captionDownloadTask = S.caption(with: frame) { [weak self] in
-            if let caption = try? $0().0 {
-                self?.memeCaptionDownloadTask = caption.memeLink.download {
-                    if let image = try? $0() {
-                        self?.meme = image
-                    }
-                }
-
+    // MARK: - Image Request -
+    //--------------------------------------------------------------------------
+    public func image(text: ImageProvider.MemeText? = nil, callback: @escaping Callback<FrameImage<M>?>) {
+        imageTask = memeGenerator.imageProvider.image(frame: frame, text: text) { [weak self] closure in
+            do {
+                let result = try closure()
                 //--------------------------------------------------------------
-                self?.memeCaptionDownloadTask?.resume()
+                self?.image = result.0
+                self?.response = result.1
+                self?.memeText = text
+                //--------------------------------------------------------------
+                callback {
+                    return self
+                }
+            } catch let error {
+                callback { throw error }
             }
         }
-        captionDownloadTask?.resume()
+    }
+
+    // MARK: - Caption Request -
+    //--------------------------------------------------------------------------
+    public func caption(callback: @escaping Callback<FrameImage<M>?>) {
+        imageTask = memeGenerator.caption(with: frame) { [weak self] in
+            do {
+                let result = try $0()
+                self?.caption = result.0
+                self?.update(text: .lines(self?.caption?.lines), callback: callback)
+            } catch let error {
+                callback { throw error }
+            }
+        }
+    }
+
+    // MARK: - Update Text Request -
+    //--------------------------------------------------------------------------
+    public func update(text: ImageProvider.MemeText? = nil, callback: @escaping Callback<FrameImage<M>?>) {
+        image(text: text, callback: callback)
     }
 
     // MARK: - Equatable -
     //--------------------------------------------------------------------------
-    public static func ==(lhs: FrameImage, rhs: FrameImage) -> Bool {
-        return lhs.frame.id == rhs.frame.id
+    public static func ==(lhs: FrameImage<M>, rhs: FrameImage<M>) -> Bool {
+        return lhs.frame == rhs.frame
     }
-}
-
-// MARK: - Frame Image Delegate -
-//------------------------------------------------------------------------------
-public protocol FrameImageDelegate: class {
-    func frame(_ : FrameImage, didUpdateImage image: ImageType)
-    func frame(_ : FrameImage, didUpdateMeme meme: ImageType)
 }

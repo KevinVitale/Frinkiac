@@ -31,4 +31,4 @@ extension UIColor {
 #endif
 
 //------------------------------------------------------------------------------
-public typealias Callback<T> = ((() throws -> T?) -> ())
+public typealias Callback<T> = (() throws -> T) -> ()

@@ -25,17 +25,19 @@ class FrameImageCell: UICollectionViewCell {
         
         // Shadow
         //----------------------------------------------------------------------
-        let radius: CGFloat = 4.0
-        let pathRect = bounds.insetBy(dx: -radius, dy: -radius)
-        let path = UIBezierPath(roundedRect: pathRect
-            , byRoundingCorners: .allCorners
-            , cornerRadii: CGSize(width: radius, height: radius)
-        )
-        layer.shadowPath = path.cgPath
-        layer.shadowRadius = radius.multiplied(by: 2.0)
-        layer.shadowOpacity = 0.333
-        layer.shadowOffset = .zero
-
+        if false {
+            let radius: CGFloat = 4.0
+            let pathRect = bounds.insetBy(dx: -radius, dy: -radius)
+            let path = UIBezierPath(roundedRect: pathRect
+                , byRoundingCorners: .allCorners
+                , cornerRadii: CGSize(width: radius, height: radius)
+            )
+            layer.shadowPath = path.cgPath
+            layer.shadowRadius = radius.multiplied(by: 2.0)
+            layer.shadowOpacity = 0.333
+            layer.shadowOffset = .zero
+        }
+        
         // Image View
         //----------------------------------------------------------------------
         imageView.frame = contentView.frame

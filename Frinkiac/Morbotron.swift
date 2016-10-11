@@ -1,11 +1,17 @@
-// mark: - Morbotron -
+// MARK: - Morbotron -
 //------------------------------------------------------------------------------
 public struct Morbotron: MemeGenerator {
-    /// - parameter host: `frinkiac.com`.
-    public var host: String {
-        return "morbotron.com"
-    }
+    // MARK: - Service Provider -
+    //--------------------------------------------------------------------------
+    public let host: String = "morbotron.com"
+    
+    // MARK: - Image Provider -
+    //--------------------------------------------------------------------------
+    public private(set) var imageProvider: ImageProvider
 
-    /// - parameter shared: A shared instance.
-    public static let shared = Morbotron()
+    // MARK: - Initialization -
+    //--------------------------------------------------------------------------
+    public init() {
+        imageProvider = ImageProvider(host: host)
+    }
 }

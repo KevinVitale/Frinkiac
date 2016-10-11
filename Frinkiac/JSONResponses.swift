@@ -1,6 +1,6 @@
 // MARK: - Frame -
 //------------------------------------------------------------------------------
-public struct Frame {
+public struct Frame: Equatable {
     // MARK: - Computed -
     //--------------------------------------------------------------------------
     public var episode: String {
@@ -15,7 +15,6 @@ public struct Frame {
 
     // MARK: - Internal -
     //--------------------------------------------------------------------------
-    let imageService: (scheme: String, host: String)
     let json: Any
 
     // MARK: - Subscript -
@@ -24,22 +23,28 @@ public struct Frame {
         return (json as? [String:AnyObject])?[key]
     }
 
-    // MARK: - Inferred -
+    public var imageLink: String {
+        return "meme/\(episode)/\(timestamp).jpg"
+    }
+    
+    public func gifLink(duration end: Int) -> String {
+        return "gif/\(timestamp)/\(timestamp.advanced(by: end))/\(end).gif"
+    }
+
+    public func duration(between frame: Frame) -> Int {
+        return timestamp.distance(to: frame.timestamp)
+    }
+
+    // MARK: - Equatable -
     //--------------------------------------------------------------------------
-    public var imageLink: ImageLink {
-        return .image(scheme: imageService.0, host: imageService.1, episode: episode, timestamp: timestamp)
-    }
-    public func memeLink(_ text: String) -> ImageLink {
-        return .meme(scheme: imageService.0, host: imageService.1, episode: episode, timestamp: timestamp, text: text)
-    }
-    public func gifLink(_ text: String, duration: Int = 2000) -> ImageLink {
-        return .gif(scheme: imageService.0, host: imageService.1, episode: episode, start: timestamp, end: timestamp + duration, text: text)
+    public static func ==(lhs: Frame, rhs: Frame) -> Bool {
+        return lhs.id == rhs.id
     }
 }
 
 // MARK: - Episode -
 //------------------------------------------------------------------------------
-public struct Episode {
+public struct Episode: Equatable {
     // MARK: - Computed -
     //--------------------------------------------------------------------------
     public var director: String {
@@ -79,11 +84,17 @@ public struct Episode {
     private subscript(key: String) -> Any? {
         return (json as? [String:AnyObject])?[key]
     }
+
+    // MARK: - Equatable -
+    //--------------------------------------------------------------------------
+    public static func ==(lhs: Episode, rhs: Episode) -> Bool {
+        return lhs.id == rhs.id
+    }
 }
 
 // MARK: - Subtitle -
 //------------------------------------------------------------------------------
-public struct Subtitle {
+public struct Subtitle: Equatable {
     // MARK: - Computed -
     //--------------------------------------------------------------------------
     public var content: String {
@@ -117,29 +128,34 @@ public struct Subtitle {
     private subscript(key: String) -> Any? {
         return (json as? [String:AnyObject])?[key]
     }
+
+    // MARK: - Equatable -
+    //--------------------------------------------------------------------------
+    public static func ==(lhs: Subtitle, rhs: Subtitle) -> Bool {
+        return lhs.id == rhs.id
+    }
 }
 
 // MARK: - Caption -
 //------------------------------------------------------------------------------
-public struct Caption {
+public struct Caption: Equatable {
     // MARK: - Computed -
     //--------------------------------------------------------------------------
     public var episode: Episode {
         return Episode(json: self["Episode"]!)
     }
     public var frame: Frame {
-        return Frame(imageService: imageService, json: self["Frame"]!)
+        return Frame(json: self["Frame"]!)
     }
     public var nearby: [Frame] {
-        return (self["Nearby"] as? [Any] ?? []).map { Frame(imageService: imageService, json: $0) }
+        return (self["Nearby"] as? [Any] ?? []).map(Frame.init)
     }
     public var subtitles: [Subtitle] {
-        return (self["Subtitles"] as? [Any] ?? []).map { Subtitle(json: $0) }
+        return (self["Subtitles"] as? [Any] ?? []).map(Subtitle.init)
     }
 
     // MARK: - Internal -
     //--------------------------------------------------------------------------
-    let imageService: (scheme: String, host: String)
     let json: Any
 
     // MARK: - Subscript -
@@ -150,17 +166,17 @@ public struct Caption {
 
     // MARK: - Inferred -
     //--------------------------------------------------------------------------
-    public var caption: String {
+    public var lines: String {
         return subtitles.caption
     }
     public var subtitle: String {
         return subtitles.subtitle.capitalized
     }
-    public var imageLink: ImageLink {
-        return frame.imageLink
-    }
-    public var memeLink: ImageLink {
-        return .meme(scheme: imageService.0, host: imageService.1, episode: frame.episode, timestamp: frame.timestamp, text: caption)
+
+    // MARK: - Equatable -
+    //--------------------------------------------------------------------------
+    public static func ==(lhs: Caption, rhs: Caption) -> Bool {
+        return lhs.frame == rhs.frame && lhs.subtitle == rhs.subtitle
     }
 }
 
@@ -190,8 +206,10 @@ extension String {
                 let wordLength = word.characters.count + 1
                 
                 if lastLineLength + wordLength <= 25, lastLineLength > 0 {
+                    // Start the next line
                     nextLines[nextLines.index(before: nextLines.endIndex)].append(word)
                 } else {
+                    // Continue appending more words
                     nextLines.append([word])
                 }
                 return nextLines

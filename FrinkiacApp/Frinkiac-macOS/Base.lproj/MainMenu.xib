@@ -1,8 +1,8 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="11198.2" systemVersion="15G31" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="11201" systemVersion="16B2338c" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="11198.2"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="11201"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="stacking Non-gravity area distributions on NSStackView" minToolsVersion="7.0" minSystemVersion="10.11"/>
     </dependencies>
@@ -695,34 +695,37 @@
                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                 <subviews>
                     <stackView distribution="fill" orientation="horizontal" alignment="top" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="aZq-cR-zNj">
-                        <rect key="frame" x="20" y="631.5" width="647" height="22.5"/>
+                        <rect key="frame" x="20" y="631" width="647" height="23"/>
                         <subviews>
                             <searchField wantsLayer="YES" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="M9g-kH-XRO">
-                                <rect key="frame" x="0.0" y="0.5" width="482" height="22"/>
+                                <rect key="frame" x="0.0" y="1" width="482" height="22"/>
                                 <searchFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" borderStyle="bezel" usesSingleLineMode="YES" bezelStyle="round" id="e16-vF-guh">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </searchFieldCell>
+                                <connections>
+                                    <outlet property="delegate" destination="Voe-Tx-rLC" id="XBP-7f-92U"/>
+                                </connections>
                             </searchField>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="fwV-d4-mVD">
-                                <rect key="frame" x="484" y="-5.5" width="83" height="32"/>
+                                <rect key="frame" x="484" y="-5" width="83" height="32"/>
                                 <buttonCell key="cell" type="push" title="Search" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="FsT-AZ-QF5">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
                                 <connections>
-                                    <action selector="searchWithSender:" target="Voe-Tx-rLC" id="vOW-7g-Lr1"/>
+                                    <action selector="search:" target="Voe-Tx-rLC" id="3iR-4e-Zx4"/>
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="WvI-YE-8qb">
-                                <rect key="frame" x="563" y="-5.5" width="90" height="32"/>
+                                <rect key="frame" x="563" y="-5" width="90" height="32"/>
                                 <buttonCell key="cell" type="push" title="Random" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="mg2-gb-lag">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
                                 <connections>
-                                    <action selector="randomWithSender:" target="Voe-Tx-rLC" id="gSe-ax-Vzx"/>
+                                    <action selector="random:" target="Voe-Tx-rLC" id="qk5-eA-FMA"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -738,7 +741,7 @@
                         </customSpacing>
                     </stackView>
                     <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="7gb-iv-g1i">
-                        <rect key="frame" x="17" y="135" width="653" height="491.5"/>
+                        <rect key="frame" x="17" y="135" width="653" height="491"/>
                         <constraints>
                             <constraint firstAttribute="width" secondItem="7gb-iv-g1i" secondAttribute="height" multiplier="4:3" id="VNh-k7-95t"/>
                         </constraints>
@@ -754,6 +757,10 @@
                             <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
+                        <connections>
+                            <action selector="update:" target="Voe-Tx-rLC" id="bMa-JC-JfO"/>
+                            <outlet property="delegate" destination="Voe-Tx-rLC" id="7je-nZ-coH"/>
+                        </connections>
                     </textField>
                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="xQw-Ma-IdQ">
                         <rect key="frame" x="611" y="111" width="56" height="19"/>
@@ -762,7 +769,7 @@
                             <font key="font" metaFont="cellTitle"/>
                         </buttonCell>
                         <connections>
-                            <action selector="updateWithSender:" target="Voe-Tx-rLC" id="Vqz-3z-KKw"/>
+                            <action selector="update:" target="Voe-Tx-rLC" id="eLU-Lk-6fZ"/>
                         </connections>
                     </button>
                 </subviews>
