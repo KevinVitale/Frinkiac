@@ -1,19 +1,17 @@
-// mark: - Morbotron -
+// MARK: - Morbotron -
 //------------------------------------------------------------------------------
-public struct Morbotron: ServiceHost {
-    /// - parameter scheme: `https`.
-    public var scheme: String {
-        return "https"
-    }
-    /// - parameter host: `frinkiac.com`.
-    public var host: String {
-        return "morbotron.com"
-    }
-    /// - parameter path: `api`.
-    public var path: String? {
-        return "api"
-    }
+public struct Morbotron: MemeGenerator {
+    // MARK: - Service Provider -
+    //--------------------------------------------------------------------------
+    public let host: String = "morbotron.com"
+    
+    // MARK: - Image Provider -
+    //--------------------------------------------------------------------------
+    public private(set) var imageProvider: ImageProvider
 
-    /// - parameter shared: A shared instance.
-    public static let shared = Morbotron()
+    // MARK: - Initialization -
+    //--------------------------------------------------------------------------
+    public init() {
+        imageProvider = ImageProvider(host: host)
+    }
 }

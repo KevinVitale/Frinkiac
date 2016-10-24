@@ -23,19 +23,6 @@ class FrameImageCell: UICollectionViewCell {
         contentView.layer.borderWidth = 2.0
         contentView.layer.borderColor = UIColor.white.cgColor
         
-        // Shadow
-        //----------------------------------------------------------------------
-        let radius: CGFloat = 4.0
-        let pathRect = bounds.insetBy(dx: -radius, dy: -radius)
-        let path = UIBezierPath(roundedRect: pathRect
-            , byRoundingCorners: .allCorners
-            , cornerRadii: CGSize(width: radius, height: radius)
-        )
-        layer.shadowPath = path.cgPath
-        layer.shadowRadius = radius.multiplied(by: 2.0)
-        layer.shadowOpacity = 0.333
-        layer.shadowOffset = .zero
-
         // Image View
         //----------------------------------------------------------------------
         imageView.frame = contentView.frame

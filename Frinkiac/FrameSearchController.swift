@@ -3,112 +3,114 @@ import UIKit
 
 // MARK: - Frame Search Controller -
 //------------------------------------------------------------------------------
-public final class FrameSearchController<S: ServiceHost>: FrameMemeCollection, UISearchResultsUpdating, UISearchControllerDelegate {
+public final class FrameSearchController<M: MemeGenerator>: FrameMemeController<M>, UISearchResultsUpdating, UISearchControllerDelegate {
     // MARK: - Private -
     //--------------------------------------------------------------------------
-    fileprivate var searchProvider: FrameSearchProvider<S>! = nil
-    fileprivate var footerCollection: FrameCollectionViewController? = nil
-    private var searchResultsCollection: FrameCollectionViewController? {
-        return searchController.searchResultsController as? FrameCollectionViewController
-    }
-
-    // MARK: - Search Provider -
-    //--------------------------------------------------------------------------
-    private func initializeSearchProvider(_ resultsController: FrameCollectionViewController?) {
-        searchProvider = FrameSearchProvider(delegate: resultsController) {
-            resultsController?.images = $0
-        }
-
-        // Binds *selection*
-        //----------------------------------------------------------------------
-        resultsController?.delegate = self
-    }
-
-    // MARK: - Search Controller -
-    //--------------------------------------------------------------------------
-    fileprivate func initializeSearchController(_ controller: FrameCollectionViewController = FrameCollectionViewController()) {
-        searchController = UISearchController(searchResultsController: controller)
-        searchController.searchResultsUpdater = self
-        searchController.delegate = self
-        controller.collectionView?.keyboardDismissMode = .onDrag
-    }
-
-    fileprivate func initializeFooterCollection() {
-        footerCollection = FrameFooterCollection()
-        footerCollection?.delegate = self
-        footerCollection?.flowLayout.scrollDirection = .horizontal
-        footerCollection?.collectionView?.showsHorizontalScrollIndicator = false
-        footerCollection?.preferredFrameImageRatio = .`default`
-    }
+    private var footerCollection: FrameMemeController<M>! = nil
+    private var searchController: UISearchController! = nil
+    private var searchProvider: FrameSearchProvider<M>! = nil
 
     // MARK: - Public -
     //--------------------------------------------------------------------------
-    public private(set) var searchController: UISearchController! = nil
     public var searchDelegate: FrameSearchControllerDelegate? = nil
     public var searchBar: UISearchBar! {
         return searchController.searchBar
     }
+    public var isActive: Bool = false {
+        didSet {
+            searchController.isActive = isActive
+        }
+    }
 
     // MARK: - Initialization -
     //--------------------------------------------------------------------------
-    private func initialize() {
-        initializeFooterCollection()
-        initializeSearchController()
-        initializeSearchProvider(searchResultsCollection)
-        preferredFrameImageRatio = .`default`
-    }
-    public required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-        initialize()
-    }
-    public required init() {
-        super.init()
-        initialize()
+    public required init?(coder aDecoder: NSCoder) { super.init(coder: aDecoder) }
+    public required init(_ imageSelected: ((FrameCollectionViewController<M>?, FrameImage<M>) -> ())? = nil) {
+        super.init(imageSelected)
+
+        func set(frameImage: FrameImage<M>) {
+            searchController.isActive = false
+            images = [frameImage]
+        }
+
+        // Footer Collection
+        //----------------------------------------------------------------------
+        footerCollection = FrameFooterController { [weak self] in
+            set(frameImage: $0.1)
+        }
+        footerCollection.itemsPerRow = 1.25
+        footerCollection.flowLayout.scrollDirection = .horizontal
+        footerCollection.collectionView?.showsHorizontalScrollIndicator = false
+        footerCollection.preferredFrameImageRatio = .`default`
+
+        // If 'FrameImageCell' has a shadow, this `clear` background helps.
+        footerCollection.collectionView?.backgroundColor = .clear
+
+        // Search Controller
+        //----------------------------------------------------------------------
+        let searchResultsController = FrameCollectionViewController<M> { [weak self] in
+            self?.footerCollection.images = $0.0?.images ?? []
+            set(frameImage: $0.1)
+        }
+        searchController = UISearchController(searchResultsController: searchResultsController)
+        searchController.delegate = self
+        searchController.searchResultsUpdater = self
+
+        // Search Provider
+        //----------------------------------------------------------------------
+        searchProvider = FrameSearchProvider() {
+            searchResultsController.images = $0
+        }
+
+        // Section Inset 
+        //----------------------------------------------------------------------
+        let sectionInset = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
+        flowLayout.sectionInset = sectionInset
+        footerCollection.flowLayout.sectionInset = sectionInset
+        searchResultsController.flowLayout.sectionInset = sectionInset
     }
 
-    // MARK: - View Lifecycle -
+    // MARK: - View Lifecyle -
     //--------------------------------------------------------------------------
     public override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Collection View
+        // Items
         //----------------------------------------------------------------------
-        collectionView?.backgroundColor = .simpsonsYellow
-        collectionView?.alwaysBounceHorizontal = false
+        preferredFrameImageRatio = .default
+        itemsPerRow = 1.0
+
+        // Flow layout
+        //----------------------------------------------------------------------
+        flowLayout.sectionHeadersPinToVisibleBounds = true
 
         // Cell Types
         //----------------------------------------------------------------------
         collectionView?.register(FrameSearchCell.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: FrameSearchCell.cellIdentifier)
         collectionView?.register(FrameResultsCell.self, forSupplementaryViewOfKind: UICollectionElementKindSectionFooter, withReuseIdentifier: FrameResultsCell.cellIdentifier)
     }
-
+    
     public override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        if let shouldActivate = searchDelegate?.frameSearchShouldActivate(self), shouldActivate == true {
-            searchController.isActive = true
-        }
+        isActive = searchDelegate?.searchShouldActivate(searchController) ?? false
     }
 
-    // MARK: - Extension, Data Source -
-    //------------------------------------------------------------------------------
-    public override var itemsPerRow: Int {
-        return 1
-    }
-    
-    public override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        switch kind {
-        case UICollectionElementKindSectionFooter:
-            return dequeueResultsCell(ofKind: kind, at: indexPath)
-        default:
-            return dequeueSearchCell(ofKind: kind, at: indexPath)
-        }
-    }
-
-    // MARK: - Extension, Search Results Updating -
+    // MARK: - Search Results, Updating -
     //------------------------------------------------------------------------------
     public func updateSearchResults(for searchController: UISearchController) {
         if let text = searchController.searchBar.text, !text.isEmpty {
             searchProvider.find(text)
+        }
+    }
+
+    // MARK: - Collection View, Data Source
+    //--------------------------------------------------------------------------
+    public override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        switch kind {
+        case UICollectionElementKindSectionHeader:
+            return dequeueSearchCell(ofKind: kind, at: indexPath)
+        default:
+            return dequeueResultsCell(ofKind: kind, at: indexPath)
         }
     }
 
@@ -117,30 +119,13 @@ public final class FrameSearchController<S: ServiceHost>: FrameMemeCollection, U
     public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
         return CGSize(width: collectionView.frame.width, height: searchBar.frame.height)
     }
-
+    
     public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
-        // Return `.zero` if we don't have any images
-        guard let footerCollection = footerCollection, footerCollection.hasImages else {
-            return .zero
-        }
-
-        let selectedImageSize = imageSize(for: images.first, in: collectionView)
-        var height = searchBar.frame.height
-            .adding(selectedImageSize.height)
-            .adding(flowLayout.sectionInset.top)
-            .adding(flowLayout.sectionInset.bottom)
-
-        height = max(
-            collectionView.frame.height.subtracting(height),
-            footerCollection.imageSize(for: footerCollection.images.first,
-                                       in: footerCollection.collectionView!)
-                .height
-                .adding(footerCollection.flowLayout.sectionInset.top)
-                .adding(footerCollection.flowLayout.sectionInset.bottom)
+        let selectedItemSize = self.collectionView(collectionView
+            , layout: collectionViewLayout
+            , sizeForItemAt: IndexPath(row: 0, section: section)
         )
-
-        let size = CGSize(width: collectionView.frame.width, height: height)
-        return size
+        return CGSize(width: collectionView.bounds.width, height: collectionView.bounds.height.multiplied(by: 0.333))
     }
 
     // MARK: - Dequeue Cell -
@@ -153,7 +138,7 @@ public final class FrameSearchController<S: ServiceHost>: FrameMemeCollection, U
 
     fileprivate func dequeueResultsCell(ofKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         let cell = collectionView?.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: FrameResultsCell.cellIdentifier, for: indexPath) as! FrameResultsCell
-        cell.collectionView = footerCollection?.collectionView
+        cell.collectionView = footerCollection.collectionView
         return cell
     }
 
@@ -164,35 +149,16 @@ public final class FrameSearchController<S: ServiceHost>: FrameMemeCollection, U
     }
 }
 
-// MARK: - Extension, Frame Collection Delegate
-//------------------------------------------------------------------------------
-extension FrameSearchController: FrameCollectionDelegate {
-    public func frameCollection(_ frameController: FrameCollectionViewController, didSelect frameImage: FrameImage) {
-        if frameController != footerCollection {
-            footerCollection?.images = frameController.images
-        }
-
-        // Update the frame image delegate
-        //----------------------------------------------------------------------
-        frameImage.delegate = self
-        images = [frameImage]
-        footerCollection?.scroll(to: frameImage)
-
-        // Disable search
-        //----------------------------------------------------------------------
-        searchController.isActive = false
-    }
-}
-
 public protocol FrameSearchControllerDelegate {
-    func frameSearchShouldActivate<S: ServiceHost>(_ frameSearchController: FrameSearchController<S>) -> Bool
+    func searchShouldActivate(_ searchController: UISearchController) -> Bool
 }
 
-// MARK: - Frame Footer Collection -
+// MARK: - Frame Footer Controller -
 //------------------------------------------------------------------------------
-fileprivate final class FrameFooterCollection: FrameMemeCollection {
-    public override func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return imageSize(for: images[indexPath.row], in: collectionView, itemWidthMultiplier: 1.5)
+fileprivate final class FrameFooterController<M: MemeGenerator>: FrameMemeController<M> {
+    fileprivate override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        super.collectionView(collectionView, didSelectItemAt: indexPath)
+        scroll(to: frameImage(at: indexPath))
     }
 }
 #endif

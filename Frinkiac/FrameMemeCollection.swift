@@ -1,26 +1,21 @@
 #if os(iOS)
 import UIKit
     
-// MARK: - Frame Meme Collection -
+// MARK: - Frame Meme Controller -
 //------------------------------------------------------------------------------
 /**
- A frame collection view controller that will reload when a frame image `meme`
- is downloaded.
+ A frame collection view controller that updates each frame image's caption when
+ `images` is set.
 */
-public class FrameMemeCollection: FrameCollectionViewController {
-    public override func dequeue(frameCellAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView?.dequeueReusableCell(withReuseIdentifier: FrameImageCell.cellIdentifier, for: indexPath) as! FrameImageCell
-
-        // Sets the image depending on the state of `meme`
-        //----------------------------------------------------------------------
-        let frame = images[indexPath.row]
-        cell.imageView.image = frame.meme ?? frame.image
-
-        return cell
-    }
-
-    public override func frame(_: FrameImage, didUpdateMeme meme: ImageType) {
-        reload()
+public class FrameMemeController<M: MemeGenerator>: FrameCollectionViewController<M> {
+    public override var images: [FrameImage<M>] {
+        didSet {
+            images.forEach {
+                $0.caption { [weak self] _ in
+                    self?.reload()
+                }
+            }
+        }
     }
 }
 #endif

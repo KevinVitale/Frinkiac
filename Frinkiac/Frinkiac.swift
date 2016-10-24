@@ -1,19 +1,17 @@
 // MARK: - Frinkiac -
 //------------------------------------------------------------------------------
-public struct Frinkiac: ServiceHost {
-    /// - parameter scheme: `https`.
-    public var scheme: String {
-        return "https"
-    }
-    /// - parameter host: `frinkiac.com`.
-    public var host: String {
-        return "frinkiac.com"
-    }
-    /// - parameter path: `api`.
-    public var path: String? {
-        return "api"
-    }
+public struct Frinkiac: MemeGenerator {
+    // MARK: - Service Provider -
+    //--------------------------------------------------------------------------
+    public let host: String = "frinkiac.com"
 
-    /// - parameter shared: A shared instance.
-    public static let shared = Frinkiac()
+    // MARK: - Image Provider -
+    //--------------------------------------------------------------------------
+    public private(set) var imageProvider: ImageProvider
+
+    // MARK: - Initialization -
+    //--------------------------------------------------------------------------
+    public init() {
+        imageProvider = ImageProvider(host: host)
+    }
 }
