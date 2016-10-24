@@ -29,8 +29,8 @@ public final class FrameSearchController<M: MemeGenerator>: FrameMemeController<
         super.init(imageSelected)
 
         func set(frameImage: FrameImage<M>) {
-            images = [frameImage]
             searchController.isActive = false
+            images = [frameImage]
         }
 
         // Footer Collection
@@ -42,6 +42,9 @@ public final class FrameSearchController<M: MemeGenerator>: FrameMemeController<
         footerCollection.flowLayout.scrollDirection = .horizontal
         footerCollection.collectionView?.showsHorizontalScrollIndicator = false
         footerCollection.preferredFrameImageRatio = .`default`
+
+        // If 'FrameImageCell' has a shadow, this `clear` background helps.
+        footerCollection.collectionView?.backgroundColor = .clear
 
         // Search Controller
         //----------------------------------------------------------------------
@@ -122,7 +125,7 @@ public final class FrameSearchController<M: MemeGenerator>: FrameMemeController<
             , layout: collectionViewLayout
             , sizeForItemAt: IndexPath(row: 0, section: section)
         )
-        return CGSize(width: collectionView.bounds.width, height: selectedItemSize.height.multiplied(by: 0.666))
+        return CGSize(width: collectionView.bounds.width, height: collectionView.bounds.height.multiplied(by: 0.333))
     }
 
     // MARK: - Dequeue Cell -
@@ -153,5 +156,9 @@ public protocol FrameSearchControllerDelegate {
 // MARK: - Frame Footer Controller -
 //------------------------------------------------------------------------------
 fileprivate final class FrameFooterController<M: MemeGenerator>: FrameMemeController<M> {
+    fileprivate override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        super.collectionView(collectionView, didSelectItemAt: indexPath)
+        scroll(to: frameImage(at: indexPath))
+    }
 }
 #endif
