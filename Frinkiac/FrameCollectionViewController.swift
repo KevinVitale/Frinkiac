@@ -48,7 +48,15 @@ public class FrameCollectionViewController<M: MemeGenerator>: UICollectionViewCo
             .first?.element
     }
 
-    private func frameImage(at indexPath: IndexPath) -> FrameImage<M>? {
+    func indexPath(of frameImage: FrameImage<M>) -> IndexPath? {
+        return images
+            .enumerated()
+            .filter { $0.element == frameImage }
+            .map { IndexPath(row: $0.offset, section: 0) }
+            .first
+    }
+
+    func frameImage(at indexPath: IndexPath) -> FrameImage<M>? {
         return frameImage(at: indexPath.row)
     }
 
@@ -95,6 +103,9 @@ public class FrameCollectionViewController<M: MemeGenerator>: UICollectionViewCo
         collectionView?.alwaysBounceHorizontal = false
         collectionView?.keyboardDismissMode = .onDrag
 
+        // If 'FrameImageCell' has a shadow, turning off clipping helps
+        collectionView?.clipsToBounds = false
+
         // Cell Types
         //----------------------------------------------------------------------
         collectionView?.register(FrameImageCell.self, forCellWithReuseIdentifier: FrameImageCell.cellIdentifier)
@@ -129,7 +140,6 @@ public class FrameCollectionViewController<M: MemeGenerator>: UICollectionViewCo
     //--------------------------------------------------------------------------
     public func dequeue(frameCellAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView?.dequeueReusableCell(withReuseIdentifier: FrameImageCell.cellIdentifier, for: indexPath) as! FrameImageCell
-
         cell.imageView.image = frameImage(at: indexPath)?.image
 
         return cell
@@ -138,8 +148,8 @@ public class FrameCollectionViewController<M: MemeGenerator>: UICollectionViewCo
     // MARK: - Scroll to Frame Image -
     //--------------------------------------------------------------------------
     final func scroll(to frameImage: FrameImage<M>?, at position: UICollectionViewScrollPosition = .centeredHorizontally, animated: Bool = true) {
-        if let frameImage = frameImage, let row = images.index(of: frameImage) {
-            let indexPath = IndexPath(row: row, section: 0)
+        if let frameImage = frameImage
+            , let indexPath = indexPath(of: frameImage) {
             collectionView?.scrollToItem(at: indexPath, at: position, animated: animated)
         }
     }
@@ -161,7 +171,7 @@ public class FrameCollectionViewController<M: MemeGenerator>: UICollectionViewCo
         }
 
         let yScale = (allowableWidth / imageSize.width)
-        let itemSize = CGSize(width: allowableWidth, height: imageSize.height)
+        var itemSize = CGSize(width: allowableWidth, height: imageSize.height)
             .applying(CGAffineTransform(scaleX: 1.0, y: yScale))
 
         // Determines if height of the collection view is less than `itemSize`
@@ -172,12 +182,10 @@ public class FrameCollectionViewController<M: MemeGenerator>: UICollectionViewCo
             .subtracting(collectionView.contentInset.top)
             .subtracting(collectionView.contentInset.bottom)
         let xScale = (viewHeight / itemSize.height)
-        switch xScale.isLess(than: 1.0) {
-        case true:
-            return itemSize.applying(CGAffineTransform(scaleX: xScale, y: xScale))
-        default:
-            return itemSize
+        if xScale.isLess(than: 1.0) {
+            itemSize = itemSize.applying(CGAffineTransform(scaleX: xScale, y: xScale))
         }
+        return itemSize
     }
 }
 #endif
