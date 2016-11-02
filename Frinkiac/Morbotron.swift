@@ -1,5 +1,6 @@
-// MARK: - Morbotron -
-//------------------------------------------------------------------------------
+/**
+ Provides API services for `morbotron.com`.
+ */
 public struct Morbotron: MemeGenerator {
     // MARK: - Service Provider -
     //--------------------------------------------------------------------------

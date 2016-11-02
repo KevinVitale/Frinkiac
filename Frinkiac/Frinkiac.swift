@@ -1,5 +1,6 @@
-// MARK: - Frinkiac -
-//------------------------------------------------------------------------------
+/**
+ Provides API services for `frinkiac.com`.
+ */
 public struct Frinkiac: MemeGenerator {
     // MARK: - Service Provider -
     //--------------------------------------------------------------------------
