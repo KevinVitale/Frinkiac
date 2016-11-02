@@ -5,6 +5,15 @@ import UIKit
 //------------------------------------------------------------------------------
 /// Displays a collection of frames and their images.
 public class FrameCollectionViewController<M: MemeGenerator>: UICollectionViewController, UICollectionViewDelegateFlowLayout {
+    // MARK: - Aliases
+    //--------------------------------------------------------------------------
+    public typealias Selection = (FrameCollectionViewController<M>?, FrameImage<M>)
+    public typealias SelectionCallback = (Selection) -> ()
+
+    // MARK: - Private -
+    //--------------------------------------------------------------------------
+    private var selectionCallback: SelectionCallback? = nil
+    
     // MARK: - Public -
     //--------------------------------------------------------------------------
     public var itemsPerRow: CGFloat = 3.0
@@ -16,10 +25,6 @@ public class FrameCollectionViewController<M: MemeGenerator>: UICollectionViewCo
             .subtracting(collectionView.contentInset.left)
             .subtracting(collectionView.contentInset.right)
     }
-
-    /// - parameter imageSelected: This identifies which object is responsible for
-    ///             handling frame selection.
-    private var imageSelected: ((FrameCollectionViewController<M>, FrameImage<M>) -> ())? = nil
 
     /// - parameter images: The collection of frame images the controller is
     ///             responsible for displaying. When this value changes, it
@@ -79,9 +84,9 @@ public class FrameCollectionViewController<M: MemeGenerator>: UICollectionViewCo
     // MARK: - Initialization -
     //--------------------------------------------------------------------------
     public required init?(coder aDecoder: NSCoder) { super.init(coder: aDecoder) }
-    public required init(_ imageSelected: ((FrameCollectionViewController<M>?, FrameImage<M>) -> ())? = nil) {
+    public required init(_ selectionCallback: SelectionCallback? = nil) {
         super.init(collectionViewLayout: UICollectionViewFlowLayout())
-        self.imageSelected = imageSelected
+        self.selectionCallback = selectionCallback
     }
 
     // MARK: - Reload -
@@ -132,7 +137,7 @@ public class FrameCollectionViewController<M: MemeGenerator>: UICollectionViewCo
 
     public override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if let frameImage = frameImage(at: indexPath) {
-            imageSelected?(self, frameImage)
+            selectionCallback?((self, frameImage))
         }
     }
 

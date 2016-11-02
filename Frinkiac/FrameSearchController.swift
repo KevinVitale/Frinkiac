@@ -25,8 +25,8 @@ public final class FrameSearchController<M: MemeGenerator>: FrameMemeController<
     // MARK: - Initialization -
     //--------------------------------------------------------------------------
     public required init?(coder aDecoder: NSCoder) { super.init(coder: aDecoder) }
-    public required init(_ imageSelected: ((FrameCollectionViewController<M>?, FrameImage<M>) -> ())? = nil) {
-        super.init(imageSelected)
+    public required init(_ selectionCallback: SelectionCallback? = nil) {
+        super.init(selectionCallback)
 
         func set(frameImage: FrameImage<M>) {
             searchController.isActive = false
