@@ -17,23 +17,17 @@ public class FrameCollectionViewController<M: MemeGenerator>: UICollectionViewCo
     // MARK: - Public -
     //--------------------------------------------------------------------------
     public var itemsPerRow: CGFloat = 3.0
-    func allowableItemWidth(`in` collectionView: UICollectionView, flowLayout: UICollectionViewFlowLayout) -> CGFloat {
-        return collectionView.bounds.width
-            .divided(by: itemsPerRow)
-            .subtracting(flowLayout.sectionInset.left)
-            .subtracting(flowLayout.sectionInset.right)
-            .subtracting(collectionView.contentInset.left)
-            .subtracting(collectionView.contentInset.right)
-    }
 
-    /// - parameter images: The collection of frame images the controller is
-    ///             responsible for displaying. When this value changes, it
-    ///             triggers a `reload()` on the collection view.
+    /**
+     The collection of frame images the controller is responsible for
+     displaying.
+
+     - note: When this value changes, it triggers a `reload()` on the collection
+     view.
+     */
     public var images: [FrameImage<M>] = [] {
         didSet {
-            //------------------------------------------------------------------
             reload()
-            //------------------------------------------------------------------
             images.forEach {
                 $0.image { [weak self] in
                     if let frameImage = try? $0(), frameImage != nil {
@@ -166,8 +160,14 @@ public class FrameCollectionViewController<M: MemeGenerator>: UICollectionViewCo
             return .zero
         }
 
-        let flowLayout = collectionViewLayout as! UICollectionViewFlowLayout
-        let allowableWidth = allowableItemWidth(in: collectionView, flowLayout: flowLayout)
+        //----------------------------------------------------------------------
+        var allowableWidth: CGFloat = 0.0
+        do {
+            allowableWidth = try collectionView.allowableWidth(itemsPerRow: itemsPerRow)
+        } catch {
+            fatalError()
+        }
+        //----------------------------------------------------------------------
 
         // We stop here if the image doesn't have a `size`, or the preferreed
         // ratio is already set to `square`

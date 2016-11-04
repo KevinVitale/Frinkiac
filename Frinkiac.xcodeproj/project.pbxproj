@@ -23,6 +23,7 @@
 		0AB36D1A1D9B0B170069D00E /* Aliases.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB36D191D9B0B170069D00E /* Aliases.swift */; };
 		0AD4FD7D1D9C2CC800A575CD /* FrameSearchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AD4FD7C1D9C2CC800A575CD /* FrameSearchCell.swift */; };
 		0ADEECE31DA84E1B00C33E1F /* ServiceProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ADEECE21DA84E1B00C33E1F /* ServiceProvider.swift */; };
+		0AEE196D1DCCE6600063B7CF /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AEE196C1DCCE6600063B7CF /* Utils.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -43,6 +44,7 @@
 		0AB36D191D9B0B170069D00E /* Aliases.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Aliases.swift; sourceTree = "<group>"; };
 		0AD4FD7C1D9C2CC800A575CD /* FrameSearchCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FrameSearchCell.swift; sourceTree = "<group>"; };
 		0ADEECE21DA84E1B00C33E1F /* ServiceProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServiceProvider.swift; sourceTree = "<group>"; };
+		0AEE196C1DCCE6600063B7CF /* Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -131,6 +133,7 @@
 				0A855BDD1D9B358A0040DE80 /* FrameImageCell.swift */,
 				0AD4FD7C1D9C2CC800A575CD /* FrameSearchCell.swift */,
 				0AAFD9AB1D9EC5FD00BAC67E /* FrameResultsCell.swift */,
+				0AEE196C1DCCE6600063B7CF /* Utils.swift */,
 			);
 			name = Misc;
 			sourceTree = "<group>";
@@ -221,6 +224,7 @@
 				0A0A19D21DAE7AC3004E53E8 /* FrameMemeCollection.swift in Sources */,
 				0AAFD9AC1D9EC5FD00BAC67E /* FrameResultsCell.swift in Sources */,
 				0A855BDC1D9B34F80040DE80 /* FrameCollectionViewController.swift in Sources */,
+				0AEE196D1DCCE6600063B7CF /* Utils.swift in Sources */,
 				0A94AAFE1DA9652900394DCC /* ImageProvider.swift in Sources */,
 				0AD4FD7D1D9C2CC800A575CD /* FrameSearchCell.swift in Sources */,
 				0A6AB8B41DA2EAB6003EF875 /* Morbotron.swift in Sources */,
