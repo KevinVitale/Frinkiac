@@ -74,7 +74,7 @@ extension ServiceProvider {
                     guard error == nil else {
                         throw error!
                     }
-                    return (try data?.parseJSON(), response!)
+                    return (try data?.parseJSON() as Any, response!)
                 }
         }
     }
