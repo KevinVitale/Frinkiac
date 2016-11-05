@@ -35,7 +35,7 @@ public final class FrameSearchController<M: MemeGenerator>: FrameMemeController<
 
         // Footer Collection
         //----------------------------------------------------------------------
-        footerCollection = FrameFooterController { [weak self] in
+        footerCollection = FrameFooterController {
             set(frameImage: $0.1)
         }
         footerCollection.itemsPerRow = 1.25
