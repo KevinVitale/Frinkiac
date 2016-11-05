@@ -121,10 +121,6 @@ public final class FrameSearchController<M: MemeGenerator>: FrameMemeController<
     }
     
     public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
-        let selectedItemSize = self.collectionView(collectionView
-            , layout: collectionViewLayout
-            , sizeForItemAt: IndexPath(row: 0, section: section)
-        )
         return CGSize(width: collectionView.bounds.width, height: collectionView.bounds.height.multiplied(by: 0.333))
     }
 
