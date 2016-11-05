@@ -38,27 +38,6 @@ public class FrameCollectionViewController<M: MemeGenerator>: UICollectionViewCo
         }
     }
 
-    // MARK: - Frame Image Subscripts -
-    //--------------------------------------------------------------------------
-    private func frameImage(at index: Int) -> FrameImage<M>? {
-        return images
-            .enumerated()
-            .filter { $0.offset == index }
-            .first?.element
-    }
-
-    func indexPath(of frameImage: FrameImage<M>) -> IndexPath? {
-        return images
-            .enumerated()
-            .filter { $0.element == frameImage }
-            .map { IndexPath(row: $0.offset, section: 0) }
-            .first
-    }
-
-    func frameImage(at indexPath: IndexPath) -> FrameImage<M>? {
-        return frameImage(at: indexPath.row)
-    }
-
     /// - parameter preferredFrameImageRatio: This will determine the ratio of
     ///             frame images in the collection. `square` displays every cell
     ///             with equal width and height (however, meme text may appear
@@ -191,6 +170,47 @@ public class FrameCollectionViewController<M: MemeGenerator>: UICollectionViewCo
             itemSize = itemSize.applying(CGAffineTransform(scaleX: xScale, y: xScale))
         }
         return itemSize
+    }
+}
+
+// MARK: - Extension, Frame Image Subscripts -
+//------------------------------------------------------------------------------
+extension FrameCollectionViewController {
+    /**
+     Returns the `FrameImage` (or `nil`) for the given `index` within `images`.
+     
+     - parameter index: The subscript `index` for the given `FrameImage`.
+     */
+    fileprivate func frameImage(at index: Int) -> FrameImage<M>? {
+        return images
+            .enumerated()
+            .filter { $0.offset == index }
+            .first?.element
+    }
+
+    /**
+     Returns an `IndexPath` (or `nil`) for the given `FrameImage`. 
+     
+     - parameter frameImage: The `FrameImage` being referenced.
+     - parameter section: Assumes `0`.
+        
+     - note: Manually specify the `section` that you want `IndexPath` to have.
+     */
+    func indexPath(of frameImage: FrameImage<M>, section: Int = 0) -> IndexPath? {
+        return images
+            .enumerated()
+            .filter { $0.element == frameImage }
+            .map { IndexPath(row: $0.offset, section: section) }
+            .first
+    }
+
+    /**
+     Returns the `FrameImage` (or `nil`) for the given `IndexPath`.
+     
+     - parameter indexPath: The refereced `IndexPath`.
+     */
+    func frameImage(at indexPath: IndexPath) -> FrameImage<M>? {
+        return frameImage(at: indexPath.row)
     }
 }
 #endif
