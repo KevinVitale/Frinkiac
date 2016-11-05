@@ -16,6 +16,8 @@ public class FrameCollectionViewController<M: MemeGenerator>: UICollectionViewCo
     
     // MARK: - Public -
     //--------------------------------------------------------------------------
+    /**
+     */
     public var itemsPerRow: CGFloat = 3.0
 
     /**
@@ -38,18 +40,25 @@ public class FrameCollectionViewController<M: MemeGenerator>: UICollectionViewCo
         }
     }
 
-    /// - parameter preferredFrameImageRatio: This will determine the ratio of
-    ///             frame images in the collection. `square` displays every cell
-    ///             with equal width and height (however, meme text may appear
-    ///             clipped). `default` will display the cell correctly scaled
-    ///             down, preserving the original width and height of the source
-    ///             image.
+    /**
+     This will determine the ratio of frame images in the collection.
+
+     - `square`: displays every cell with equal width and height; however,
+     meme text may appear clipped.
+
+     - `default`: will display the cell correctly scaled
+     down, preserving the original width and height of the source
+     image.
+     
+     - note: Defaults to `square`.
+     */
     public var preferredFrameImageRatio: FrameImageRatio = .square
 
     // MARK: - Computed -
     //--------------------------------------------------------------------------
-    /// - parameter flowLayout: A convenience accessor for the collection view's
-    ///             layout object.
+    /**
+     A convenience accessor for the collection view's layout object.
+     */
     public var flowLayout: UICollectionViewFlowLayout! {
         return collectionView?.collectionViewLayout as! UICollectionViewFlowLayout
     }
