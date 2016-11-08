@@ -75,7 +75,6 @@ public final class FrameSearchProvider<M: MemeGenerator> {
     /// - parameter memeGenerator: The meme generator service provider.
     public let memeGenerator: M
     
-
     // MARK: - Initialization -
     //--------------------------------------------------------------------------
     public init(_ memeGenerator: M = M(), callback: @escaping ([FrameImage<M>]) -> ()) {
