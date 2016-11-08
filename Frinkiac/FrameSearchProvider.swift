@@ -72,7 +72,9 @@ public final class FrameSearchProvider<M: MemeGenerator> {
 
     // MARK: - Public -
     //--------------------------------------------------------------------------
-    /// - parameter memeGenerator: The meme generator service provider.
+    /**
+     The meme generator service provider.
+     */
     public let memeGenerator: M
     
     // MARK: - Initialization -
