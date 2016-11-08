@@ -100,11 +100,28 @@ extension ServiceProvider {
 // MARK: - Extension, Download -
 //------------------------------------------------------------------------------
 extension ServiceProvider {
+    /**
+     Fetches the file for the given `request`, storing the result on disk.
+     
+     - parameter endpoint: The API endpoint for the desired resource.
+     - parameter parameters: An optional set of request parameters.
+     - parameter callback: A callback which returns another callback that, when
+                           invoked, returns the results of the request.
+     - returns: A session task that, when started, begins the request.
+     */
     func download(endpoint: String, parameters: [String:Any]? = nil, callback: @escaping Callback<(URL, URLResponse)>) -> URLSessionDownloadTask {
         let request = urlRequest(endpoint: endpoint, parameters: parameters)!
         return download(request: request, callback: callback)
     }
 
+    /**
+     Fetches the file for the given 'request', storing the result on disk.
+
+     - parameter request: The object describing the network request.
+     - parameter callback: A callback which returns another callback that, when
+                           invoked, returns the results of the request.
+     - returns: A session task that, when started, beings the request.
+     */
     private func download(request: URLRequest, callback: @escaping Callback<(URL, URLResponse)>) -> URLSessionDownloadTask {
         return (session ?? .shared)
             .downloadTask(with: request) { url, response, error in
