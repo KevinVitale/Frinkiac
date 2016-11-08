@@ -79,6 +79,12 @@ public final class FrameSearchProvider<M: MemeGenerator> {
     
     // MARK: - Initialization -
     //--------------------------------------------------------------------------
+    /**
+     Initializes a new frame search provider.
+     
+     - parameter memeGenerator: The domain (and service) being searched. 
+     - parameter callback: A callback invoked whenever search results populate.
+     */
     public init(_ memeGenerator: M = M(), callback: @escaping ([FrameImage<M>]) -> ()) {
         self.memeGenerator = memeGenerator
         self.callback = callback
