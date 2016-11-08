@@ -16,7 +16,7 @@ public final class FrameSearchProvider<M: MemeGenerator> {
     /**
      The task which fetches a random caption.
      */
-    private var randomTask: URLSessionTask? = nil {
+    fileprivate var randomTask: URLSessionTask? = nil {
         willSet {
             randomTask?.cancel()
         }
@@ -114,13 +114,16 @@ public final class FrameSearchProvider<M: MemeGenerator> {
     public func find(_ text: String) {
         searchText = text
     }
+}
 
-    // MARK: - Random -
-    //--------------------------------------------------------------------------
+// MARK: - Extension, Random -
+//------------------------------------------------------------------------------
+extension FrameSearchProvider {
     /**
      Search for a random caption.
      
      - parameter callback: The callback receiving the result when executed.
+     - note: This does not update `results` in the same way `find(_:)` does.
      */
     public func random(callback: @escaping Callback<(frame: FrameImage<M>?, caption: Caption, response: URLResponse?)>) {
         randomTask = memeGenerator.random { [weak self] closure in
