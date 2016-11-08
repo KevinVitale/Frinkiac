@@ -83,12 +83,6 @@ public final class FrameSearchProvider<M: MemeGenerator> {
         self.callback = callback
     }
 
-    // MARK: - Reset -
-    //--------------------------------------------------------------------------
-    public func reset() {
-        results = []
-    }
-    
     // MARK: - Find -
     //--------------------------------------------------------------------------
     /**
