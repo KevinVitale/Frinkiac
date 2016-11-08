@@ -3,13 +3,19 @@
 public final class FrameSearchProvider<M: MemeGenerator> {
     // MARK: - Private -
     //--------------------------------------------------------------------------
-    /// - parameter callback: The callback provided during initialization.
+    /**
+     The callback provided during initialization.
+     */
     private var callback: ([FrameImage<M>]) -> () = { _ in }
 
-    /// - parameter searchTask: The task which performs the search.
+    /**
+     The task which performs the search. 
+     */
     private var searchTask: URLSessionTask? = nil
 
-    /// - parameter randomTask: The task which fetches a random caption.
+    /**
+     The task which fetches a random caption.
+     */
     private var randomTask: URLSessionTask? = nil {
         willSet {
             randomTask?.cancel()
@@ -19,8 +25,11 @@ public final class FrameSearchProvider<M: MemeGenerator> {
         }
     }
 
-    /// - parameter results: The frames returned by searching for `searchText`.
-    /// - note: Updating this value invokes `callback`, iff: `newValue` isn't `nil`.
+    /**
+     The frames returned by searching for `searchText`.
+     
+     - note: Updating this value invokes `callback`, iff: `newValue` isn't `nil`.
+     */
     private var results: [FrameImage<M>]? = nil {
         didSet {
             if let results = results {
@@ -29,10 +38,13 @@ public final class FrameSearchProvider<M: MemeGenerator> {
         }
     }
 
-    /// - parameter searchText: The search query.
-    /// - note: Before updating this value, any in-flight `searchTask` is cancelled,
-    ///         and `searchTask` is reassigneld with a new task. After this value is
-    ///         updated, `searchTask` is started.
+    /**
+     The search query.
+     
+     - note: Before updating this value, any in-flight `searchTask` is cancelled,
+     and `searchTask` is reassigneld with a new task. After this value is
+     updated, `searchTask` is started.
+     */
     private var searchText: String = "" {
         willSet {
             searchTask?.cancel()
