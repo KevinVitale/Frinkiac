@@ -42,8 +42,8 @@ public final class FrameSearchProvider<M: MemeGenerator> {
      The search query.
      
      - note: Before updating this value, any in-flight `searchTask` is cancelled,
-     and `searchTask` is reassigneld with a new task. After this value is
-     updated, `searchTask` is started.
+             and `searchTask` is reassigneld with a new task. After this value 
+             is updated, `searchTask` is started.
      */
     private var searchText: String = "" {
         willSet {
