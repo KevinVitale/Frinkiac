@@ -59,7 +59,7 @@ extension ServiceProvider {
     }
 }
 
-// MARK: - Extension, Request -
+// MARK: - Extension, Fetch -
 //------------------------------------------------------------------------------
 extension ServiceProvider {
     func fetch(endpoint: String, parameters: [String:Any]? = nil, callback: @escaping Callback<(Any, URLResponse)>) -> URLSessionDataTask {
@@ -78,7 +78,11 @@ extension ServiceProvider {
                 }
         }
     }
-    
+}
+
+// MARK: - Extension, Download -
+//------------------------------------------------------------------------------
+extension ServiceProvider {
     func download(endpoint: String, parameters: [String:Any]? = nil, callback: @escaping Callback<(URL, URLResponse)>) -> URLSessionDownloadTask {
         let request = urlRequest(endpoint: endpoint, parameters: parameters)!
         return download(request: request, callback: callback)
