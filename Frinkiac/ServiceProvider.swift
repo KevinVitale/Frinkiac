@@ -62,11 +62,28 @@ extension ServiceProvider {
 // MARK: - Extension, Fetch -
 //------------------------------------------------------------------------------
 extension ServiceProvider {
+    /**
+     Fetches JSON from the given `endpoint`.
+     
+     - parameter endpoint: The API endpoint for the desired resource.
+     - parameter parameters: An optional set of request parameters.
+     - parameter callback: A callback which returns another callback that, when
+                           invoked, returns the results of the request.
+     - returns: A session task that, when started, begins the request.
+     */
     func fetch(endpoint: String, parameters: [String:Any]? = nil, callback: @escaping Callback<(Any, URLResponse)>) -> URLSessionDataTask {
         let request = urlRequest(endpoint: endpoint, parameters: parameters)!
         return fetch(request: request, callback: callback)
     }
 
+    /**
+     Fetches JSON for the given `request`.
+
+     - parameter request: The object describing the network request.
+     - parameter callback: A callback which returns another callback that, when
+                           invoked, returns the results of the request.
+     - returns: A session task that, when started, beings the request.
+     */
     private func fetch(request: URLRequest, callback: @escaping Callback<(Any, URLResponse)>) -> URLSessionDataTask {
         return (session ?? .shared)
             .dataTask(with: request) { data, response, error in
