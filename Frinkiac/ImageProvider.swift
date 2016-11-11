@@ -1,11 +1,27 @@
 // MARK: - Image Generator -
 //------------------------------------------------------------------------------
-public struct ImageProvider: ServiceProvider {
+public protocol ImageGenerator: ServiceProvider {
+}
+
+// MARK: - Extension, Defaults -
+//------------------------------------------------------------------------------
+extension ImageGenerator {
+    public var path:    String?     { return nil }
+    public var scheme:  String      { return "https" }
+}
+
+// MARK: - Extension, API Services -
+//------------------------------------------------------------------------------
+extension ImageGenerator {
+}
+
+
+// MARK: - Image Provider -
+//------------------------------------------------------------------------------
+public struct ImageProvider: ImageGenerator {
     // MARK: - Service Provider -
     //--------------------------------------------------------------------------
     public let host: String
-    public let path: String? = nil
-    public let scheme = "https"
     public private(set) var session: URLSession
 
     // MARK: - Initialization -
