@@ -8,21 +8,9 @@ public protocol MemeGenerator: ServiceProvider {
 // MARK: - Extension, Defaults -
 //------------------------------------------------------------------------------
 extension MemeGenerator {
-    /// The URL scheme required. 
-    /// - note: Assumed to be `https`.
-    public var scheme: String {
-        return "https"
-    }
-
-    public var session: URLSession {
-        return .shared
-    }
-
-    /// The generator's default API path.
-    /// - note: Hardcoded as `api`.
-    public var path: String? {
-        return "api"
-    }
+    public var path:    String?     { return "api" }
+    public var scheme:  String      { return "https" }
+    public var session: URLSession  { return .shared }
 }
 
 // MARK: - Extension, API Services -
