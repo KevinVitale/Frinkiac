@@ -1,5 +1,11 @@
 // MARK: - Frame Search Provider -
 //------------------------------------------------------------------------------
+/**
+ Provides search access to episode frames. 
+ 
+ Search providers can be configured with a certain `MemeGenerator`, which 
+ determines the show type: _The Simpsons_ or _Futurama_.
+ */
 public final class FrameSearchProvider<M: MemeGenerator> {
     // MARK: - Private -
     //--------------------------------------------------------------------------
