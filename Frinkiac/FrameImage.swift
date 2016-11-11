@@ -4,12 +4,8 @@ public final class FrameImage<M: MemeGenerator>: Equatable {
     // MARK: - Private -
     //--------------------------------------------------------------------------
     private var imageTask: URLSessionTask? = nil {
-        willSet {
-            imageTask?.cancel()
-        }
-        didSet {
-            imageTask?.resume()
-        }
+        willSet { imageTask?.cancel() }
+        didSet  { imageTask?.resume() }
     }
     private let memeGenerator: M
 
