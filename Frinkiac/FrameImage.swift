@@ -31,6 +31,13 @@ public final class FrameImage<M: MemeGenerator>: Equatable {
     
     // MARK: - Initialization -
     //--------------------------------------------------------------------------
+    /**
+     Instantiates a new `FrameImage` for the given `frame`.
+
+     - parameter memeGenerator: The meme generator instance to use. If omitted,
+                                one will be created automatically.
+     - parameter frame: The model being represented.
+     */
     public required init(_ memeGenerator: M = M(), frame: Frame) {
         self.memeGenerator = memeGenerator
         self.frame = frame
