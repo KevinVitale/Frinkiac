@@ -1,19 +1,19 @@
 // MARK: - Service Provider -
 //------------------------------------------------------------------------------
 public protocol ServiceProvider {
-    /// - parameter scheme: The service's scheme.
+    /// The service's scheme.
     /// - note: Any valid URL scheme is fine.
     var scheme: String { get }
 
-    /// - parameter scheme: The service's host.
+    /// The service's host.
     /// - note: **Example:** `api.example.com`.
     var host: String { get }
 
-    /// - parameter path: An optional default path.
+    /// An optional default path.
     /// - note: **Example:** `v2`.
     var path: String? { get }
 
-    /// - parameter session: An optional `URLSession` to be used in requests.
+    /// An optional `URLSession` to be used in requests.
     /// - note: If `nil`, `URLSession.shared` will be used.
     var session: URLSession? { get }
 }
