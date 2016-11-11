@@ -38,7 +38,7 @@ public final class FrameImage<M: MemeGenerator>: Equatable {
     // MARK: - Image Request -
     //--------------------------------------------------------------------------
     public func image(text: MemeText? = nil, callback: @escaping Callback<FrameImage<M>?>) {
-        imageTask = memeGenerator.imageProvider.image(frame: frame, text: text) { [weak self] closure in
+        imageTask = memeGenerator.imageGenerator.image(frame: frame, text: text) { [weak self] closure in
             do {
                 let result = try closure()
                 //--------------------------------------------------------------

@@ -1,7 +1,7 @@
 // MARK: - Meme Generator -
 //------------------------------------------------------------------------------
 public protocol MemeGenerator: ServiceProvider {
-    var imageProvider: ImageProvider { get }
+    var imageGenerator: ImageGenerator { get }
     init()
 }
 

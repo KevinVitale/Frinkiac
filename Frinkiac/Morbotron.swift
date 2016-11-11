@@ -8,11 +8,11 @@ public struct Morbotron: MemeGenerator {
     
     // MARK: - Image Provider -
     //--------------------------------------------------------------------------
-    public private(set) var imageProvider: ImageProvider
+    public private(set) var imageGenerator: ImageGenerator
 
     // MARK: - Initialization -
     //--------------------------------------------------------------------------
     public init() {
-        imageProvider = ImageProvider(host: host)
+        imageGenerator = ImageProvider(host: host)
     }
 }
