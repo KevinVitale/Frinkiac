@@ -6,7 +6,7 @@ public struct ImageProvider: ServiceProvider {
     public let host: String
     public let path: String? = nil
     public let scheme = "https"
-    public private(set) var session: URLSession? = nil
+    public private(set) var session: URLSession
 
     // MARK: - Initialization -
     //--------------------------------------------------------------------------

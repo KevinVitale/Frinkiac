@@ -13,9 +13,8 @@ public protocol ServiceProvider {
     /// - note: **Example:** `v2`.
     var path: String? { get }
 
-    /// An optional `URLSession` to be used in requests.
-    /// - note: If `nil`, `URLSession.shared` will be used.
-    var session: URLSession? { get }
+    /// A `URLSession` to be used in requests.
+    var session: URLSession { get }
 }
 
 // MARK: - Extension, Requests -
@@ -123,7 +122,7 @@ extension ServiceProvider {
      - returns: A session task that, when started, beings the request.
      */
     private func download(request: URLRequest, callback: @escaping Callback<(URL, URLResponse)>) -> URLSessionDownloadTask {
-        return (session ?? .shared)
+        return session
             .downloadTask(with: request) { url, response, error in
                 callback {
                     guard error == nil else {

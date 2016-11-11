@@ -14,8 +14,8 @@ extension MemeGenerator {
         return "https"
     }
 
-    public var session: URLSession? {
-        return nil
+    public var session: URLSession {
+        return .shared
     }
 
     /// The generator's default API path.
