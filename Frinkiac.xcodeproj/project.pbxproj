@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		0A0A19D21DAE7AC3004E53E8 /* FrameMemeCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A4FFA841DA5A4D800F69712 /* FrameMemeCollection.swift */; };
 		0A0A19D31DAE7AE5004E53E8 /* FrameSearchController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3DF47F1D9B400400903B09 /* FrameSearchController.swift */; };
+		0A1025061DD64A4300F5F4C8 /* MemeText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A1025051DD64A4300F5F4C8 /* MemeText.swift */; };
 		0A3E2E2B1DA2DE900089BA8C /* JSONResponses.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3E2E2A1DA2DE900089BA8C /* JSONResponses.swift */; };
 		0A6AB8B41DA2EAB6003EF875 /* Morbotron.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A6AB8B31DA2EAB6003EF875 /* Morbotron.swift */; };
 		0A855BDC1D9B34F80040DE80 /* FrameCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A855BDB1D9B34F80040DE80 /* FrameCollectionViewController.swift */; };
@@ -27,6 +28,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0A1025051DD64A4300F5F4C8 /* MemeText.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MemeText.swift; sourceTree = "<group>"; };
 		0A3DF47F1D9B400400903B09 /* FrameSearchController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FrameSearchController.swift; sourceTree = "<group>"; };
 		0A3E2E2A1DA2DE900089BA8C /* JSONResponses.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONResponses.swift; sourceTree = "<group>"; };
 		0A4FFA841DA5A4D800F69712 /* FrameMemeCollection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FrameMemeCollection.swift; sourceTree = "<group>"; };
@@ -70,6 +72,7 @@
 			isa = PBXGroup;
 			children = (
 				0A3E2E2A1DA2DE900089BA8C /* JSONResponses.swift */,
+				0A1025051DD64A4300F5F4C8 /* MemeText.swift */,
 				0ADEECE21DA84E1B00C33E1F /* ServiceProvider.swift */,
 			);
 			name = Misc;
@@ -222,6 +225,7 @@
 				0AB36D1A1D9B0B170069D00E /* Aliases.swift in Sources */,
 				0AA73B361D999BF500D0BCFF /* Frinkiac.swift in Sources */,
 				0A0A19D21DAE7AC3004E53E8 /* FrameMemeCollection.swift in Sources */,
+				0A1025061DD64A4300F5F4C8 /* MemeText.swift in Sources */,
 				0AAFD9AC1D9EC5FD00BAC67E /* FrameResultsCell.swift in Sources */,
 				0A855BDC1D9B34F80040DE80 /* FrameCollectionViewController.swift in Sources */,
 				0AEE196D1DCCE6600063B7CF /* Utils.swift in Sources */,

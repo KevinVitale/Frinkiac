@@ -15,30 +15,6 @@ extension ImageGenerator {
 extension ImageGenerator {
 }
 
-// MARK: - Meme Text -
-//--------------------------------------------------------------------------
-public enum MemeText {
-    case lines(String?)
-
-    fileprivate var query: [String:Any]? {
-        switch self {
-        case .lines(let lines?):
-            return ["lines" : lines]
-        default:
-            return nil
-        }
-    }
-
-    public var text: String {
-        switch self {
-        case .lines(let lines?):
-            return lines
-        default:
-            return ""
-        }
-    }
-}
-
 // MARK: - Image Provider -
 //------------------------------------------------------------------------------
 public struct ImageProvider: ImageGenerator {
