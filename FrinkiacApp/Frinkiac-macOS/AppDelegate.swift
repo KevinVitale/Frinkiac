@@ -2,6 +2,9 @@ import Cocoa
 import Frinkiac
 
 @NSApplicationMain
+
+// MARK: - App Delegate -
+//------------------------------------------------------------------------------
 class AppDelegate: NSObject, NSApplicationDelegate, NSTextFieldDelegate {
     // MARK: - Private -
     //--------------------------------------------------------------------------
