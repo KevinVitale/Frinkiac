@@ -1,6 +1,7 @@
 // MARK: - Image Generator -
 //------------------------------------------------------------------------------
 public protocol ImageGenerator: ServiceProvider {
+    init(host: String)
 }
 
 // MARK: - Extension, Defaults -
