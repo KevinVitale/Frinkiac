@@ -1,10 +1,10 @@
 // MARK: - Image Provider -
 //------------------------------------------------------------------------------
-public struct ImageProvider: ImageGenerator {
+struct ImageProvider: ImageGenerator {
     // MARK: - Service Provider -
     //--------------------------------------------------------------------------
-    public let host: String
-    public private(set) var session: URLSession
+    let host: String
+    private(set) var session: URLSession
 
     // MARK: - Initialization -
     //--------------------------------------------------------------------------
