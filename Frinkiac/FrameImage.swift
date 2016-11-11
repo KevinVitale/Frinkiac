@@ -3,10 +3,16 @@
 public final class FrameImage<M: MemeGenerator>: Equatable {
     // MARK: - Private -
     //--------------------------------------------------------------------------
+    /// An optional task that downloads image data when started.
+    ///
+    /// - note: Prior to assigning this a new value, any current in-flight work
+    ///         is cancelled.
     private var imageTask: URLSessionTask? = nil {
         willSet { imageTask?.cancel() }
         didSet  { imageTask?.resume() }
     }
+
+    /// A meme generator.
     private let memeGenerator: M
 
     // MARK: - Public -
