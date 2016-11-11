@@ -7,21 +7,21 @@ public final class FrameImage<M: MemeGenerator>: Equatable {
     ///
     /// - note: Prior to assigning this a new value, any current in-flight work
     ///         is cancelled.
-    private var imageTask: URLSessionTask? = nil {
+    fileprivate var imageTask: URLSessionTask? = nil {
         willSet { imageTask?.cancel() }
         didSet  { imageTask?.resume() }
     }
 
     /// A meme generator.
-    private let memeGenerator: M
+    fileprivate let memeGenerator: M
 
     // MARK: - Public -
     //--------------------------------------------------------------------------
     public let frame: Frame
-    public private(set) var caption: Caption? = nil
-    public private(set) var image: ImageType? = nil
-    public private(set) var response: URLResponse? = nil
-    public private(set) var memeText: MemeText? = nil
+    public fileprivate(set) var caption: Caption? = nil
+    public fileprivate(set) var image: ImageType? = nil
+    public fileprivate(set) var response: URLResponse? = nil
+    public fileprivate(set) var memeText: MemeText? = nil
 
     // MARK: - Deinit -
     //--------------------------------------------------------------------------
@@ -43,8 +43,16 @@ public final class FrameImage<M: MemeGenerator>: Equatable {
         self.frame = frame
     }
 
-    // MARK: - Image Request -
+    // MARK: - Equatable -
     //--------------------------------------------------------------------------
+    public static func ==(lhs: FrameImage<M>, rhs: FrameImage<M>) -> Bool {
+        return lhs.frame == rhs.frame
+    }
+}
+
+// MARK: - Extension, Image Request -
+//--------------------------------------------------------------------------
+extension FrameImage {
     public func image(text: MemeText? = nil, callback: @escaping Callback<FrameImage<M>?>) {
         imageTask = memeGenerator.imageGenerator.image(frame: frame, text: text) { [weak self] closure in
             do {
@@ -81,11 +89,5 @@ public final class FrameImage<M: MemeGenerator>: Equatable {
     //--------------------------------------------------------------------------
     public func update(text: MemeText? = nil, callback: @escaping Callback<FrameImage<M>?>) {
         image(text: text, callback: callback)
-    }
-
-    // MARK: - Equatable -
-    //--------------------------------------------------------------------------
-    public static func ==(lhs: FrameImage<M>, rhs: FrameImage<M>) -> Bool {
-        return lhs.frame == rhs.frame
     }
 }
