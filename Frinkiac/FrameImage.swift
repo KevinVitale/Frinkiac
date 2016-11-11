@@ -20,7 +20,7 @@ public final class FrameImage<M: MemeGenerator>: Equatable {
     public private(set) var caption: Caption? = nil
     public private(set) var image: ImageType? = nil
     public private(set) var response: URLResponse? = nil
-    public private(set) var memeText: ImageProvider.MemeText? = nil
+    public private(set) var memeText: MemeText? = nil
 
     // MARK: - Deinit -
     //--------------------------------------------------------------------------
@@ -37,7 +37,7 @@ public final class FrameImage<M: MemeGenerator>: Equatable {
 
     // MARK: - Image Request -
     //--------------------------------------------------------------------------
-    public func image(text: ImageProvider.MemeText? = nil, callback: @escaping Callback<FrameImage<M>?>) {
+    public func image(text: MemeText? = nil, callback: @escaping Callback<FrameImage<M>?>) {
         imageTask = memeGenerator.imageProvider.image(frame: frame, text: text) { [weak self] closure in
             do {
                 let result = try closure()
@@ -71,7 +71,7 @@ public final class FrameImage<M: MemeGenerator>: Equatable {
 
     // MARK: - Update Text Request -
     //--------------------------------------------------------------------------
-    public func update(text: ImageProvider.MemeText? = nil, callback: @escaping Callback<FrameImage<M>?>) {
+    public func update(text: MemeText? = nil, callback: @escaping Callback<FrameImage<M>?>) {
         image(text: text, callback: callback)
     }
 
