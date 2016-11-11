@@ -45,7 +45,7 @@ public final class FrameSearchProvider<M: MemeGenerator> {
              and `searchTask` is reassigneld with a new task. After this value 
              is updated, `searchTask` is started.
      */
-    private var searchText: String = "" {
+    fileprivate var searchText: String = "" {
         willSet {
             searchTask?.cancel()
             searchTask = find(newValue) { [weak self] in
@@ -89,9 +89,11 @@ public final class FrameSearchProvider<M: MemeGenerator> {
         self.memeGenerator = memeGenerator
         self.callback = callback
     }
+}
 
-    // MARK: - Find -
-    //--------------------------------------------------------------------------
+// MARK: - Extension, Find -
+//------------------------------------------------------------------------------
+extension FrameSearchProvider {
     /**
      Searches for those frames containg `text`.
 
@@ -102,7 +104,7 @@ public final class FrameSearchProvider<M: MemeGenerator> {
      - returns: A session task that, when started, performs a search
                 and executes `callback`.
      */
-    private func find(_ text: String, callback: @escaping Callback<([Frame], URLResponse?)>) -> URLSessionTask {
+    fileprivate func find(_ text: String, callback: @escaping Callback<([Frame], URLResponse?)>) -> URLSessionTask {
         return memeGenerator.search(for: text, callback: callback)
     }
 
