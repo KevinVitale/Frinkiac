@@ -31,7 +31,7 @@ public class FrameCollectionViewController<M: MemeGenerator>: UICollectionViewCo
         didSet {
             reload()
             images.forEach {
-                $0.image { [weak self] in
+                $0.update { [weak self] in
                     if let frameImage = try? $0(), frameImage != nil {
                         self?.reload()
                     }
