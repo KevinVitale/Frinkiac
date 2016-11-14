@@ -8,6 +8,22 @@ import Frinkiac
 class AppDelegate: NSObject, NSApplicationDelegate, NSTextFieldDelegate {
     // MARK: - Private -
     //--------------------------------------------------------------------------
+    fileprivate var frameImage: FrameImage<Frinkiac>? = nil {
+        didSet {
+            frameImage?.update { [weak self] in
+                do { self?.setImage(try $0()?.image) }
+                catch { print(error.localizedDescription) }
+
+                self?.frameImage?.caption {
+                    do {
+                        let frameImage = try $0()
+                        self?.setImage(frameImage?.image, text: frameImage?.caption?.lines ?? "")
+                    }
+                    catch { print(error.localizedDescription) }
+                }
+            }
+        }
+    }
     fileprivate let memeGenerator = Frinkiac()
     fileprivate var searchProvider: FrameSearchProvider<Frinkiac>!
 
@@ -26,19 +42,7 @@ extension AppDelegate {
         super.awakeFromNib()
         //----------------------------------------------------------------------
         searchProvider = FrameSearchProvider(memeGenerator) { [weak self] in
-            let frameImage = $0.first
-            frameImage?.update {
-                do { self?.setImage(try $0()?.image) }
-                catch { print(error.localizedDescription) }
-
-                frameImage?.caption {
-                    do {
-                        let frameImage = try $0()
-                        self?.setImage(frameImage?.image, text: frameImage?.caption?.lines ?? "")
-                    }
-                    catch { print(error.localizedDescription) }
-                }
-            }
+            self?.frameImage = $0.first
         }
     }
 }
@@ -52,14 +56,9 @@ extension AppDelegate {
 
     @IBAction func random(_ sender: Any?) {
         searchProvider.random { [weak self] in
-            if let result = try? $0() {
-                self?.setImage(result.frame?.image, text: result.caption.lines)
-            }
+            do { self?.frameImage = try $0() }
+            catch { print(error) }
         }
-    }
-    
-    @IBAction func update(_ sender: Any?) {
-        // setImage(frameImage?.image, text: textField.stringValue)
     }
 }
 
@@ -86,7 +85,12 @@ extension AppDelegate {
         case let searchField as NSSearchField where searchField.isEqual(searchTextField):
             search(obj.object)
         case let textField as NSTextField where textField.isEqual(textField):
-            setImage(nil, text: textField.stringValue)
+            let text = textField.stringValue
+            frameImage?.update(text: text.memeText) { [weak self] in
+                do { self?.setImage(try $0()?.image, text: text) }
+                catch { print(error.localizedDescription) }
+            }
+            setImage(frameImage?.image, text: textField.stringValue)
         default: ()
         }
     }

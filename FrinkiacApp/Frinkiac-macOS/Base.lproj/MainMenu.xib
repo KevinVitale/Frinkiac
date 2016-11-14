@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="11201" systemVersion="16B2338c" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="11542" systemVersion="16C41b" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="11201"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="11542"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
         <capability name="stacking Non-gravity area distributions on NSStackView" minToolsVersion="7.0" minSystemVersion="10.11"/>
     </dependencies>
     <objects>
@@ -687,7 +688,7 @@
         <window title="Frinkiac" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" restorable="NO" releasedWhenClosed="NO" animationBehavior="default" id="QvC-M9-y7g">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES"/>
             <rect key="contentRect" x="307" y="84" width="687" height="674"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="1280" height="800"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1440" height="900"/>
             <value key="minSize" type="size" width="687" height="674"/>
             <value key="maxSize" type="size" width="687" height="674"/>
             <view key="contentView" wantsLayer="YES" id="EiT-Mj-1SZ">
@@ -748,7 +749,7 @@
                         <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" imageFrameStyle="grayBezel" id="Vo7-BL-4MN"/>
                     </imageView>
                     <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="j6f-nL-YEu">
-                        <rect key="frame" x="20" y="20" width="583" height="110"/>
+                        <rect key="frame" x="20" y="20" width="647" height="110"/>
                         <constraints>
                             <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="110" id="4bX-pP-BM6"/>
                         </constraints>
@@ -758,29 +759,16 @@
                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                         <connections>
-                            <action selector="update:" target="Voe-Tx-rLC" id="bMa-JC-JfO"/>
                             <outlet property="delegate" destination="Voe-Tx-rLC" id="7je-nZ-coH"/>
                         </connections>
                     </textField>
-                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="xQw-Ma-IdQ">
-                        <rect key="frame" x="611" y="111" width="56" height="19"/>
-                        <buttonCell key="cell" type="roundRect" title="Update" bezelStyle="roundedRect" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="UmV-up-fcu">
-                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                            <font key="font" metaFont="cellTitle"/>
-                        </buttonCell>
-                        <connections>
-                            <action selector="update:" target="Voe-Tx-rLC" id="eLU-Lk-6fZ"/>
-                        </connections>
-                    </button>
                 </subviews>
                 <constraints>
                     <constraint firstItem="aZq-cR-zNj" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" constant="20" symbolic="YES" id="0vl-Fd-SB2"/>
                     <constraint firstAttribute="trailing" secondItem="aZq-cR-zNj" secondAttribute="trailing" constant="20" symbolic="YES" id="2wu-Vk-ZUz"/>
-                    <constraint firstItem="xQw-Ma-IdQ" firstAttribute="top" secondItem="7gb-iv-g1i" secondAttribute="bottom" constant="8" symbolic="YES" id="5UB-lj-mPy"/>
                     <constraint firstItem="7gb-iv-g1i" firstAttribute="trailing" secondItem="aZq-cR-zNj" secondAttribute="trailing" id="7i3-u0-xSL"/>
-                    <constraint firstItem="xQw-Ma-IdQ" firstAttribute="leading" secondItem="j6f-nL-YEu" secondAttribute="trailing" constant="8" symbolic="YES" id="8iV-zL-eC4"/>
+                    <constraint firstAttribute="trailing" secondItem="j6f-nL-YEu" secondAttribute="trailing" constant="20" symbolic="YES" id="Fom-pQ-B97"/>
                     <constraint firstItem="7gb-iv-g1i" firstAttribute="top" secondItem="aZq-cR-zNj" secondAttribute="bottom" constant="8" symbolic="YES" id="G2Q-tP-Hbc"/>
-                    <constraint firstItem="xQw-Ma-IdQ" firstAttribute="trailing" secondItem="7gb-iv-g1i" secondAttribute="trailing" id="MAH-RK-aqX"/>
                     <constraint firstItem="j6f-nL-YEu" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" constant="20" symbolic="YES" id="QcU-9x-lO1"/>
                     <constraint firstAttribute="bottom" secondItem="j6f-nL-YEu" secondAttribute="bottom" constant="20" symbolic="YES" id="axE-dz-GWk"/>
                     <constraint firstItem="aZq-cR-zNj" firstAttribute="top" secondItem="EiT-Mj-1SZ" secondAttribute="top" constant="20" symbolic="YES" id="bZd-tJ-hap"/>

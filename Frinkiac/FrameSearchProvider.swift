@@ -121,15 +121,20 @@ extension FrameSearchProvider {
      - parameter callback: The callback receiving the result when executed.
      - note: This does not update `results` in the same way `find(_:)` does.
      */
-    public func random(callback: @escaping Callback<(frame: FrameImage<M>?, caption: Caption, response: URLResponse?)>) {
+    public func random(callback: @escaping Callback<FrameImage<M>?>) {
         randomTask = memeGenerator.random { [weak self] closure in
             do {
-                let result = try closure()
                 //--------------------------------------------------------------
-                let caption = result.0
+                let frame = try closure().0.frame
                 let memeGenerator = self?.memeGenerator ?? M()
+                let frameImage = FrameImage(memeGenerator, frame: frame)
                 //--------------------------------------------------------------
-                callback { (FrameImage(memeGenerator, frame: caption.frame), caption, result.1) }
+                frameImage.caption { result in
+                    callback {
+                        try result()
+                        return frameImage
+                    }
+                }
             } catch let error {
                 callback { throw error }
             }
