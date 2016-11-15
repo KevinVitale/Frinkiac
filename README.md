@@ -121,7 +121,7 @@ searchProvider.random {
 
 ### Playground
 
-The workspace file also includes a playground which demostrates `FrinkiacSearchController`.
+The workspace file also includes a playground which demostrates `FrameSearchController`.
 
 <img align="center" src="./Supplements/playground.png"/>
 
