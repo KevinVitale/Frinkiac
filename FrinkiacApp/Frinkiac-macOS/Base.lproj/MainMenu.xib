@@ -19,6 +19,7 @@
             <connections>
                 <outlet property="imageView" destination="7gb-iv-g1i" id="LSM-A8-XsM"/>
                 <outlet property="searchTextField" destination="M9g-kH-XRO" id="m7f-Ui-Ee7"/>
+                <outlet property="shareButton" destination="d4e-qC-LgH" id="ReN-eM-gHL"/>
                 <outlet property="textField" destination="j6f-nL-YEu" id="1bz-nN-V9X"/>
                 <outlet property="window" destination="QvC-M9-y7g" id="gIp-Ho-8D9"/>
             </connections>
@@ -749,7 +750,7 @@
                         <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" imageFrameStyle="grayBezel" id="Vo7-BL-4MN"/>
                     </imageView>
                     <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="j6f-nL-YEu">
-                        <rect key="frame" x="20" y="20" width="647" height="110"/>
+                        <rect key="frame" x="20" y="20" width="595" height="110"/>
                         <constraints>
                             <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="110" id="4bX-pP-BM6"/>
                         </constraints>
@@ -762,13 +763,29 @@
                             <outlet property="delegate" destination="Voe-Tx-rLC" id="7je-nZ-coH"/>
                         </connections>
                     </textField>
+                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="d4e-qC-LgH">
+                        <rect key="frame" x="617" y="79" width="56" height="55"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="44" id="dHa-I8-HiY"/>
+                            <constraint firstAttribute="width" secondItem="d4e-qC-LgH" secondAttribute="height" multiplier="1:1" id="xXi-qF-arr"/>
+                        </constraints>
+                        <buttonCell key="cell" type="push" bezelStyle="rounded" image="NSShareTemplate" imagePosition="only" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="nsu-is-J0k">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="share:" target="Voe-Tx-rLC" id="Ohk-hs-0fq"/>
+                        </connections>
+                    </button>
                 </subviews>
                 <constraints>
                     <constraint firstItem="aZq-cR-zNj" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" constant="20" symbolic="YES" id="0vl-Fd-SB2"/>
                     <constraint firstAttribute="trailing" secondItem="aZq-cR-zNj" secondAttribute="trailing" constant="20" symbolic="YES" id="2wu-Vk-ZUz"/>
                     <constraint firstItem="7gb-iv-g1i" firstAttribute="trailing" secondItem="aZq-cR-zNj" secondAttribute="trailing" id="7i3-u0-xSL"/>
-                    <constraint firstAttribute="trailing" secondItem="j6f-nL-YEu" secondAttribute="trailing" constant="20" symbolic="YES" id="Fom-pQ-B97"/>
+                    <constraint firstAttribute="trailing" secondItem="d4e-qC-LgH" secondAttribute="trailing" constant="20" id="Bsr-6u-n8R"/>
                     <constraint firstItem="7gb-iv-g1i" firstAttribute="top" secondItem="aZq-cR-zNj" secondAttribute="bottom" constant="8" symbolic="YES" id="G2Q-tP-Hbc"/>
+                    <constraint firstItem="d4e-qC-LgH" firstAttribute="leading" secondItem="j6f-nL-YEu" secondAttribute="trailing" constant="8" id="HOR-0b-MxF"/>
+                    <constraint firstItem="d4e-qC-LgH" firstAttribute="top" secondItem="7gb-iv-g1i" secondAttribute="bottom" constant="8" id="JSP-UZ-Wka"/>
                     <constraint firstItem="j6f-nL-YEu" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" constant="20" symbolic="YES" id="QcU-9x-lO1"/>
                     <constraint firstAttribute="bottom" secondItem="j6f-nL-YEu" secondAttribute="bottom" constant="20" symbolic="YES" id="axE-dz-GWk"/>
                     <constraint firstItem="aZq-cR-zNj" firstAttribute="top" secondItem="EiT-Mj-1SZ" secondAttribute="top" constant="20" symbolic="YES" id="bZd-tJ-hap"/>
@@ -779,4 +796,7 @@
             <point key="canvasLocation" x="359.5" y="-372"/>
         </window>
     </objects>
+    <resources>
+        <image name="NSShareTemplate" width="11" height="16"/>
+    </resources>
 </document>

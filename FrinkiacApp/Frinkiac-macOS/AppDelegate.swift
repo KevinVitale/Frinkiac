@@ -22,6 +22,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSTextFieldDelegate {
     @IBOutlet weak var imageView: NSImageView!
     @IBOutlet weak var searchTextField: NSSearchField!
     @IBOutlet weak var textField: NSTextField!
+    @IBOutlet weak var shareButton: NSButton!
 }
 
 // MARK: - Extension, Initialization -
@@ -53,6 +54,19 @@ extension AppDelegate {
             catch { print(error.localizedDescription) }
         }
     }
+
+    @IBAction func share(_ sender: Any) {
+        if let image = frameImage?.image, let view = sender as? NSView {
+            let sharingServicePicker = NSSharingServicePicker(items: [image])
+            sharingServicePicker.delegate = self
+            sharingServicePicker.show(relativeTo: view.bounds, of: view, preferredEdge: .minY)
+        }
+    }
+}
+
+// MARK: - Extension, Share Services -
+//------------------------------------------------------------------------------
+extension AppDelegate: NSSharingServicePickerDelegate {
 }
 
 // MARK: - Extension, Set Image -
