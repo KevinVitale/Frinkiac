@@ -37,7 +37,7 @@ The `Frinkiac` framework allows you to:
 
 #### Searching
 
-You can search for frames within episodes containing phrases. [`FrameSearchProvider`](Frinkiac/FrameSearchProvider.swift) makes searching easy:
+You can search for frames that contain the phrase you're looking for. [`FrameSearchProvider`](Frinkiac/FrameSearchProvider.swift) makes searching easy:
 
 ```swift
 import Frinkiac
