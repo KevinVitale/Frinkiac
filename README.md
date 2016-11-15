@@ -73,7 +73,7 @@ FrameSearchProvider<Frinkiac> { frameImages in
   // Updates `caption` (and downloads image data) by
   // invoking the `closure` being passed back.
   frameImage.caption { closure in
-  	let image = try? closure()
+  	let image = try? closure().image
   	Dispatch.main.async {
       /* Do something with `image` in the UI */
   	}
