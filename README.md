@@ -1,17 +1,13 @@
 # Frinkit
 A tiny [Frinkiac][1] & [Morbotron][2] client, written in Swift 3.
 
----
-
 [![Version](https://img.shields.io/badge/version-v1.0.0-blue.svg)](https://github.com/KevinVitale/ReactiveJSON/releases/latest)
 ![Platforms](https://img.shields.io/badge/platforms-ios%20%7C%20osx-lightgrey.svg)
 ![Languages](https://img.shields.io/badge/languages-swift-orange.svg)
 ![License](https://img.shields.io/badge/license-MIT%2FApache-blue.svg)
 ![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)
 
----
-
-<img align="center" src="./Supplements/imessage.gif" width=400/>
+<img align="center" src="./Supplements/imessage.gif" width=320/>
 
 ## Installation
 
@@ -31,7 +27,7 @@ The included [Xcode workspace](Frinkiac.xcworkspace) provides three targets:
 
 > _Learn who is behind [frinkiac.com][1], what it **is**, and how it works [here](https://langui.sh/2016/02/02/frinkiac-the-simpsons-screenshot-search-engine/)._
 
-#### Framework
+### Framework
 
 The `Frinkiac` framework allows you to:
 
@@ -39,7 +35,7 @@ The `Frinkiac` framework allows you to:
 - extract **captions**, which represent the exact phrases spoken within a _frame_;
 - generate **random** _captions_.
 
-###### Searching
+#### Searching
 
 You can search for frames within episodes containing phrases. [`FrameSearchProvider`](Frinkiac/FrameSearchProvider.swift) makes searching easy:
 
@@ -55,7 +51,7 @@ let searchProvider = FrameSearchProvider<Frinkiac> { frameImages in
 searchProvider.find("All this computer hacking is making me thirsty")
 ```
 
-###### Extract Captions
+#### Extract Captions
 
 Searching for phrases returns a collection of [`FrameImage<M>`](Frinkiac/FrameImage.swift), where `M` represents an instance of the [`MemeGenerator`](Frinkiac/MemeGenerator.swift) protocol.
 
@@ -103,7 +99,7 @@ FrameSearchProvider<Frinkiac> { frameImages in
 }
 ```
 
-###### Random
+#### Random
 
 The easiest way to generate random captions is to use `FrameSearchProvider<M>.random(_:)`. 
 
