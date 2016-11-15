@@ -42,11 +42,19 @@ public final class FrameImage<M: MemeGenerator>: Equatable {
         self.memeGenerator = memeGenerator
         self.frame = frame
     }
-
     // MARK: - Equatable -
     //--------------------------------------------------------------------------
     public static func ==(lhs: FrameImage<M>, rhs: FrameImage<M>) -> Bool {
         return lhs.frame == rhs.frame
+    }
+}
+
+extension FrameImage {
+    convenience init(_ memeGenerator: M = M(), caption: Caption, update callback: @escaping Callback<FrameImage<M>?>) {
+        self.init(memeGenerator, frame: caption.frame)
+        //----------------------------------------------------------------------
+        self.caption = caption
+        update(text: .lines(caption.lines), callback: callback)
     }
 }
 

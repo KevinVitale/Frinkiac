@@ -124,16 +124,11 @@ extension FrameSearchProvider {
     public func random(callback: @escaping Callback<FrameImage<M>?>) {
         randomTask = memeGenerator.random { [weak self] closure in
             do {
-                //--------------------------------------------------------------
-                let frame = try closure().0.frame
+                let caption = try closure().0
                 let memeGenerator = self?.memeGenerator ?? M()
-                let frameImage = FrameImage(memeGenerator, frame: frame)
                 //--------------------------------------------------------------
-                frameImage.caption { result in
-                    callback {
-                        try result()
-                        return frameImage
-                    }
+                callback {
+                    FrameImage(memeGenerator, caption: caption, update: callback)
                 }
             } catch let error {
                 callback { throw error }
