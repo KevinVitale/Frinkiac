@@ -10,18 +10,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSTextFieldDelegate {
     //--------------------------------------------------------------------------
     fileprivate var frameImage: FrameImage<Frinkiac>? = nil {
         didSet {
-            frameImage?.update { [weak self] in
-                do { self?.setImage(try $0()?.image) }
-                catch { print(error.localizedDescription) }
-
-                self?.frameImage?.caption {
-                    do {
-                        let frameImage = try $0()
-                        self?.setImage(frameImage?.image, text: frameImage?.caption?.lines ?? "")
-                    }
-                    catch { print(error.localizedDescription) }
-                }
-            }
+            setImage(frameImage?.image, text: frameImage?.caption?.lines ?? "")
         }
     }
     fileprivate let memeGenerator = Frinkiac()
@@ -43,6 +32,10 @@ extension AppDelegate {
         //----------------------------------------------------------------------
         searchProvider = FrameSearchProvider(memeGenerator) { [weak self] in
             self?.frameImage = $0.first
+            self?.frameImage?.caption {
+                do { self?.frameImage = try $0() }
+                catch { print(error.localizedDescription) }
+            }
         }
     }
 }
@@ -90,7 +83,6 @@ extension AppDelegate {
                 do { self?.setImage(try $0()?.image, text: text) }
                 catch { print(error.localizedDescription) }
             }
-            setImage(frameImage?.image, text: textField.stringValue)
         default: ()
         }
     }
