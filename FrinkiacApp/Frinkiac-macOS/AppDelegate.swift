@@ -57,7 +57,7 @@ extension AppDelegate {
     @IBAction func random(_ sender: Any?) {
         searchProvider.random { [weak self] in
             do { self?.frameImage = try $0() }
-            catch { print(error) }
+            catch { print(error.localizedDescription) }
         }
     }
 }
