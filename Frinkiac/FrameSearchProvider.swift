@@ -127,9 +127,7 @@ extension FrameSearchProvider {
                 let caption = try closure().0
                 let memeGenerator = self?.memeGenerator ?? M()
                 //--------------------------------------------------------------
-                callback {
-                    FrameImage(memeGenerator, caption: caption, update: callback)
-                }
+                FrameImage(memeGenerator, caption: caption, update: callback)   
             } catch let error {
                 callback { throw error }
             }

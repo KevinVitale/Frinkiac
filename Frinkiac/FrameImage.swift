@@ -54,7 +54,15 @@ extension FrameImage {
         self.init(memeGenerator, frame: caption.frame)
         //----------------------------------------------------------------------
         self.caption = caption
-        update(text: .lines(caption.lines), callback: callback)
+        update(text: .lines(caption.lines)) { closure in
+            callback {
+                try closure()
+                //--------------------------------------------------------------
+                // This hold a `strong` reference to `self`. It ensures that
+                // the receiver is not released prior to `update` finishing.
+                return self
+            }
+        }
     }
 }
 
