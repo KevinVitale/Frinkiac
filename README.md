@@ -53,11 +53,9 @@ searchProvider.find("All this computer hacking is making me thirsty")
 
 #### Extract Captions
 
-Searching for phrases returns a collection of [`FrameImage<M>`](Frinkiac/FrameImage.swift), where `M` represents an instance of the [`MemeGenerator`](Frinkiac/MemeGenerator.swift) protocol.
+Searching for phrases returns a collection of [`FrameImage<M>`](Frinkiac/FrameImage.swift), where `M` represents an instance of the [`MemeGenerator`](Frinkiac/MemeGenerator.swift) protocol. A `FrameImage` manages a [`Frame`](Frinkiac/JSONResponses.swift), and the _image data_ associated with it.
 
->  **Note**: _two concrete `MemeGenerator` implementations are provided for you — [`Frinkiac`](Frinkiac/Frinkiac.swift), and [`Morbotron`](Frinkiac/Morbotron.swift)_.
-
-A `FrameImage` manages a [`Frame`](Frinkiac/JSONResponses.swift), and the _image data_ associated with it.
+>  **Note**: _Two concrete `MemeGenerator` implementations are provided for you — [`Frinkiac`](Frinkiac/Frinkiac.swift), and [`Morbotron`](Frinkiac/Morbotron.swift)_.
 
 <img align="center" src="./Supplements/thrillhouse.png"/>
 
