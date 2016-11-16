@@ -16,8 +16,8 @@
 github "KevinVitale/Frinkiac"
 ```
 
-## Frinkiac
-This is a passion project that merges two things I :heart: very much: [Frinkiac][1] & Swift.
+## Overview
+This is a passion project that merges two things I :heart: very much: [Frinkiac][1] & Swift. It provides an iOS & macOS framework, `Frinkiac`; iOS components, such as [`FrameSearchController`](Frinkiac/FrameSearchController.swift); and a macOS application demonstrating how to use `Frinkiac` directly.
 
 > _Learn who is behind [frinkiac.com][1], what it **is**, and how it works [here](https://langui.sh/2016/02/02/frinkiac-the-simpsons-screenshot-search-engine/)._
 
@@ -48,7 +48,7 @@ PlaygroundPage.current.liveView = searchController
 
 #### iMessage App
 
-The included **MessageExtension** target is an included iMessage app that demonstrates how `Frinkiac` can be used to build just such a thing.
+The **MessageExtension** target is an included iMessage app that demonstrates how `Frinkiac` can be used to build just such a thing.
 
 <img align="center" src="./Supplements/imessage.gif" width=268/>
 
