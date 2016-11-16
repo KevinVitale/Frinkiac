@@ -1,6 +1,4 @@
 # Frinkiac
-A tiny [Frinkiac][1] & [Morbotron][2] client, written in Swift 3.
-
 <img align="center" src="./Supplements/thrillhouse.png"/>
 
 [![Version](https://img.shields.io/badge/version-v1.0.0-blue.svg)](https://github.com/KevinVitale/ReactiveJSON/releases/latest)
@@ -19,7 +17,6 @@ github "KevinVitale/Frinkiac"
 ```
 
 ## Frinkiac
-
 This is a passion project that merges two things I :heart: very much: [Frinkiac][1] & Swift.
 
 > _Learn who is behind [frinkiac.com][1], what it **is**, and how it works [here](https://langui.sh/2016/02/02/frinkiac-the-simpsons-screenshot-search-engine/)._
