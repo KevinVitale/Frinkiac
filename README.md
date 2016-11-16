@@ -55,7 +55,7 @@ The included **MessageExtension** target is an included iMessage app that demons
 
 ## macOS
 
-`Frinkiac` doesn't provide a `FrameSearchController` macOS-equivalent (_yet_); however, the included **Frinkiac-macOS** app gives [a good demonstration](./Frinkiac/FrinkiacApp/Frinkiac-macOS/AppDelegate.swift) of what can be done with `Frinkiac` directly.
+`Frinkiac` doesn't provide a `FrameSearchController` macOS-equivalent (_yet_); however, the included **Frinkiac-macOS** app gives [a good demonstration](./FrinkiacApp/Frinkiac-macOS/AppDelegate.swift) of what can be done with `Frinkiac` directly.
 
 <img align="center" src="./Supplements/frinkiac.png" />
 
