@@ -1,4 +1,4 @@
-# Frinkit
+# Frinkiac
 A tiny [Frinkiac][1] & [Morbotron][2] client, written in Swift 3.
 
 [![Version](https://img.shields.io/badge/version-v1.0.0-blue.svg)](https://github.com/KevinVitale/ReactiveJSON/releases/latest)
